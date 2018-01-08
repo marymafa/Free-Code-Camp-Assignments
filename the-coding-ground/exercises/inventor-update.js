@@ -1,7 +1,6 @@
 
 function updateInventory(arr1, arr2) {
-  var arr=arr1.concate(arr2);
-   
+    var newArr = arr1.concat(arr2);return newArr
 }
 var curInv = [
     [21, "Bowling Ball"],
