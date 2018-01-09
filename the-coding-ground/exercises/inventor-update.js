@@ -1,6 +1,20 @@
 
+function mergingTwoArray(arr1, arr2) {
+    var newArr = arr1.concat(arr2);
+    return newArr;
+}
 function updateInventory(arr1, arr2) {
-    var newArr = arr1.concat(arr2);return newArr
+  arr2.forEach(function (element) {
+        for (var index = 0; index < arr1.length; index++) {
+            if (element[1] === arr1[index][1]) {
+                element[0] += arr1[index][0];
+            }
+        }
+           if (arr1.indexOf(element) === -1) {
+            arr1.push(element);
+        }
+})
+return arr1
 }
 var curInv = [
     [21, "Bowling Ball"],
