@@ -25,4 +25,4 @@ function generate(n,a) {
         generate(n-1, temp);
     }
 }
-console.log(generate(3,"aab"));
+console.log(generate("aab"));
