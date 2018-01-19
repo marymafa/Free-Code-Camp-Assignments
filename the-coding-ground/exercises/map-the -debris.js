@@ -2,17 +2,17 @@ function orbitalPeriod(averageAltitudes) {
     var GM = 398600.4418;
     var earthRadius = 6367.4447;
     var pow = 2;
+    var arr = [];
+    
     var i = 0;
-    var arr=[];
-
     for (var i in averageAltitudes) {
         //console.log(averageAltitudes[i].name);
-        
+
         var avgAlt = averageAltitudes[i].avgAlt;
         var a = earthRadius + avgAlt;
         var cube = a * a * a;
         var orbitalPeriod = (Math.PI * 2) * Math.sqrt(cube / GM);
-        arr.push({name: averageAltitudes[i].name, orbitalPeriod:Math.round(orbitalPeriod)})
+        arr.push({ name: averageAltitudes[i].name, orbitalPeriod: Math.round(orbitalPeriod) })
     }
 
     return arr;
