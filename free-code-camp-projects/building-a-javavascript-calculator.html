@@ -1,0 +1,130 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <tittle>Javascript Calculator</tittle>
+    <script>
+        function one() {
+            document.getElementById("display").innerHTML += "1";
+        };
+
+        function two() {
+            document.getElementById("display").innerHTML += "2";
+        };
+        function three() {
+            document.getElementById("display").innerHTML += "3";
+        };
+        function four() {
+            document.getElementById("display").innerHTML += "4";
+        };
+        function five() {
+            document.getElementById("display").innerHTML += "5";
+        };
+        function six() {
+            document.getElementById("display").innerHTML += "6";
+        };
+        function seven() {
+            document.getElementById("display").innerHTML += "7";
+        };
+        function eight() {
+            document.getElementById("display").innerHTML += "8";
+        };
+        function nine() {
+            document.getElementById("display").innerHTML += "9";
+        };
+        function minus() {
+            document.getElementById("display").innerHTML += "-";
+        };
+        function multiply() {
+            document.getElementById("display").innerHTML += "*";
+        };
+        function zero() {
+            document.getElementById("display").innerHTML += "0";
+        };
+        function dot() {
+            document.getElementById("display").innerHTML += ".";
+        };
+        function division() {
+           document.getElementById("display").innerHTML += "/";
+        };
+
+        function cancel() {
+            document.getElementById("display").innerHTML = "";
+        };
+         function cancelEntry() {
+            document.getElementById("display").innerHTML = "";
+        };
+        function sqrt() {
+            document.getElementById("display").innerHTML += "√";
+        };
+
+        function equals() {
+            var val = document.getElementById("display").innerHTML;
+            var results = eval(val);
+            document.getElementById("display").innerHTML = results;
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: gray;
+        }
+
+
+        #row {
+            width: 200px;
+            background: skyblue;
+            margin: 80px auto;
+            height: 35%;
+            border: 4px solid;
+            border-radius: 4px;
+        }
+
+        #display {
+            background-color: whitesmoke;
+            width: 100%;
+            margin: 8%;
+            border-color: mediumslateblue
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="cover">
+        <div class="row" id="row">
+            <textarea name="display" id="display"></textarea>
+            <div class="col-md-3"><button value="1" onclick="one()">1</button></div>
+            <div class="col-md-3"><button value="2" onclick="two()">2</button></div>
+            <div class="col-md-3"><button value="3" onclick="three()">3</button></div>
+            <div class="col-md-3"><button value="%" onclick="division()">%</button></div>
+            <div class="col-md-3"><button value="4" onclick="four()">4</button></div>
+            <div class="col-md-3"><button value="5" onclick="five()">5</button></div>
+            <div class="col-md-3"><button value="6" onclick="six()">6</button></div>
+            <div class="col-md-3"><button value="7" onclick="seven()">7</button></div>
+            <div class="col-md-3"><button value="8" onclick="eight()">8</button></div>
+            <div class="col-md-3"><button value="9" onclick="nine()">9</button></div>
+            <div class="col-md-3"><button value="*" onclick="multiply()">*</button></div>
+            <div class="col-md-3"><button value="0" onclick="zero()">0</button></div>
+            <div class="col-md-3"><button value="." onclick="dot()">.</button></div>
+            <div class="col-md-3"><button value="-" onclick="minus()">-</button></div>
+            <div class="col-md-3"><button value="c" onclick="cancel()">c</button></div>
+            <div class="col-md-3"><button value="=" onclick="equals()">=</button></div>
+            <div class="col-md-3"><button value="+" onclick="plus()">+</button></div>
+            <div class="col-md-3"><button value="ce" onclick="cancelEntry()">ce</button></div>
+            <div class="col-md-3"><button value="√" onclick="sqrt()">√</button></div>
+            <div class="col-md-3"><button value="division" onclick="division()">/</button></div>
+        </div>
+
+    </div>
+</body>
+</htm1>
