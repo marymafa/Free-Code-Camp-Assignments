@@ -1,67 +1,179 @@
 <html>
 
 <head>
-    <title>Pomodoro Clock</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+    <title>Podomoro Clock</title>
     <script>
+        var timer;
 
+        $(document).ready(function () {
+            var working = false;
+            var workTime = 0;
+            var breakTime = 0;
+           
+
+            function checkStatus() {
+                if (!working) {
+                    $('#start').removeClass('disabled');
+                    $('#pause').addClass('disabled');
+                    $('#reset').addClass('disabled');
+                } else {
+                    $('#pause').removeClass('disabled');
+                    $('#reset').removeClass('disabled');
+                    $('#start').addClass('disabled');
+                }
+            }
+           
+            function showTime(time) {
+                var min = Math.floor(time / 60);
+                var sec = Math.round(time % 60);
+                if (sec < 10) {
+                    sec = '0' + sec
+                }
+                var timeString = min + ':' + sec
+                $('#msg').text("Only got " + timeString + " left to go!")
+            }
+            
+            function startTimer() {
+                $('.jumbotron').css('visibility', 'visible');
+                return setInterval(function () {
+                     workTime--;
+                    if (workTime < 0) {
+                        timer = breakTimer();
+                    } else {
+                        showTime(workTime);
+                    }
+                }, 1000);
+            }
+           
+            function start() {
+                if (working == true) { 
+                    return
+                } 
+                workTime = $('#work').val() * 60;
+                breakTime = $('#break').val() * 60;
+                working = true;
+                checkStatus();
+                timer = startTimer();
+            }
+
+            function pause() {
+                clearInterval(timer);
+                $('.resume').unbind().click(resume);
+                $('#pause').html('Resume');
+                $('#pause').addClass('resume');
+                $('#pause').removeClass('pause');
+                $('.resume').click(resume);
+            }
+
+
+            function resume() {
+                $('#pause').unbind().click(pause);
+                $('#pause').html('Pause');
+                $('#pause').addClass('pause');
+                $('#pause').removeClass('resume');
+                timer = startTimer();
+            }
+           
+            function reset() {
+                clearInterval(timer);
+                working = false;
+                workTime = 0;
+                breakTime = 0;
+                checkStatus();
+                $('.jumbotron').css('visibility', 'hidden');
+                $('#msg').html("");
+            }
+            function breakTimer() {
+                $('.jumbotron').css('visibility', 'visible');
+                return setInterval(function () {
+                    console.log("Break Timer...");
+                    breakTime--;
+                    if (breakTime < 0) {
+                        clearInterval(timer);
+                        working = false;
+                        start();
+                    } else {
+                        showTime(breakTime);
+                    }
+                }, 1000);
+            }
+           
+            $('#start').click(start);
+            $('#work').keypress(function (e) {
+                if (time == 25) {
+                    start();
+                }
+            });
+       
+            $('.pause').click(pause);
+            $('#reset').click(reset);
+
+            function playSound() {
+                document.getElementById('bell').play();
+                console.log("sound");
+            }
+
+        });
     </script>
     <style>
         body {
-            background-color: skyblue;
+            background-color: #292F36;
+            color: #14CC60;
             text-align: center;
-            font-size: 30px;
-            margin: 8%
+            font-size: 24px;
         }
 
-        .reset:hover {
-            background-color: transparent;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .breaklength {
-            float: right;
+        #jumbotron {
+            height: 300px;
+            width: 300px;
+            margin-top: 10%;
+            box-shadow: 7px 10px 34px 1px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
 
 <body>
-    <h1>Pomorodo Clock</h1>
-    <div class="main">
-        <div class="container">
-            <p>Break Length</p>
-            <button button type="button" class="btn btn-primary">-</button>
-            <button button type="button" class="btn btn-info">+</button>
+
+    <h1 class='text-center text-primary'>Pomodoro Clock</h1>
+    <div class='container'>
+        <div class='row' id="row">
+            <div class='col-xs-6'>
+                <label for='work'>Session Length </label>
+                <input autofocus id='work' type='text' min=0 max=200 value='25'>
+
+            </div>
+            <div class='col-xs-6'>
+                <label for='break'>Break Length </label>
+                <input id='break' type='text' min=0 max=100 value=5>
+            </div>
         </div>
-
-        <p>Session Length</p>
-        <button button type="button" class="btn btn-primary">-</button>
-        <button button type="button" class="btn btn-info">+</button>
-    </div>
-    <span class " minutes">25</span> :
-    <span class "seconds">00</span>
-
-    </div>
-    </div>
-
-    <section class="clock">
-
-        <span class="seconds"></span>
+        <div class='row'>
+            <div class="col-sm-4">
+                <button id='start' class='btn btn-success center-block'>Start/Resume</button>
+            </div>
+            <div class="col-sm-4">
+                <button id='pause' class='btn btn-danger center-block pause'>Pause</button>
+            </div>
+            <div class="col-sm-4">
+                <button id='reset' class='btn btn-primary center-block'>Reset</button>
+            </div>
         </div>
-
-        <div class="options">
-            <button class="btn btn-control start-pomodoro">Start Pomodoro</button>
-            <button class="btn btn-control break">Take a break</button>
-            <button class="btn btn-control reset hidden">Reset</button>
+        <div class='jumbotron' id="jumbotron">
+            <h1 id='msg' class='text-center'></h1>
+            <h1 id='time' class='text-center'></h1>
         </div>
-
-    </section>
-
     </div>
 
-    </div>
 </body>
 
 </html>
