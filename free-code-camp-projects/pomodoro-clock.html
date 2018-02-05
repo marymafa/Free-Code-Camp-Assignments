@@ -17,7 +17,7 @@
             var working = false;
             var workTime = 0;
             var breakTime = 0;
-           
+
 
             function checkStatus() {
                 if (!working) {
@@ -30,7 +30,7 @@
                     $('#start').addClass('disabled');
                 }
             }
-           
+
             function showTime(time) {
                 var min = Math.floor(time / 60);
                 var sec = Math.round(time % 60);
@@ -40,11 +40,11 @@
                 var timeString = min + ':' + sec
                 $('#msg').text("Only got " + timeString + " left to go!")
             }
-            
+
             function startTimer() {
                 $('.jumbotron').css('visibility', 'visible');
                 return setInterval(function () {
-                     workTime--;
+                    workTime--;
                     if (workTime < 0) {
                         timer = breakTimer();
                     } else {
@@ -52,11 +52,11 @@
                     }
                 }, 1000);
             }
-           
+
             function start() {
-                if (working == true) { 
+                if (working == true) {
                     return
-                } 
+                }
                 workTime = $('#work').val() * 60;
                 breakTime = $('#break').val() * 60;
                 working = true;
@@ -65,23 +65,21 @@
             }
 
             function pause() {
-                clearInterval(timer);
                 $('.resume').unbind().click(resume);
-                $('#pause').html('Resume');
-                $('#pause').addClass('resume');
+                $('#pause').html('pause');
+                $('#pause').addClass('pause');
                 $('#pause').removeClass('pause');
                 $('.resume').click(resume);
             }
-
-
             function resume() {
-                $('#pause').unbind().click(pause);
-                $('#pause').html('Pause');
-                $('#pause').addClass('pause');
-                $('#pause').removeClass('resume');
+                $('#play').unbind().click(pause);
+                $('#play').html('play');
+                $('#play').addClass('play');
+                $('#play').removeClass('resume');
                 timer = startTimer();
             }
-           
+
+
             function reset() {
                 clearInterval(timer);
                 working = false;
@@ -105,14 +103,14 @@
                     }
                 }, 1000);
             }
-           
+
             $('#start').click(start);
             $('#work').keypress(function (e) {
                 if (time == 25) {
                     start();
                 }
             });
-       
+
             $('.pause').click(pause);
             $('#reset').click(reset);
 
@@ -159,7 +157,7 @@
         </div>
         <div class='row'>
             <div class="col-sm-4">
-                <button id='start' class='btn btn-success center-block'>Start/Resume</button>
+                <button id='start' class='btn btn-success center-block'>Start</button>
             </div>
             <div class="col-sm-4">
                 <button id='pause' class='btn btn-danger center-block pause'>Pause</button>
