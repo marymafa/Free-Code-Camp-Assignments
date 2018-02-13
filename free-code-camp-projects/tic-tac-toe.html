@@ -11,10 +11,10 @@
         crossorigin="anonymous"></script>
     <title>Tic Tac Toe</title>
     <script>
-
 var playchoice="";
 var computerChoice="";
 var computerplayer="";
+
 function onePlayer(){
   playchoice="one-player";
   alert("You want to play as one play");
@@ -42,17 +42,17 @@ function characterO(){
 function click() {
     if (this.id == "cell1") {
         document.getElementById("cell1").innerHTML = playchoice;
-      document.getElementById("cell2").innerHTML = computerplayer;
+      document.getElementById("cell5").innerHTML = computerplayer;
     } else if (this.id == "cell2") {
         document.getElementById("cell2").innerHTML = playchoice;
       document.getElementById("cell6").innerHTML = computerplayer;
     } else if (this.id == "cell3") {
         document.getElementById("cell3").innerHTML = playchoice;
-      document.getElementById("cell5").innerHTML = computerplayer;
+      document.getElementById("cell4").innerHTML = computerplayer;
 
     } else if (this.id == "cell4") {
         document.getElementById("cell4").innerHTML = playchoice;
-      document.getElementById("cell7").innerHTML = computerplayer;
+      document.getElementById("cell3").innerHTML = computerplayer;
     } else if (this.id == "cell5") {
         document.getElementById("cell5").innerHTML = playchoice;
       document.getElementById("cell1").innerHTML = computerplayer;
@@ -62,14 +62,12 @@ function click() {
 
     } else if (this.id == "cell7") {
         document.getElementById("cell7").innerHTML =playchoice;
-      document.getElementById("cell3").innerHTML = computerplayer;
+      document.getElementById("cell8").innerHTML = computerplayer;
     } else if (this.id == "cell8") {
         document.getElementById("cell8").innerHTML = playchoice;
-      document.getElementById("cell9").innerHTML = computerplayer;
+      document.getElementById("cell7").innerHTML = computerplayer;
     } else if (this.id == "cell9") {
         document.getElementById("cell9").innerHTML = playchoice;
-      document.getElementById("cell5").innerHTML = computerplayer;
-
     }
 }
 
@@ -82,30 +80,12 @@ document.getElementById("cell6").onclick = click;
 document.getElementById("cell7").onclick = click;
 document.getElementById("cell8").onclick = click;
 document.getElementById("cell9").onclick = click;
+ 
 
-// function check(){
+           function reset() {
+            window.location.reload(true);
+        };
   
-// if (playchoice === "X") {
-//                         document.getElementById(tictac[Math.floor(randomNum)]).innerHTML = `<h1>O</h1>`;
-//                         computerplayer.push(tictac[Math.floor(randomNum)]);
-//                         tictac.splice(tictac.indexOf(tictac[Math.floor(randomNum)]), 1);
-// }else{
-//   document.getElementById(tictac[Math.floor(randomNum)]).innerHTML = `<h2>X</h2>`;
-//                         computerplayer.push(tictac[Math.floor(randomNum)]);
-//                         tictac.splice(tictac.indexOf(tictac[Math.floor(randomNum)]), 1);
-// }
-// }
-document.getElementById("cell1").onclick = click;
-document.getElementById("cell2").onclick = click;
-document.getElementById("cell3").onclick = click;
-document.getElementById("cell4").onclick = click;
-document.getElementById("cell5").onclick = click;
-document.getElementById("cell6").onclick = click;
-document.getElementById("cell7").onclick = click;
-document.getElementById("cell8").onclick = click;
-document.getElementById("cell9").onclick = click;
-
-
     </script>
     <style>
          table {

@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>
+
+
+function add() {
+    var counter = 0;
+    function plus() {
+      counter += 1;}
+    plus();    
+    return counter; 
+}
+document.getElementById("count").innerHTML = add();
+
+function active(){
+  document.getElementById("display").style.color ="green";
+  document.getElementById("display").style.color ="green";
+  document.getElementById("display").style.color ="blue";
+  document.getElementById("display").style.color ="yellow";
+  
+}
+
+  function start() {
+    var posibilities=["green","yellow","blue","red"];
+    var randomColor=Math.floor(Math.random()*posibilities.length);
+    
+ switch (posibilities[randomColor]){
+   case "blue":
+     answer: document.getDocumentById("blue").style.backround="lightblue";
+     break;
+     
+      case "yellow":
+     answer: document.getDocumentById("yellow").style.backround="lightyellow";
+     break;
+     
+      case "green":
+     answer: document.getDocumentById("green").style.backround="lightgreen";
+     break;
+     
+      case "red":
+     answer: document.getDocumentById("red").style.backround="lightred";
+     break;
+ }
+    
+        };
+function resetGame() {
+            window.location.reload(true);
+        };
+
+    </script>
+    <style>
+        body {
+            background-color: lightblue;
+        }
+
+        h1 {
+            text-align: center;
+            color: #930;
+        }
+
+        .buttons {
+            cursor: pointer;
+            height: 200px;
+            width: 200px;
+        }
+
+        .act {
+            background-color: black !important;
+        }
+
+        #red {
+            float: left;
+            border-top-left-radius: 300px;
+            background-color: red;
+            clear: left;
+        }
+
+        #red:active {
+            background-color: black;
+        }
+
+        #blue {
+            float: left;
+            border-bottom-left-radius: 300px;
+            background-color: blue;
+            clear: left;
+        }
+
+        #blue:active {
+            background-color: black;
+        }
+
+        #green {
+            float: left;
+            border-bottom-right-radius: 300px;
+            background-color: green;
+            clear: right;
+        }
+
+        #green:active {
+            background-color: black;
+        }
+
+        #yellow {
+            float: left;
+            border-top-right-radius: 300px;
+            background-color: yellow;
+            clear: right;
+        }
+
+        #yellow:active {
+            background-color: black;
+        }
+
+        .center {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        #buttonContainer {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+ <h1>Simon Game</h1>
+
+    <div class="container-fluid">
+      <div class="center" id="display" >
+        <div class="buttons" id="red" val="0" onclick="active()"></div>
+        <div class="buttons" id="yellow" val="3" onclick="active()"></div>
+      
+           
+        </div>
+        <div class="center" > <div class="buttons" id="blue" val="1" onclick="active()"></div>
+          <div class="buttons" id="green" val="2" onclick="active()"></div>
+        
+        </div>
+      </div>
+        
+      
+    </div>
+    </div>
+  
+ <div id="buttonContainer"> 
+   <h4>Count: <span id="count" onload="add()">0</span></h4>
+      <button onclick="start()" class=" btn btn-primary text-center" id="start" >Start</button>
+      <button class="btn btn-success text-center" id="reset" onclick="resetGame()">Reset</button>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
