@@ -10,56 +10,53 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script>
+        document.getElementById("count").innerHTML = add();
+        function add() {
+            var counter = 0;
+            function plus() {
+                counter += 1;
+            }
+            plus();
+            return counter;
+        }
+        function active() {
+            document.getElementById("display").style.color = "green";
+            document.getElementById("display").style.color = "green";
+            document.getElementById("display").style.color = "blue";
+            document.getElementById("display").style.color = "yellow";
 
+        }
 
-function add() {
-    var counter = 0;
-    function plus() {
-      counter += 1;}
-    plus();    
-    return counter; 
-}
-document.getElementById("count").innerHTML = add();
+        function start() {
+            var posibilities = ["green", "yellow", "blue", "red"];
+            var randomColor = Math.floor(Math.random() * posibilities.length);
 
-function active(){
-  document.getElementById("display").style.color ="green";
-  document.getElementById("display").style.color ="green";
-  document.getElementById("display").style.color ="blue";
-  document.getElementById("display").style.color ="yellow";
-  
-}
+            switch (posibilities[randomColor]) {
+                case "blue":
+                    answer: document.getDocumentById("blue").style.backround = "lightblue";
+                    break;
 
-  function start() {
-    var posibilities=["green","yellow","blue","red"];
-    var randomColor=Math.floor(Math.random()*posibilities.length);
-    
- switch (posibilities[randomColor]){
-   case "blue":
-     answer: document.getDocumentById("blue").style.backround="lightblue";
-     break;
-     
-      case "yellow":
-     answer: document.getDocumentById("yellow").style.backround="lightyellow";
-     break;
-     
-      case "green":
-     answer: document.getDocumentById("green").style.backround="lightgreen";
-     break;
-     
-      case "red":
-     answer: document.getDocumentById("red").style.backround="lightred";
-     break;
- }
-    
+                case "yellow":
+                    answer: document.getDocumentById("yellow").style.backround = "lightyellow";
+                    break;
+
+                case "green":
+                    answer: document.getDocumentById("green").style.backround = "lightgreen";
+                    break;
+
+                case "red":
+                    answer: document.getDocumentById("red").style.backround = "lightred";
+                    break;
+            }
+
         };
-function resetGame() {
+        function resetGame() {
             window.location.reload(true);
         };
-
     </script>
     <style>
         body {
-            background-color: lightblue;
+            background-color: pink;
         }
 
         h1 {
@@ -78,7 +75,7 @@ function resetGame() {
         }
 
         #red {
-            float: left;
+
             border-top-left-radius: 300px;
             background-color: red;
             clear: left;
@@ -89,7 +86,7 @@ function resetGame() {
         }
 
         #blue {
-            float: left;
+
             border-bottom-left-radius: 300px;
             background-color: blue;
             clear: left;
@@ -100,7 +97,7 @@ function resetGame() {
         }
 
         #green {
-            float: left;
+
             border-bottom-right-radius: 300px;
             background-color: green;
             clear: right;
@@ -111,7 +108,7 @@ function resetGame() {
         }
 
         #yellow {
-            float: left;
+
             border-top-right-radius: 300px;
             background-color: yellow;
             clear: right;
@@ -130,38 +127,42 @@ function resetGame() {
 
         #buttonContainer {
             text-align: center;
+            margin-top: 40px;
         }
     </style>
 </head>
 
 <body>
 
- <h1>Simon Game</h1>
+    <h1>Simon Game</h1>
 
     <div class="container-fluid">
-      <div class="center" id="display" >
-        <div class="buttons" id="red" val="0" onclick="active()"></div>
-        <div class="buttons" id="yellow" val="3" onclick="active()"></div>
-      
-           
+        <div class="center" id="display">
+            <div class="buttons" id="red" val="0" onclick="active()"></div>
+            <div class="buttons" id="yellow" val="3" onclick="active()"></div>
+
+
         </div>
-        <div class="center" > <div class="buttons" id="blue" val="1" onclick="active()"></div>
-          <div class="buttons" id="green" val="2" onclick="active()"></div>
-        
+        <div class="center">
+            <div class="buttons" id="blue" val="1" onclick="active()"></div>
+            <div class="buttons" id="green" val="2" onclick="active()"></div>
+
         </div>
-      </div>
-        
-      
     </div>
     </div>
-  
- <div id="buttonContainer"> 
-   <h4>Count: <span id="count" onload="add()">0</span></h4>
-      <button onclick="start()" class=" btn btn-primary text-center" id="start" >Start</button>
-      <button class="btn btn-success text-center" id="reset" onclick="resetGame()">Reset</button>
     </div>
-  </div>
-</div>
+
+    <div id="buttonContainer">
+        <h4>Count: <span id="count" onload="add()">0</span></h4>
+        <button onclick="start()" class=" btn btn-primary text-center" id="start">Start</button>
+        <button class="btn btn-success text-center" id="reset" onclick="resetGame()">Reset</button>
+    </div>
+    </div>
+    </div>
 </body>
 
 </html>
+<!--Light yellow4	#FFFF33	rgb(255,255,51)
+Yellow	#FFFF00	rgb(255,255,0)
+Dark yellow1	#CCCC00	rgb(204,204,0)
+Dark yellow2	#999900-->S
