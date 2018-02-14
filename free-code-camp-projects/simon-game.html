@@ -15,12 +15,15 @@
         document.getElementById("count").innerHTML = add();
         function add() {
             var counter = 0;
-            function plus() {
+            function plus()
+             { 
                 counter += 1;
             }
             plus();
             return counter;
         }
+        document.getElementById("count").innerHTML="count";
+        plus();
 
         function changeColor() {
             display = setInterval(flash, 1000);
@@ -67,6 +70,7 @@
 
         h1 {
             text-align: center;
+
             color: #930;
         }
 
@@ -139,8 +143,6 @@
 </head>
 
 <body>
-
-
     <h1>Simon Game</h1>
 
     <div class="container-fluid">
@@ -164,7 +166,9 @@
         <h4>Count: <span id="count" onload="add()">0</span></h4>
 
         <input type="button" value="start" onClick="changeColor();">
-        <input type="button" value="reset" onClick="stopChangeColor();">
+        <input type="button" value="reset" onClick="changeColor();" onclick="start()">
+
+
 </body>
 
 </html>
