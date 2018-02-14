@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    <link rel="backgroundsheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -10,6 +10,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script>
+        var display;
+
         document.getElementById("count").innerHTML = add();
         function add() {
             var counter = 0;
@@ -19,40 +21,44 @@
             plus();
             return counter;
         }
-        function active() {
-            document.getElementById("display").style.color = "green";
-            document.getElementById("display").style.color = "green";
-            document.getElementById("display").style.color = "blue";
-            document.getElementById("display").style.color = "yellow";
 
+        function changeColor() {
+            display = setInterval(flash, 1000);
         }
 
-        function start() {
-            var posibilities = ["green", "yellow", "blue", "red"];
-            var randomColor = Math.floor(Math.random() * posibilities.length);
-
-            switch (posibilities[randomColor]) {
-                case "blue":
-                    answer: document.getDocumentById("blue").style.backround = "lightblue";
+        function flash() {
+            var buttoncolor = document.body;
+            switch (buttoncolor.style.backgroundColor) {
+                case 'red':
+                    buttoncolor.style.backgroundColor = 'blue';
                     break;
 
-                case "yellow":
-                    answer: document.getDocumentById("yellow").style.backround = "lightyellow";
+                case 'blue':
+                    buttoncolor.style.backgroundColor = 'yellow';
                     break;
 
-                case "green":
-                    answer: document.getDocumentById("green").style.backround = "lightgreen";
+                case 'yellow':
+                    buttoncolor.style.backgroundColor = 'red';
                     break;
 
-                case "red":
-                    answer: document.getDocumentById("red").style.backround = "lightred";
+                case 'green':
+                    buttoncolor.style.backgroundColor = 'lightgreen';
+                    break;
+
+                default:
+                    buttoncolor.style.backgroundColor = 'red';
                     break;
             }
+        }
+        var i = 0;
+        function stopChangeColor() {
+            if (i == buttoncolor) {
+                clearInterval(display);
+            } else {
+                i++;
+            }
 
-        };
-        function resetGame() {
-            window.location.reload(true);
-        };
+        }
     </script>
     <style>
         body {
@@ -134,35 +140,31 @@
 
 <body>
 
+
     <h1>Simon Game</h1>
 
     <div class="container-fluid">
         <div class="center" id="display">
-            <div class="buttons" id="red" val="0" onclick="active()"></div>
-            <div class="buttons" id="yellow" val="3" onclick="active()"></div>
+            <div class="buttons" id="red" val="0"></div>
+            <div class="buttons" id="yellow" val="3"></div>
 
 
         </div>
         <div class="center">
-            <div class="buttons" id="blue" val="1" onclick="active()"></div>
-            <div class="buttons" id="green" val="2" onclick="active()"></div>
+            <div class="buttons" id="blue" val="1"></div>
+            <div class="buttons" id="green" val="2"></div>
 
         </div>
     </div>
-    </div>
-    </div>
 
+
+    </div>
+    </div>
     <div id="buttonContainer">
         <h4>Count: <span id="count" onload="add()">0</span></h4>
-        <button onclick="start()" class=" btn btn-primary text-center" id="start">Start</button>
-        <button class="btn btn-success text-center" id="reset" onclick="resetGame()">Reset</button>
-    </div>
-    </div>
-    </div>
+
+        <input type="button" value="start" onClick="changeColor();">
+        <input type="button" value="reset" onClick="stopChangeColor();">
 </body>
 
 </html>
-<!--Light yellow4	#FFFF33	rgb(255,255,51)
-Yellow	#FFFF00	rgb(255,255,0)
-Dark yellow1	#CCCC00	rgb(204,204,0)
-Dark yellow2	#999900-->S
