@@ -10,57 +10,51 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script>
-        var display;
+        var colors = ["red", "blue", "green", "yellow"];
+        var possibleColors = [];
 
-        document.getElementById("count").innerHTML = add();
-        function add() {
-            var counter = 0;
-            function plus()
-             { 
-                counter += 1;
-            }
-            plus();
-            return counter;
-        }
-        document.getElementById("count").innerHTML="count";
-        plus();
 
         function changeColor() {
-            display = setInterval(flash, 1000);
+            var i = 0;
+
+            var display = setInterval(function flash() {
+                var randomColor = colors[Math.floor(Math.random() * 4)];
+                possibleColors.push(randomColor);
+                document.getElementById('count').innerHTML = possibleColors.length;
+
+                console.log('the random color is', randomColor);
+
+                document.getElementById(randomColor).className = "buttons dark" + randomColor;
+
+                setTimeout(function () {
+                    document.getElementById(randomColor).className = "buttons light" + randomColor;
+                }, 800);
+
+
+                if (i == possibleColors.length - 1) {
+                    clearInterval(display);
+                    i = 0;
+                }
+                else {
+                    i++;
+                }
+            }, 1000);
         }
 
-        function flash() {
-            var buttoncolor = document.body;
-            switch (buttoncolor.style.backgroundColor) {
-                case 'red':
-                    buttoncolor.style.backgroundColor = 'blue';
-                    break;
 
-                case 'blue':
-                    buttoncolor.style.backgroundColor = 'yellow';
-                    break;
-
-                case 'yellow':
-                    buttoncolor.style.backgroundColor = 'red';
-                    break;
-
-                case 'green':
-                    buttoncolor.style.backgroundColor = 'lightgreen';
-                    break;
-
-                default:
-                    buttoncolor.style.backgroundColor = 'red';
-                    break;
-            }
-        }
-        var i = 0;
-        function stopChangeColor() {
-            if (i == buttoncolor) {
-                clearInterval(display);
-            } else {
+        function user_play(button){
+            if(i !== button){
+        alert("sorry,  you lose");
+            }else{
                 i++;
             }
+        }
 
+
+
+
+        function reset() {
+            window.location.reload(true);
         }
     </script>
     <style>
@@ -78,6 +72,7 @@
             cursor: pointer;
             height: 200px;
             width: 200px;
+            margin: 5px;
         }
 
         .act {
@@ -85,54 +80,78 @@
         }
 
         #red {
-
             border-top-left-radius: 300px;
-            background-color: red;
-            clear: left;
+        }
+
+        .lightred {
+            background-color: #E34343;
+        }
+
+        .darkred {
+            background-color: #DF0606;
         }
 
         #red:active {
-            background-color: black;
+            background-color: #DF0606;
         }
 
         #blue {
-
             border-bottom-left-radius: 300px;
-            background-color: blue;
+
             clear: left;
         }
 
+        .lightblue {
+            background-color: #437DE3;
+        }
+
+        .darkblue {
+            background-color: #1863E5;
+        }
+
         #blue:active {
-            background-color: black;
+            background-color: #1863E5;
         }
 
         #green {
-
             border-bottom-right-radius: 300px;
-            background-color: green;
+
             clear: right;
+        }
+
+        .lightgreen {
+            background-color: #51FF00;
+        }
+
+        .darkgreen {
+            background-color: #00FF23;
         }
 
         #green:active {
-            background-color: black;
+            background-color: #00FF23;
         }
 
         #yellow {
-
             border-top-right-radius: 300px;
-            background-color: yellow;
             clear: right;
         }
 
+        .lightyellow {
+            background-color: #E3D743;
+        }
+
+        .darkyellow {
+            background-color: #FBFF00;
+        }
+
         #yellow:active {
-            background-color: black;
+            background-color: #FBFF00;
         }
 
         .center {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            margin: 10px;
         }
 
         #buttonContainer {
@@ -147,14 +166,14 @@
 
     <div class="container-fluid">
         <div class="center" id="display">
-            <div class="buttons" id="red" val="0"></div>
-            <div class="buttons" id="yellow" val="3"></div>
+            <div class="buttons lightred" id="red" val="0"></div>
+            <div class="buttons lightyellow" id="yellow" val="3"></div>
 
 
         </div>
         <div class="center">
-            <div class="buttons" id="blue" val="1"></div>
-            <div class="buttons" id="green" val="2"></div>
+            <div class="buttons lightblue" id="blue" val="1"></div>
+            <div class="buttons lightgreen" id="green" val="2"></div>
 
         </div>
     </div>
@@ -163,12 +182,10 @@
     </div>
     </div>
     <div id="buttonContainer">
-        <h4>Count: <span id="count" onload="add()">0</span></h4>
+        <h4>Count: <span id="count">0</span></h4>
 
-        <input type="button" value="start" onClick="changeColor();">
-        <input type="button" value="reset" onClick="changeColor();" onclick="start()">
-
-
+        <input type="button" value="start" onClick="changeColor()">
+        <input type="button" value="reset" onclick="reset()">
 </body>
 
 </html>
