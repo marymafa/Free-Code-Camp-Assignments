@@ -12,10 +12,11 @@
     <script>
         var colors = ["red", "blue", "green", "yellow"];
         var possibleColors = [];
-        var player=[];
+        var player = [];
 
         function changeColor() {
-            var i = 0;
+            players()
+                ; var i = 0;
 
             var display = setInterval(function flash() {
                 var randomColor = colors[Math.floor(Math.random() * 4)];
@@ -39,27 +40,27 @@
                     i++;
                 }
             }, 1000);
+
         }
 
-function players(id){
-    player.push(id);
-    if(possibleColors.length === player.length){
-        if(possibleColors.toString !== player.toString){
-            alert("sorry, wrong move!");
-        }else{
-            changeColor();
-            player=[];
-           
-        }
-    }
-}
+        function players(id) {
+            player.push(id);
+            if (possibleColors.length - 1 <= player.length - 1) {
+                if (possibleColors.toString() !== player.toString()) {
+                    alert("sorry, wrong move!");
+                } else {
+                    changeColor();
 
-
-
-
-                function reset() {
-                    window.location.reload(true);
                 }
+            }
+        }
+
+
+
+
+        function restart() {
+            window.location.reload(true);
+        }
     </script>
     <style>
         body {
@@ -189,7 +190,7 @@ function players(id){
         <h4>Count: <span id="count">0</span></h4>
 
         <input type="button" value="start" onClick="changeColor()">
-        <input type="button" value="reset" onclick="reset()">
+        <input type="button" value="restart" onclick="restart()">
 </body>
 
 </html>
