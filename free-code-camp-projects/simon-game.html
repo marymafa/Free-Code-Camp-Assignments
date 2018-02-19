@@ -48,8 +48,10 @@
             if (possibleColors.length - 1 <= player.length - 1) {
                 if (possibleColors.toString() !== player.toString()) {
                     alert("sorry, wrong move!");
+                    clearInterval();
                 } else {
                     changeColor();
+
 
                 }
             }
