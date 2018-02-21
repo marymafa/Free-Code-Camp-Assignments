@@ -13,28 +13,37 @@
         var colors = ["red", "blue", "green", "yellow"];
         var possibleColors = [];
         var player = [];
+        var strict = "Off";
+
 
         function changeColor() {
-            players()
-                ; var i = 0;
+
+
+            var randomColor = colors[Math.floor(Math.random() * 4)];
+            console.log('the random color is', randomColor);
+            possibleColors.push(randomColor);
+            test()
+        }
+        function test() {
+            var i = 0;
 
             var display = setInterval(function flash() {
-                var randomColor = colors[Math.floor(Math.random() * 4)];
-                possibleColors.push(randomColor);
+
                 document.getElementById('count').innerHTML = possibleColors.length;
 
-                console.log('the random color is', randomColor);
+                //
 
-                document.getElementById(randomColor).className = "buttons dark" + randomColor;
+                document.getElementById(possibleColors[i]).className = "buttons dark" + possibleColors[i];
 
                 setTimeout(function () {
-                    document.getElementById(randomColor).className = "buttons light" + randomColor;
+                    document.getElementById(possibleColors[i - 1]).className = "buttons light" + possibleColors[i - 1];
+                    document.getElementById('count').innerHTML = possibleColors.length;
                 }, 800);
 
 
                 if (i == possibleColors.length - 1) {
                     clearInterval(display);
-                    i = 0;
+                    i++;
                 }
                 else {
                     i++;
@@ -42,23 +51,48 @@
             }, 1000);
 
         }
-
-        function players(id) {
-            player.push(id);
-            if (possibleColors.length - 1 <= player.length - 1) {
-                if (possibleColors.toString() !== player.toString()) {
-                    alert("sorry, wrong move!");
-                    clearInterval();
-                } else {
-                    changeColor();
-
-
-                }
+        function strictMode() {
+            if (strict === "Off") {
+                strict = "On"
+                document.getElementById("strictBtn").innerHTML = "Strict On"
+                document.getElementById("strictBtn").style.background = "green";
+            } else {
+                strict = "Off";
+                document.getElementById("strictBtn").innerHTML = "Strict Off"
+                document.getElementById("strictBtn").style.background = "white";
             }
+
         }
 
 
 
+        function playerChooseColor(color) {
+            // debugger;
+            player.push(color);
+            if (player.length == possibleColors.length) {
+                if (player.toString() !== possibleColors.toString()) {
+                    if (strict === "On") {
+                        console.log(strict)
+                        alert('you were wrong,you loose')
+                        restart();
+
+                    } else {
+                        alert("wrong move, try again");
+                        clear();
+                        test();
+                    }
+                } else {
+                    clear();
+                    changeColor();
+                }
+            }
+
+        }
+
+
+        function clear() {
+            player = [];
+        }
 
         function restart() {
             window.location.reload(true);
@@ -122,20 +156,19 @@
 
         #green {
             border-bottom-right-radius: 300px;
-
             clear: right;
         }
 
-        .lightgreen {
+        .green:active {
             background-color: #51FF00;
         }
 
-        .darkgreen {
-            background-color: #00FF23;
+        .lightgreen {
+            background-color: #51FF99;
         }
 
-        #green:active {
-            background-color: #00FF23;
+        .darkgreen {
+            background-color: #51FF00;
         }
 
         #yellow {
@@ -173,14 +206,14 @@
 
     <div class="container-fluid">
         <div class="center" id="display">
-            <div class="buttons lightred" id="red" val="0"></div>
-            <div class="buttons lightyellow" id="yellow" val="3"></div>
+            <div class="buttons lightred" id="red" val="0" onclick="playerChooseColor('red')"></div>
+            <div class="buttons lightyellow" id="yellow" val="3" onclick="playerChooseColor('yellow')"></div>
 
 
         </div>
         <div class="center">
-            <div class="buttons lightblue" id="blue" val="1"></div>
-            <div class="buttons lightgreen" id="green" val="2"></div>
+            <div class="buttons lightblue" id="blue" val="1" onclick="playerChooseColor('blue')"></div>
+            <div class="buttons lightgreen" id="green" val="2" onclick="playerChooseColor('green')"></div>
 
         </div>
     </div>
@@ -191,8 +224,9 @@
     <div id="buttonContainer">
         <h4>Count: <span id="count">0</span></h4>
 
-        <input type="button" value="start" onClick="changeColor()">
-        <input type="button" value="restart" onclick="restart()">
+        <input type="button" id="start" value="start" onclick="changeColor()">
+        <input type="button" id="restart" value="restart" onclick="restart()">
+        <input type="button" id="strictBtn" value="strict-off" onclick="strictMode()">
 </body>
 
 </html>
