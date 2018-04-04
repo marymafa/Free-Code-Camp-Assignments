@@ -43,8 +43,8 @@ class Camper extends React.Component {
         <a class="footer-font" href="https://codepen.io/marymafa">Coded by Mary Mafa</a>
         <div>Camper's Leaderboard</div>
         <div>
-          <button onClick={this.componentDidMount.bind(this)}>Click here for recent</button>
-          <button onClick={this.recent.bind(this)}>Click here for alltime</button>
+          <button  bsStyle="success" onClick={this.componentDidMount.bind(this)}>Click here for recent</button>
+          <button bsStyle="success" onClick={this.recent.bind(this)}>Click here for alltime</button>
         </div>
         <table>
           <thead>
