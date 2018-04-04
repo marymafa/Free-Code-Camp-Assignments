@@ -4,19 +4,26 @@ import './index.css';
 import axios from 'axios';
 
 class Camper extends React.Component {
-  state = {
-    campers: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      campers: []
+    }
+    this.recent = this.recent.bind(this);
+    this.recent = this.recent.bind(this);
+
   }
 
-  recent(){
+  recent() {
+    console.log("fgsfgsfg")
     axios.get(
       `https://fcctop100.herokuapp.com/api/fccusers/top/recent`
     )
-     .then(res => {
+      .then(res => {
         const campers = res.data;
         this.setState({ campers });
       })
-    
+
   }
   componentDidMount() {
     axios.get(
@@ -35,6 +42,10 @@ class Camper extends React.Component {
       <div>
         <a class="footer-font" href="https://codepen.io/marymafa">Coded by Mary Mafa</a>
         <div>Camper's Leaderboard</div>
+        <div>
+          <button onClick={this.componentDidMount.bind(this)}>Click here for recent</button>
+          <button onClick={this.recent.bind(this)}>Click here for alltime</button>
+        </div>
         <table>
           <thead>
             <tr>
