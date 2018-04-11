@@ -8,11 +8,11 @@ import Modal from 'react-modal';
 
 class Recipes extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      recipes: [],
+      recipes: ["cake", "chicken polony", "green salad"],
       modalIsOpen: false,
       recipeName: "",
       ingredients: "",
@@ -44,17 +44,20 @@ class Recipes extends React.Component {
   handleAddRecipe() {
     localStorage.setItem('OBJ', JSON.stringify(this.state));
     var results = JSON.parse(localStorage.getItem('OBJ'))
-    let recipes = []
-    let recipeName = []
-    recipes.push({ results })
     this.setState({
+      modalType: "Add a recipe name:'', ingredients:'' ",
       showmodal: true,
-      modalType: "Add a recipe name:'', ingredients:'' "
     });
     // eslint-disable-next-line
     this.setState({ recipeName: '', ingredients: '' })
     this.closeModal()
 
+  }
+  componentDidMount() {
+      var recipes = JSON.parse(localStorage.getItem('data'))
+      if (recipes) {
+      this.setState({ recipes: recipes })
+    }
   }
   componentWillMount() {
     Modal.setAppElement('body');
@@ -64,7 +67,7 @@ class Recipes extends React.Component {
       <div>
         <div>
           <h1>Recipe Box</h1>
-          <textarea onChange={this.handleChange.bind(this)}></textarea>
+          <textarea onChange={this.componentDidMountn}></textarea>
         </div>
         <button onClick={this.openModal}>Add Recipe</button>
         <Modal
