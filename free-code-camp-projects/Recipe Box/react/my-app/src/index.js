@@ -38,25 +38,20 @@ class Recipes extends React.Component {
   handleChange(e) {
     this.setState({ recipeName: e.target.value })
     this.setState({ ingredients: e.target.value })
-    // Set some data
-    //localStorage.setItem("key", "value");
 
-    // Get some data 
-    //localStorage.getItem("key");
   }
 
   handleAddRecipe() {
-    this.setState({
-      showmodal: true,
-      modalType: "Add a recipe name:'',ingredients:'' "
-    });
     localStorage.setItem('OBJ', JSON.stringify(this.state));
     var results = JSON.parse(localStorage.getItem('OBJ'))
     let recipes = []
-    let ingredients = []
-    recipes.push({ recipes })
-    this.setState({ recipes: recipes })
-    this.setState({ ingredients: ingredients })
+    let recipeName = []
+    recipes.push({ results })
+    this.setState({
+      showmodal: true,
+      modalType: "Add a recipe name:'', ingredients:'' "
+    });
+    // eslint-disable-next-line
     this.setState({ recipeName: '', ingredients: '' })
     this.closeModal()
 
@@ -69,7 +64,7 @@ class Recipes extends React.Component {
       <div>
         <div>
           <h1>Recipe Box</h1>
-          <textarea />
+          <textarea onChange={this.handleChange.bind(this)}></textarea>
         </div>
         <button onClick={this.openModal}>Add Recipe</button>
         <Modal
