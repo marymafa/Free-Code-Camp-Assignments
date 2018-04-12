@@ -4,15 +4,12 @@ import ReactDOM from "react-dom";
 import './index.css'
 import Modal from 'react-modal';
 
-
-
 class Recipes extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      recipes: ["cake", "chicken polony", "green salad"],
+      recipes: [{ recipeName: "cake", ingredients: "water,eggs" }],
       modalIsOpen: false,
       recipeName: "",
       ingredients: "",
@@ -35,39 +32,38 @@ class Recipes extends React.Component {
     this.setState({ modalIsOpen: false });
   }
 
-  handleChange(e) {
-    this.setState({ recipeName: e.target.value })
-    this.setState({ ingredients: e.target.value })
+  handleChange(event) {
+    this.setState({ recipeName: event.target.value })
+
+  }
+  handleChangeIngredients(event) {
+    this.setState({ ingredients: event.target.value })
 
   }
 
-  handleAddRecipe() {
-    localStorage.setItem('OBJ', JSON.stringify(this.state));
-    var results = JSON.parse(localStorage.getItem('OBJ'))
+
+  handleAddRecipe(e) {
+    var newItem = { recipeName: this.state.recipeName, ingredients: this.state.ingredients }
     this.setState({
+      recipes: this.state.recipes.push(newItem),
       modalType: "Add a recipe name:'', ingredients:'' ",
+      recipeName: "",
+      ingredients: "",
       showmodal: true,
     });
-    // eslint-disable-next-line
-    this.setState({ recipeName: '', ingredients: '' })
+    var results = JSON.parse(localStorage.getItem('OBJ'))
+    localStorage.setItem('OBJ', JSON.stringify(this.state));
     this.closeModal()
-
-  }
-  componentDidMount() {
-      var recipes = JSON.parse(localStorage.getItem('data'))
-      if (recipes) {
-      this.setState({ recipes: recipes })
-    }
-  }
-  componentWillMount() {
-    Modal.setAppElement('body');
+    console.log(this.state)
   }
   render() {
+    // console.log(this.state.log)
     return (
+
       <div>
+
         <div>
           <h1>Recipe Box</h1>
-          <textarea onChange={this.componentDidMountn}></textarea>
         </div>
         <button onClick={this.openModal}>Add Recipe</button>
         <Modal
@@ -79,8 +75,8 @@ class Recipes extends React.Component {
           <div>
             <div ref={subtitle => this.subtitle = subtitle}>Recipe name</div>
             <input placeholder="enter your recipe name here" onChange={this.handleChange.bind(this)} />
-            <h2 ref={subtitle => this.subtitle = subtitle} onChange={this.componentWillMount.bind(this)}>Ingredients</h2>
-            <textarea placeholder="enter your ingredientes here, separated by commas" />
+            <h2 ref={subtitle => this.subtitle = subtitle} >Ingredients</h2>
+            <textarea placeholder="enter your ingredientes here, separated by commas" onChange={this.handleChangeIngredients.bind(this)} />
           </div>
           <div>
             <button onClick={this.handleAddRecipe.bind(this)}>Add Recipe</button>
@@ -88,10 +84,15 @@ class Recipes extends React.Component {
             <button onClick={this.closeModal}>close</button>
           </div>
         </Modal>
+        {this.state.recipes.map(item =>
+          <li>{item.recipeName}</li>
+        )}
+
       </div>
 
     )
   }
 }
+
 
 ReactDOM.render(<Recipes />, document.getElementById('root'))
