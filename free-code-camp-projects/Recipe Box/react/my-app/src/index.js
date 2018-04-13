@@ -31,6 +31,13 @@ class Recipes extends React.Component {
   closeModal() {
     this.setState({ modalIsOpen: false });
   }
+  closeEditModal() {
+    this.setState({ showEditModal: false })
+  }
+
+  openEditModal(recipe) {
+    this.setState({ showEditModal: true, recipeToEdit: recipe })
+  }
 
   handleChange(event) {
     this.setState({ recipeName: event.target.value })
@@ -56,6 +63,24 @@ class Recipes extends React.Component {
     this.closeModal()
     console.log(this.state)
   }
+
+  clickDelete() {
+    this.state.delete(this.recipes);
+    this.closeModal()
+  }
+  editRecipe(recipeName, ingredients) {
+    var recipes = this.state.recipes;
+    var newRecipe = {
+      recipeName: recipeName,
+      ingredients: ingredients.split(",")
+    };
+    var i = recipes.find();
+    recipes.splice(i, 1, newRecipe);
+    console.log("edit: ", recipes);
+    this.setState({ recipes: recipes });
+    this.closeModal()
+  }
+
   render() {
     // console.log(this.state.log)
     return (
@@ -80,7 +105,8 @@ class Recipes extends React.Component {
           </div>
           <div>
             <button onClick={this.handleAddRecipe.bind(this)}>Add Recipe</button>
-            <button>delete</button>
+            <button onClick={this.clickDelete.bind(this)}>delete</button>
+            <button onClick={this.editRecipe.bind(this)}>edit</button>
             <button onClick={this.closeModal}>close</button>
           </div>
         </Modal>
