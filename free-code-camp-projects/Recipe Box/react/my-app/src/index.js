@@ -5,27 +5,47 @@ import './index.css';
 import RecipeItem from './RecipeItem';
 import RecipeForm from './RecipeForm';
 
-class App extends React.Component {
+class RecipeBox extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: []
+            data: [
+                {
+                    recipe: "cake",
+                    ingredients: "flower, baking powder, butter, milk, vanila"
+                }
+            ]
         }
     }
 
     addData(recipeName, ingredients) {
         const currentData = this.state.data;
-        var list = ingredients.split(",");
+        var items = ingredients.split(",");
         console.log(currentData);
+        
         currentData.push({
             recipe: recipeName,
-            ingredients: list
+            ingredients: items
         });
         this.setState({
             data: currentData
         });
+
+        localStorage.setItem('OBJ', JSON.stringify(currentData));
     }
+
+    componentWillMount() {
+        var parsedItems = JSON.parse(localStorage.getItem('OBJ'));
+        if (parsedItems) {
+            this.setState(
+                {
+                    data: parsedItems
+                }
+            )
+        }
+    }
+
     render() {
         return (
             <div >
@@ -46,4 +66,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<RecipeBox />, document.getElementById('root'));

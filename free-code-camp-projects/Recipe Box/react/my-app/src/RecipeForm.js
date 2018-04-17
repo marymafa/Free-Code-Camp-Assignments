@@ -6,11 +6,7 @@ export default class RecipeForm extends React.Component {
 
         this.state = {
             recipeName: '',
-            ingredients: '',
-            recipes: [{
-                recipeName: 'cake',
-                ingredients: 'flower, baking powder, butter, milk, vanila'
-            }]
+            ingredients: ''
         }
 
         this.changeRecipeName = this.changeRecipeName.bind(this);
@@ -33,48 +29,26 @@ export default class RecipeForm extends React.Component {
 
 
     submitRecipe(currentRecipes) {
-        var newEntry ={name: this.state.recipeName,
-            Ingredients: this.state.ingredients
-        };
-        
-        this.setState({ recipes: currentRecipes.splice(1,0,newEntry)});
-        console.log('newRecipes', this.state.recipes);
-        this.store()
-        this.props.addDataProp(this.state.recipeName, this.state.ingredients)
-    }
-    
-    store(){
-         localStorage.setItem('OBJ', JSON.stringify(this.state.recipes));
-         var fromLS = JSON.parse(localStorage.getItem('OBJ'));
-         this.setState({recipes:fromLS});
+        this.props.addDataProp(this.state.recipeName, this.state.ingredients);
     }
 
-    
 
-    handleDelete(recipeName, ingredients) {
-        const newData = this.state.data;
-        const data = this.state.data;
-        data.splice(recipeName, 1);
-        data.splice(ingredients, 1);
-        this.setState({ data: newData })
-    }
+    // handleDelete(e) {
+    //     var lists = this.state.recipes;
+    //     var index = lists.indexOf(e.target.value)
+    //     lists.splice(index, 1);
+    //     this.setState({ recipes: lists });
+    // }
 
-    editRecipe(recipeName, ingredients) {
-        const newData = this.state.data;
-        var recipes = this.state.recipes;
-        var newRecipe = {
-            recipeName: recipeName,
-            ingredients: ingredients.split(",")
-        };
-        var i = newData.find();
-        newData.splice(i, 1, newData);
-        this.setState({ data: newData });
-    }
+    // editRecipe(recipeName, ingredients) {
+
+    // }
+
     render() {
         return (
             <div>
                 <div className="form-group">
-                    <label>Recipe</label>
+                    <label>RecipeName</label>
                     <input className="form-control" value={this.state.recipeName} onChange={this.changeRecipeName.bind(this)} placeholder="Recipe Name"></input>
                 </div>
                 <div className="form-group">

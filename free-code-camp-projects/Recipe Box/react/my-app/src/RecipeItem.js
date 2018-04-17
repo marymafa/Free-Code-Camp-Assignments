@@ -10,7 +10,6 @@ export default class RecipeItem extends React.Component {
   }
    
   render() {
-    console.log(this.state.test)
     return(
       <div className="list">
     
@@ -20,12 +19,9 @@ export default class RecipeItem extends React.Component {
           <div className="list">
             <ul>
             {
-              this.state.test.map((value) => {
-                return (
-                  <li>{value}</li>
-                )
-              })
-            }
+              this.state.test
+             }
+
             </ul>
           </div>
         </div>
