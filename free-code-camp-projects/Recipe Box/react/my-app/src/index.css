@@ -1,15 +1,9 @@
-
-
- 
 body{
-    background-color: indianred;
-    font-size:  30px;
-    
-  }
-  textarea{
-    height: 260px;
-    width: 700px;
-    font-size: 30px;
-    
-  }
- 
+  background-color: indianred;
+}
+
+textarea{
+  height: 260%;
+  width: 700%
+
+}
