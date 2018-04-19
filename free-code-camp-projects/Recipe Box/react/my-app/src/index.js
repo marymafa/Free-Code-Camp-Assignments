@@ -54,10 +54,10 @@ class RecipeBox extends React.Component {
             this.setState({ data: newState })
         }
     }
-    // edit(item) {
+    edit(item) {
      
 
-    // }
+    }
     render() {
         return (
             <div >
@@ -74,6 +74,7 @@ class RecipeBox extends React.Component {
                     }
                 </div>
             </div>
+
         );
     }
 }

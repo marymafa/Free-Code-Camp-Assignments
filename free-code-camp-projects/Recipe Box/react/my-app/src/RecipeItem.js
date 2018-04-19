@@ -6,7 +6,8 @@ export default class RecipeItem extends React.Component {
     super(props);
 
     this.state = {
-      editing: false
+      editing: false,
+    
     }
   }
   editItem() {
