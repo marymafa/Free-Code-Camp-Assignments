@@ -9,13 +9,11 @@ class Camper extends React.Component {
     this.state = {
       campers: []
     }
-    this.recent = this.recent.bind(this);
-    this.recent = this.recent.bind(this);
+
 
   }
 
   recent() {
-    console.log("fgsfgsfg")
     axios.get(
       `https://fcctop100.herokuapp.com/api/fccusers/top/recent`
     )

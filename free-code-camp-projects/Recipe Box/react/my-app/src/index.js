@@ -1,9 +1,10 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import './index.css';
 import RecipeItem from './RecipeItem';
 import RecipeForm from './RecipeForm';
+import EditForm from "./EditForm";
+import './index.css';
 
 class RecipeBox extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class RecipeBox extends React.Component {
         this.state = {
             data: [
                 {
-                    recipe: "cake",
+                    recipeName: "cake",
                     ingredients: "flower, baking powder, butter, milk, vanila"
                 }
             ]
@@ -21,12 +22,12 @@ class RecipeBox extends React.Component {
 
     addData(recipeName, ingredients) {
         const currentData = this.state.data;
-        var items = ingredients.split(",");
+        var ingredients = ingredients.split(",");
         console.log(currentData);
-        
+
         currentData.push({
-            recipe: recipeName,
-            ingredients: items
+            recipeName: recipeName,
+            ingredients: ingredients
         });
         this.setState({
             data: currentData
@@ -46,6 +47,17 @@ class RecipeBox extends React.Component {
         }
     }
 
+    delete(item) {
+        const newState = this.state.data.slice();
+        if (newState.indexOf(item) > -1) {
+            newState.splice(newState.indexOf(item), 1);
+            this.setState({ data: newState })
+        }
+    }
+    // edit(item) {
+     
+
+    // }
     render() {
         return (
             <div >
@@ -56,7 +68,7 @@ class RecipeBox extends React.Component {
                     {
                         this.state.data.map((value, index) => {
                             return (
-                                <RecipeItem recipe={value.recipe} ingredients={value.ingredients} />
+                                <RecipeItem edit={() => this.edit(value)} recipeName={value.recipeName} ingredients={value.ingredients} />
                             )
                         })
                     }
