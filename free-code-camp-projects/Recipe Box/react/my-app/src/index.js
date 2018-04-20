@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import RecipeItem from './RecipeItem';
 import RecipeForm from './RecipeForm';
-import EditForm from "./EditForm";
+// import EditForm from "./EditForm";
 import './index.css';
 
 class RecipeBox extends React.Component {
@@ -22,7 +22,7 @@ class RecipeBox extends React.Component {
 
     addData(recipeName, ingredients) {
         const currentData = this.state.data;
-        var ingredients = ingredients.split(",");
+        this.ingredients = ingredients.split(",");
         console.log(currentData);
 
         currentData.push({
