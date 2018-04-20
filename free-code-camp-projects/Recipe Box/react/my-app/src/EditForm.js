@@ -22,9 +22,20 @@ export default class EditForm extends React.Component {
             ingredients: e.target.value
         });
     }
-    
-    save(){
 
+    save(data) {
+        var newRecipe = this.state.data;
+        console.log("newrecipe", newRecipe)
+        if (this.props.editing) {
+            newRecipe.push({
+                ingredients: this.props.ingredients,
+                recipeName: this.props.recipeName,
+            });
+
+        }
+
+        this.setState({ data: newRecipe })
+        localStorage.setItem('OBJ', JSON.stringify(newRecipe));
     }
 
     render() {
@@ -38,7 +49,7 @@ export default class EditForm extends React.Component {
                     <label>Ingredients</label>
                     <textarea className="form-control" placeholder="Ingredients,separated by commas" value={this.state.ingredients} onChange={this.changeRecipeIngredients}></textarea>
                 </div>
-                <button className="addButton" onClick={()=> this.save.bind(this)}>Save</button>
+                <button className="addButton" onClick={this.save.bind(this)}>Save</button>
             </div>
         );
     }

@@ -47,15 +47,12 @@ class RecipeBox extends React.Component {
         }
     }
 
-    delete(item) {
-        const newState = this.state.data.slice();
-        if (newState.indexOf(item) > -1) {
-            newState.splice(newState.indexOf(item), 1);
-            this.setState({ data: newState })
-        }
+    delete(id) {
+        const recipes = Object.assign({}, this.state.recipes);
+        delete recipes[id];
+        this.setState({ recipes });
     }
     edit(item) {
-     
 
     }
     render() {
