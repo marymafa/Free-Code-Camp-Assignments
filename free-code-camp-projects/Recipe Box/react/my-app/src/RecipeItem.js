@@ -7,16 +7,26 @@ export default class RecipeItem extends React.Component {
 
     this.state = {
       editing: false,
-    
-    }
+    data:props.collection
+    };
+    // console.log("props", props.collection)
   }
   editItem() {
-    //this.props.edit(this.state.recipeName, this.statse.ingredients)
     this.setState({ editing: true })
   }
 
   deleteItem() {
-    this.props.delete(this.props.recipeName, this.props.ingredients)
+    var recipes=this.state.data;
+  
+    console.log("recipes",recipes)
+   var currentRecipe= {recipeName:this.props.recipeName, ingredients: this.props.ingredients}
+   console.log("currentRecipe",currentRecipe)
+   var newData = recipes.filter(function(val){val !== currentRecipe})
+   console.log("newData", recipes)
+   
+  //  this.setState({data: currentRecipe})
+  //  localStorage.setItem('OBJ', JSON.stringify(newData));
+  
   }
 
   render() {
@@ -38,7 +48,7 @@ export default class RecipeItem extends React.Component {
 
               }
               <button className="editButton" onClick={this.editItem.bind(this)}>edit</button>
-              <button className="deleteButton" onClick={this.deleteItem.bind(this)} value={this.value} >delete</button>
+              <button className="deleteButton"   onClick={this.deleteItem.bind(this)} value={this.value} >delete</button>
 
             </ul>
           </div>

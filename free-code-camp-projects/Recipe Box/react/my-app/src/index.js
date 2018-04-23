@@ -45,13 +45,10 @@ class RecipeBox extends React.Component {
             )
         }
     }
+delete(value){
 
-    delete(id) {
-        const recipes = Object.assign({}, this.state.recipes);
-        delete recipes[id];
-        this.setState({ recipes });
-    }
-    edit(item) {
+}
+    edit(value) {
 
     }
     render() {
@@ -64,7 +61,7 @@ class RecipeBox extends React.Component {
                     {
                         this.state.data.map((value, index) => {
                             return (
-                                <RecipeItem edit={() => this.edit(value)} recipeName={value.recipeName} ingredients={value.ingredients} />
+                                <RecipeItem collection={this.state.data} delete={()=> this.delete(value)} edit={() => this.edit(value)} recipeName={value.recipeName} ingredients={value.ingredients} />
                             )
                         })
                     }
