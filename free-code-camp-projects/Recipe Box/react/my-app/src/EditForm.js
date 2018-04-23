@@ -24,18 +24,17 @@ export default class EditForm extends React.Component {
     }
 
     save(data) {
-        var newRecipe = this.state.data;
-        console.log("newrecipe", newRecipe)
-        if (this.props.editing) {
-            newRecipe.push({
-                ingredients: this.props.ingredients,
-                recipeName: this.props.recipeName,
-            });
+        // var newRecipe = this.state.data;
+        // if (this.props.editing) {
+        //     newRecipe.push({
+        //         ingredients: this.props.ingredients,
+        //         recipeName: this.props.recipeName,
+        //     });
 
-        }
+        // }
 
-        this.setState({ data: newRecipe })
-        localStorage.setItem('OBJ', JSON.stringify(newRecipe));
+        // this.setState({ data: newRecipe })
+
     }
 
     render() {
