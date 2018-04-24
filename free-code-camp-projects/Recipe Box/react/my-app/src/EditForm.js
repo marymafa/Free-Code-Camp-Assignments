@@ -4,6 +4,7 @@ export default class EditForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: [{ recipeName: this.props.recipeName, ingredients: this.props.ingredients }],
             ingredients: props.ingredients,
             recipeName: props.recipeName,
         }
@@ -24,16 +25,14 @@ export default class EditForm extends React.Component {
     }
 
     save(data) {
-        // var newRecipe = this.state.data;
-        // if (this.props.editing) {
-        //     newRecipe.push({
-        //         ingredients: this.props.ingredients,
-        //         recipeName: this.props.recipeName,
-        //     });
-
-        // }
-
-        // this.setState({ data: newRecipe })
+        var recipes = this.state.data;
+        console.log("recipes", recipes)
+        var currentRecipe = { recipeName: this.props.recipeName, ingredients: this.props.ingredients }
+        console.log("currentRecipe", currentRecipe)
+        var editingRecipe = recipes.find(function (val) { val === currentRecipe })
+        console.log("editingRecipe", recipes)
+        this.setState({ data: currentRecipe })
+        localStorage.setItem('OBJ', JSON.stringify(editingRecipe));
 
     }
 
