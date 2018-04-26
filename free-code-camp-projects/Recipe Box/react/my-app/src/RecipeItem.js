@@ -1,4 +1,3 @@
-
 import React from "react";
 import EditForm from "./EditForm";
 
@@ -7,29 +6,32 @@ export default class RecipeItem extends React.Component {
     super(props);
 
     this.state = {
-      data: { recipeName: this.props.recipeName, ingredients: this.props.ingredients },
+      //data: [{ recipeName: this.props.recipeName, ingredients: this.props.ingredients }],
       ingredients: props.ingredients,
       recipeName: props.recipeName,
       editing: false,
       data: props.collection,
     };
-    console.log("props", props.collection)
   }
   editItem() {
     this.setState({ editing: true })
   }
-
+  
   deleteItem() {
-    var recipes = this.state.data;
-    console.log("recipes", recipes)
-    var currentRecipe = { recipeName: this.props.recipeName, ingredients: this.props.ingredients }
-    console.log("currentRecipe", currentRecipe)
-    var newData = recipes.filter(function (val) { val !== currentRecipe })
-    console.log("editingRecipe", newData)
-    this.setState({ data: currentRecipe })
+    var newData = [];
+    console.log('collection', this.props.collection)
+    var currentRecipe = { recipeName: this.state.recipeName, ingredients: this.state.ingredients };
+    for(var i in this.props.collection){
+      if( this.props.collection[i].recipeName !== currentRecipe.recipeName && this.props.collection[i].ingredients !== currentRecipe.ingredients ){
+        newData.push(this.props.collection[i]);
+      }
+    }
+   
+   this.setState({ data: newData })
     localStorage.setItem('OBJ', JSON.stringify(newData));
+    console.log("newdata",newData);
   }
-  hideEditing(name,ing){
+  hideEditing(name, ing) {
     this.setState({
       editing: false,
       recipeName: name,

@@ -1,3 +1,4 @@
+
 import React from "react"
 
 export default class EditForm extends React.Component {
@@ -34,7 +35,8 @@ export default class EditForm extends React.Component {
             data: recipes
         })
         this.props.hideEditing(currentRecipe.recipeName, currentRecipe.ingredients);
-        console.log(this.state.data)
+
+        localStorage.setItem('OBJ', JSON.stringify(recipes));
     }
 
     render() {
