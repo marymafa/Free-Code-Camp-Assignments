@@ -8,32 +8,33 @@ export default class EditForm extends React.Component {
             ingredients: props.ingredients,
             recipeName: props.recipeName,
         }
-        this.changeRecipeName = this.changeRecipeName.bind(this);
-        this.changeRecipeIngredients = this.changeRecipeIngredients.bind(this);
+        this.editRecipeName = this.editRecipeName.bind(this);
+        this.editIngredients = this.editIngredients.bind(this);
     }
 
-    changeRecipeName(e) {
+    editRecipeName(e) {
         this.setState({
             recipeName: e.target.value
         });
     }
 
-    changeRecipeIngredients(e) {
+    editIngredients(e) {
         this.setState({
             ingredients: e.target.value
+
         });
+        console.log(this.state.ingredients);
     }
 
-    save(data) {
+    save() {
         var recipes = this.state.data;
-        console.log("recipes", recipes)
-        var currentRecipe = { recipeName: this.props.recipeName, ingredients: this.props.ingredients }
-        console.log("currentRecipe", currentRecipe)
-        var editingRecipe = recipes.find(function (val) { val === currentRecipe })
-        console.log("editingRecipe", recipes)
-        this.setState({ data: currentRecipe })
-        localStorage.setItem('OBJ', JSON.stringify(editingRecipe));
-
+        var currentRecipe = { recipeName: this.state.recipeName, ingredients: this.state.ingredients }
+        recipes[0] = currentRecipe;
+        this.setState({
+            data: recipes
+        })
+        this.props.hideEditing(currentRecipe.recipeName, currentRecipe.ingredients);
+        console.log(this.state.data)
     }
 
     render() {
@@ -41,11 +42,11 @@ export default class EditForm extends React.Component {
             <div>
                 <div className="form-group">
                     <label>RecipeName</label>
-                    <input className="form-control" value={this.state.recipeName} onChange={this.changeRecipeName.bind(this)} placeholder="Recipe Name"></input>
+                    <input className="form-control" value={this.state.recipeName} onChange={this.editRecipeName.bind(this)} placeholder="Recipe Name"></input>
                 </div>
                 <div className="form-group">
                     <label>Ingredients</label>
-                    <textarea className="form-control" placeholder="Ingredients,separated by commas" value={this.state.ingredients} onChange={this.changeRecipeIngredients}></textarea>
+                    <textarea className="form-control" placeholder="Ingredients,separated by commas" value={this.state.ingredients} onChange={this.editIngredients}></textarea>
                 </div>
                 <button className="addButton" onClick={this.save.bind(this)}>Save</button>
             </div>

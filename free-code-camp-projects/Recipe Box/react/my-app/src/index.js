@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom";
 import RecipeItem from './RecipeItem';
@@ -35,7 +36,7 @@ class RecipeBox extends React.Component {
         localStorage.setItem('OBJ', JSON.stringify(currentData));
     }
 
-    componentWillMount(OBJ) {
+    componentWillMount() {
         var parsedItems = JSON.parse(localStorage.getItem('OBJ'));
         if (parsedItems) {
             this.setState(
@@ -61,7 +62,7 @@ delete(value){
                     {
                         this.state.data.map((value, index) => {
                             return (
-                                <RecipeItem collection={this.state.data} delete={()=> this.delete(value)} edit={() => this.edit(value)} recipeName={value.recipeName} ingredients={value.ingredients} />
+                                <RecipeItem key={this.recipeName} collection={this.state.data} delete={()=> this.delete(value)} edit={() => this.edit(value)} recipeName={value.recipeName} ingredients={value.ingredients} />
                             )
                         })
                     }
