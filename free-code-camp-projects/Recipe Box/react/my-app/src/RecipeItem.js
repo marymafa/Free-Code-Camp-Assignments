@@ -16,20 +16,9 @@ export default class RecipeItem extends React.Component {
   editItem() {
     this.setState({ editing: true })
   }
-  
-  deleteItem() {
-    var newData = [];
-    console.log('collection', this.props.collection)
-    var currentRecipe = { recipeName: this.state.recipeName, ingredients: this.state.ingredients };
-    for(var i in this.props.collection){
-      if( this.props.collection[i].recipeName !== currentRecipe.recipeName && this.props.collection[i].ingredients !== currentRecipe.ingredients ){
-        newData.push(this.props.collection[i]);
-      }
-    }
-   
-   this.setState({ data: newData })
-    localStorage.setItem('OBJ', JSON.stringify(newData));
-    console.log("newdata",newData);
+
+  delete(){
+    this.props.delete(this.props.collection,this.state.recipeName,this.state.ingredients)
   }
   hideEditing(name, ing) {
     this.setState({
@@ -54,11 +43,19 @@ export default class RecipeItem extends React.Component {
           <div className="list">
             <ul>
               {
-                this.state.recipeName
+                this.state.data.map(data => {
+                  return (
+                    <div>
+                      <h1>{this.state.recipeName}</h1>
+                      <ul>{this.state.ingredients}</ul>
+                    
+                    </div>
+                  )
+                })
 
               }
               <button className="editButton" onClick={this.editItem.bind(this)}>edit</button>
-              <button className="deleteButton" onClick={this.deleteItem.bind(this)} value={this.value} >delete</button>
+              <button className="deleteButton" onClick={this.delete.bind(this)} value={this.value} >delete</button>
 
             </ul>
           </div>
