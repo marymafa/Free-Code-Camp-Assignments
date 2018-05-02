@@ -17,8 +17,8 @@ export default class RecipeItem extends React.Component {
     this.setState({ editing: true })
   }
 
-  delete(){
-    this.props.delete(this.props.collection,this.state.recipeName,this.state.ingredients)
+  delete() {
+    this.props.delete(this.props.collection, this.state.recipeName, this.state.ingredients)
   }
   hideEditing(name, ing) {
     this.setState({
@@ -37,21 +37,14 @@ export default class RecipeItem extends React.Component {
     return (
       <div className="list">
 
-        <h5>{this.props.recipe}</h5>
+        <h1>{this.state.recipeName}</h1>
 
         <div id={`collapse-${this.props.num}`} className="collapse show">
           <div className="list">
+
             <ul>
               {
-                this.state.data.map(data => {
-                  return (
-                    <div>
-                      <h1>{this.state.recipeName}</h1>
-                      <ul>{this.state.ingredients}</ul>
-                    
-                    </div>
-                  )
-                })
+                this.state.ingredients
 
               }
               <button className="editButton" onClick={this.editItem.bind(this)}>edit</button>
