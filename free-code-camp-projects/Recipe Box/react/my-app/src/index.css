@@ -1,5 +1,7 @@
 body{
-  background-color: rgba(128, 0, 0, 0.794);
+  background-image: url("skillet-chicken-roasted-potatoes-carrots-ck.jpg");
+  background-size:100%;
+  background-repeat: no-repeat;
 }
 
 textarea{
