@@ -6,7 +6,6 @@ export default class RecipeItem extends React.Component {
     super(props);
 
     this.state = {
-      //data: [{ recipeName: this.props.recipeName, ingredients: this.props.ingredients }],
       ingredients: props.ingredients,
       recipeName: props.recipeName,
       editing: false,
@@ -18,7 +17,7 @@ export default class RecipeItem extends React.Component {
   }
 
   delete() {
-    this.props.delete(this.props.collection, this.state.recipeName, this.state.ingredients)
+    this.props.delete(this.props.index)
   }
   hideEditing(name, ing) {
     this.setState({
@@ -31,7 +30,15 @@ export default class RecipeItem extends React.Component {
   render() {
     if (this.state.editing) {
       return (
-        <EditForm recipeName={this.state.recipeName} hideEditing={this.hideEditing.bind(this)} ingredients={this.state.ingredients} onChange={this.editItem.bind(this)} />
+        <EditForm 
+        recipeName={this.state.recipeName} 
+        hideEditing={this.hideEditing.bind(this)} 
+        ingredients={this.state.ingredients} 
+        onChange={this.editItem.bind(this)} 
+        recipes={this.state.data}
+        index={this.props.index}
+        
+        />
       )
     }
     return (
@@ -48,7 +55,7 @@ export default class RecipeItem extends React.Component {
 
               }
               <button className="editButton" onClick={this.editItem.bind(this)}>edit</button>
-              <button className="deleteButton" onClick={this.delete.bind(this)} value={this.value} >delete</button>
+              <button className="deleteButton" onClick={this.delete.bind(this)}>delete</button>
 
             </ul>
           </div>

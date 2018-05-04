@@ -3,9 +3,10 @@ import React from "react"
 
 export default class EditForm extends React.Component {
     constructor(props) {
+        console.log('edit', props);
         super(props);
         this.state = {
-            data: [{ recipeName: this.props.recipeName, ingredients: this.props.ingredients }],
+            data: props.recipes,
             ingredients: props.ingredients,
             recipeName: props.recipeName,
         }
@@ -30,12 +31,11 @@ export default class EditForm extends React.Component {
     save() {
         var recipes = this.state.data;
         var currentRecipe = { recipeName: this.state.recipeName, ingredients: this.state.ingredients }
-        recipes[0] = currentRecipe;
+        recipes[this.props.index] = currentRecipe;
         this.setState({
             data: recipes
         })
         this.props.hideEditing(currentRecipe.recipeName, currentRecipe.ingredients);
-
         localStorage.setItem('OBJ', JSON.stringify(recipes));
     }
 
