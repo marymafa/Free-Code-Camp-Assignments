@@ -1,47 +1,31 @@
+function makeGrid() {
+    var grid = []
+    for (var x = 0; x < 20; x++) {
+        for (var y = 0; y < 20; y++) {
+            grid.push(
 
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
+                {
+                    x: x,
+                    y: y,
+                    status: "dead"
+                }
+            )
 
-
-
-class Grid extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            squares: Array(23).fill(null),
-        };
-        console.log("value", this.state.squares)
+        }
     }
-
-    renderSquare(i) {
-        return <Grid value={"red"} />;
-    }
-
-    render() {
-        return (
-            <div>
-            <div className="grid">{this.squares}</div>
-            <div className="board-row">
-              {this.renderSquare(0)}
-              {this.renderSquare(1)}
-              {this.renderSquare(2)}
-            </div>
-            <div className="board-row">
-              {this.renderSquare(3)}
-              {this.renderSquare(4)}
-              {this.renderSquare(5)}
-            </div>
-            <div className="board-row">
-              {this.renderSquare(6)}
-              {this.renderSquare(7)}
-              {this.renderSquare(8)}
-            </div>
-          </div>
-        );
-    }
+    return grid;
 }
 
-
-ReactDOM.render(<Grid />, document.getElementById("root"));
-
+function getIniatialAliveCells() {
+    var initialGrid = makeGrid();
+    initialAliveCells = [{ x: 0, y: 1, status: "Alive" }, { x: 1, y: 3, status: "Alive" }, { x: 1, y: 0, status: "Alive" }]
+    for (var i = 0; i < initialGrid.length; i++) {
+        for (var j=0; j<initialAliveCells.length; j++) {
+            if (initialAliveCells[j].x === initialGrid[i].x && initialAliveCells[j].y === initialGrid[i].y) {
+                initialGrid[i] = initialAliveCells[j]
+            }
+        }                                     
+    }
+    return initialGrid;
+}
+console.log(getIniatialAliveCells())
