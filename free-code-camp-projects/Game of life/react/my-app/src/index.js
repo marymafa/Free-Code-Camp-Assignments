@@ -1,7 +1,7 @@
 function makeGrid() {
     var grid = []
-    for (var x = 0; x < 2; x++) {
-        for (var y = 0; y < 2; y++) {
+    for (var x = 0; x < 20; x++) {
+        for (var y = 0; y < 20; y++) {
             grid.push(
 
                 {
@@ -15,7 +15,7 @@ function makeGrid() {
     }
     return grid;
 }
-var initialGrid = makeGrid()
+
 function getIniatialAliveCells() {
     var initialGrid = makeGrid();
     initialAliveCells = [{ x: 0, y: 1, status: "Alive" }, { x: 0, y: 3, status: "Alive" }, { x: 0, y: 11, status: "Alive" }, { x: 2, y: 1, status: "Alive" }, { x: 3, y: 1, status: "Alive" }]
@@ -31,20 +31,41 @@ function getIniatialAliveCells() {
 
 function getNearestNeighbors() {
     var cellWithNeigbours = [];
-
-    for (var i in initialGrid) {
-        var toFind= [
-            { x: initialGrid[i].x + 1, y: initialGrid[i].y },
-            { x: initialGrid[i].x - 1, y: initialGrid[i].y },
-            { x: initialGrid[i].x, y: initialGrid[i].y + 1 },
-            { x: initialGrid[i].x, y: initialGrid[i].y - 1 },
-            { x: initialGrid[i].x + 1, y: initialGrid[i].y + 1 },
-            { x: initialGrid[i].x + 1, y: initialGrid[i].y - 1 },
-            { x: initialGrid[i].x - 1, y: initialGrid[i].y + 1 },
-            { x: initialGrid[i].x - 1, y: initialGrid[i].y - 1 }
+    var seededGrid = getIniatialAliveCells();
+    for (var i in seededGrid) {
+        var toFind = [
+            { x: seededGrid[i].x + 1, y: seededGrid[i].y },
+            { x: seededGrid[i].x - 1, y: seededGrid[i].y },
+            { x: seededGrid[i].x, y: seededGrid[i].y + 1 },
+            { x: seededGrid[i].x, y: seededGrid[i].y - 1 },
+            { x: seededGrid[i].x + 1, y: seededGrid[i].y + 1 },
+            { x: seededGrid[i].x + 1, y: seededGrid[i].y - 1 },
+            { x: seededGrid[i].x - 1, y: seededGrid[i].y + 1 },
+            { x: seededGrid[i].x - 1, y: seededGrid[i].y - 1 }
         ];
-        cellWithNeigbours.push({coord: {x:initialGrid[i].x,y:initialGrid[i].y}, neighbours: toFind})
+
+        var realVals = []
+        for (var c of toFind) {
+            realVals.push(seededGrid.find((e) => e.x === c.x && e.y === c.y))
+        }
+
+        var real = realVals.filter((coord) => coord !== undefined);
+        console.log('real', real);
+        cellWithNeigbours.push({ coord: { x: seededGrid[i].x, y: seededGrid[i].y }, neighbours: real.filter((coord) => coord.status !== "dead") })
+
     }
     return cellWithNeigbours;
 }
-console.log(getNearestNeighbors())
+
+
+function getAliveNeighbors(x, y) {
+    var alive = true;
+    var cells = [{ x: 1, y: -1, start: "start" }, { x: -1, y, end: "end" }];
+    var board = getNearestNeighbors();
+    // for (var i = 0; i < board.length; i++) {
+    //     for (var j = 0; j < cells.length; i++) {
+    //         if (board[i].x === cells[j].x && board[i].y)
+    //     }
+    // }
+}
+console.log(getAliveNeighbors());
