@@ -1,11 +1,24 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(28, 70px);
+    grid-template-rows: repeat(28, 70px);
+}
+
+#alive {
+    background-color: white;
+}
+
+#dead {
+    background-color: black;
+}
+
 .button {
-	background:#3B3B3B;
-    color:white;
-    padding:10px;
-    border-radius:5px;
-    text-align:center;
-    margin:9px 10px 0px 0px;
+    background: rgb(1, 75, 1);
+    color: blue;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 9px 10px 0px 0px;
     width: 80px;
-    float:left;
-    cursor:hand;
+    cursor: hand;
 }
