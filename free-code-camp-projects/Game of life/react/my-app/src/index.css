@@ -1,7 +1,11 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(28, 70px);
-    grid-template-rows: repeat(28, 70px);
+    grid-template-columns: repeat(22, 50px);
+    grid-template-rows: repeat(22, 50px);
+}
+
+#body {
+    -ms-grid-align: center;
 }
 
 #alive {
@@ -13,8 +17,8 @@
 }
 
 .button {
-    background: rgb(1, 75, 1);
-    color: blue;
+    background: rgb(140, 195, 140);
+    color: rgb(3, 3, 29);
     padding: 10px;
     border-radius: 5px;
     text-align: center;

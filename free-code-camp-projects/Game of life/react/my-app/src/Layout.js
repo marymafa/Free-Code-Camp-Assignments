@@ -1,6 +1,6 @@
 
 import React from "react";
-import { getIniatialAliveCells, makeGrid, getAliveNeighbors, getNearestNeighbors } from "./gameoflife";
+import { getNearestNeighbors } from "./gameoflife";
 
 export default class Layout extends React.Component {
     constructor(props) {
@@ -11,7 +11,7 @@ export default class Layout extends React.Component {
     }
     componentDidMount() {
         this.setState({
-            grid: getIniatialAliveCells(),
+            grid: getNearestNeighbors(),
         })
     }
 
@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        console.log(this.state.grid)
+        console.log("trdy", this.state.grid)
         return (
             <div>
                 <button className="button">Start</button>
@@ -39,7 +39,7 @@ export default class Layout extends React.Component {
                 <button className="button">Restart</button>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button class="grid-containers" id={element.status}>{element.status}</button>
+                        return <button className="grid-containers" id={element.coord.status}>{element.coord.status}</button>
                     })
                 }</div>
             </div>
