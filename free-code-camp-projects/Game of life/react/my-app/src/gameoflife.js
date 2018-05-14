@@ -17,9 +17,14 @@ function makeGrid() {
     return grid;
 }
 
-function getIniatialAliveCells() {
+function getIniatialAliveCells(givenGrid) {
+    var initialAliveCells = [];
+    if (givenGrid === undefined) {
+        initialAliveCells = [{ x: 0, y: 0, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" }]
+    } else {
+        initialAliveCells = givenGrid.grid;
+    }
     var initialGrid = makeGrid();
-    var initialAliveCells = [{ x: 0, y: 0, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" }]
     for (var i = 0; i < initialGrid.length; i++) {
         for (var j = 0; j < initialAliveCells.length; j++) {
             if (initialAliveCells[j].x === initialGrid[i].x && initialAliveCells[j].y === initialGrid[i].y) {
@@ -31,9 +36,9 @@ function getIniatialAliveCells() {
 }
 
 
-function getNearestNeighbors() {
+function getNearestNeighbors(givenGrid) {
     var cellWithNeigbours = [];
-    var seededGrid = getIniatialAliveCells();
+    var seededGrid = getIniatialAliveCells(givenGrid);
     for (var i in seededGrid) {
         var toFind = [
 
@@ -59,13 +64,10 @@ function getNearestNeighbors() {
 
     }
     return cellWithNeigbours;
-
-
-
 }
 
-function getAllLivingNeighbors(coord) {
-    var newGrid = getNearestNeighbors();
+function getAllLivingNeighbors(givenGrid) {
+    var newGrid = getNearestNeighbors(givenGrid);
     var finalGrid = [];
 
     for (var i in newGrid) {
@@ -79,7 +81,6 @@ function getAllLivingNeighbors(coord) {
                 deadCells.push(newGrid[i].neighbours[t])
             }
         }
-        // console.log("made it", newGrid[i].coord,deadCells, liveCells)
         if (newGrid[i].coord.status === "Alive" && liveCells.length === 3) {
             cell = { x: newGrid[i].coord.x, y: newGrid[i].coord.y, status: "Alive" }
         } else if (newGrid[i].coord.status === "dead" && liveCells.length === 3) {
@@ -92,9 +93,27 @@ function getAllLivingNeighbors(coord) {
         finalGrid.push(cell)
 
     }
-    console.log(finalGrid)
-    return finalGrid;
+    var onlyAlive = finalGrid.filter(element => {
+        return element.status === "Alive";
+    })
+    return { grid: finalGrid, aliveCells: onlyAlive };
 }
-getAllLivingNeighbors()
 
+// function newGeneration() {
+//     var board = getAllLivingNeighbors();
+//     var count = 0;
+//     while (count > 10) {
+//         board += generate(board) + count;
+//         count++;
+//     }
+//     return board;
+
+//     var nextGeneration = setInterval(function () {
+//         getAllLivingNeighbors();
+//     }, 3000);
+//     return nextGeneration;
+// }
+var firstGene = getAllLivingNeighbors();
+var secondGene = getAllLivingNeighbors(firstGene);
+console.log("newGeneration", firstGene, secondGene);
 module.exports = { getNearestNeighbors }//getNearestNeighbors, getIniatialAliveCells, makeGrid }
