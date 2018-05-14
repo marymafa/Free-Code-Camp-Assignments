@@ -19,10 +19,10 @@ function makeGrid() {
 
 function getIniatialAliveCells(givenGrid) {
     var initialAliveCells = [];
-    if (givenGrid === undefined) {
+    if (givenGrid === undefined || givenGrid.aliveCells.length === undefined) {
         initialAliveCells = [{ x: 0, y: 0, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" }]
     } else {
-        initialAliveCells = givenGrid.grid;
+        initialAliveCells = givenGrid.aliveCells;
     }
     var initialGrid = makeGrid();
     for (var i = 0; i < initialGrid.length; i++) {
@@ -66,9 +66,12 @@ function getNearestNeighbors(givenGrid) {
     return cellWithNeigbours;
 }
 
+
 function getAllLivingNeighbors(givenGrid) {
     var newGrid = getNearestNeighbors(givenGrid);
     var finalGrid = [];
+    var onlyAlive = [];
+
 
     for (var i in newGrid) {
         var cell = {};
@@ -90,30 +93,14 @@ function getAllLivingNeighbors(givenGrid) {
         } else {
             cell = newGrid[i].coord
         }
+
         finalGrid.push(cell)
 
     }
-    var onlyAlive = finalGrid.filter(element => {
+    onlyAlive = finalGrid.filter(element => {
         return element.status === "Alive";
-    })
+    });
     return { grid: finalGrid, aliveCells: onlyAlive };
 }
 
-// function newGeneration() {
-//     var board = getAllLivingNeighbors();
-//     var count = 0;
-//     while (count > 10) {
-//         board += generate(board) + count;
-//         count++;
-//     }
-//     return board;
-
-//     var nextGeneration = setInterval(function () {
-//         getAllLivingNeighbors();
-//     }, 3000);
-//     return nextGeneration;
-// }
-var firstGene = getAllLivingNeighbors();
-var secondGene = getAllLivingNeighbors(firstGene);
-console.log("newGeneration", firstGene, secondGene);
-module.exports = { getNearestNeighbors }//getNearestNeighbors, getIniatialAliveCells, makeGrid }
+module.exports = { getAllLivingNeighbors }//getNearestNeighbors, getIniatialAliveCells, makeGrid }
