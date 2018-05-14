@@ -31,29 +31,37 @@ export default class Layout extends React.Component {
             if (i === 3) {
                 clearInterval(generationCal)
             }
+          
         }, 2000);
     }
     stop() {
-        this.setState({})
+        var i = 0;
+        var clear = setTimeout(function () {
+            if (i === 7) {
+                clearInterval(this.currentGen);
+                this.setState({
+                    start: false,
+                })
+
+            }
+
+        },
+            3000);
     }
-    setup() {
-        this.setState({})
-    }
-    restart
-        () {
-        this.setState({})
+
+    clear() {
+        window.location.reload(true);
     }
 
     render() {
         return (
             <div>
                 <button className="button" onClick={this.start.bind(this)}>Start</button>
-                <button className="button">Setup</button>
-                <button className="button">stop</button>
-                <button className="button">Restart</button>
+                <button className="button" onClick={this.stop.bind(this)}>Stop</button>
+                <button className="button" onClick={this.clear.bind(this)}>Clear</button>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button className="grid-containers" id={element.status}>{element.status}</button>
+                        return <button className="grid-containers" id={element.status}>{this.element}</button>
                     })
                 }</div>
             </div>
