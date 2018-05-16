@@ -1,42 +1,37 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import ReactMarkdown  from 'react-markdown';
-import axios from 'axios';
-import camper from "./camper";
+import ReactMarkdown  from 'react-markdown';
 import './index.css';
 
-// class Markdown extends React.Component {
-// 	constructor(props) {
-// 	  super(props);
-// 	  this.state = {
-// 		source: ''
-// 	  };
+class Markdown extends React.Component {
+	constructor(props) {
+	  super(props);
+	  this.state = {
+		source: ''
+	  };
 	  
-// 	  this.handleChange = this.handleChange.bind(this);
 	
-// 	}   
-// 	handleChange(e) {
-// 	  this.setState({source: e.target.value});
-// 	}
-// 	// createMarkdownPreview() {
-// 	//   return<p dangerouslySetInnerHTML={{__html: ReactMarkdown(this.props.source)}}/>;
-// 	// }
-// 	render() {
-// 	  return ( 
+	}   
+	handleChange(e) {
+	  this.setState({source: e.target.value});
+	}
+	
+	render() {
+	  return ( 
 
-// 	  <div>
-// 		<h1 >Markdown Preview</h1>
-// 			<textarea  id="Markdown" class="Markdown" onChange={this.handleChange}></textarea>
+	  <div>
+		<h1 >Markdown Preview</h1>
+			<textarea  id="Markdown" class="Markdown" onChange={this.handleChange.bind(this)} placeholder="Type here please!"></textarea>
            
-//             <ReactMarkdown source={this.state.source} />
+            <ReactMarkdown source={this.state.source} />
             
-// 	  </div>
-// 	  )
-// 	}
-//   }
+	  </div>
+	  )
+	}
+  }
 
-ReactDOM.render(<camper/>,document.getElementById('root'))
+ReactDOM.render(<Markdown/>,document.getElementById('root'))
 
 
 
