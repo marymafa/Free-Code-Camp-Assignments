@@ -20,8 +20,9 @@ function makeGrid() {
 function getIniatialAliveCells(givenGrid) {
     var initialAliveCells = [];
     if (givenGrid === undefined || givenGrid.aliveCells.length === undefined) {
-        initialAliveCells = [{ x: 0, y: 0, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" }]
-    } else {
+       // initialAliveCells = [{ x: 0, y: 0, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" },{ x: 7, y: 0, status: "Alive" },{ x: 7, y: 1, status: "Alive" },{ x: 7, y: 2, status: "Alive" },{ x: 10, y: 0, status: "Alive" },{ x: 10, y: 1, status: "Alive" },{ x: 10, y: 2, status: "Alive" }]
+        initialAliveCells = []
+        } else {
         initialAliveCells = givenGrid.aliveCells;
     }
     var initialGrid = makeGrid();
@@ -40,7 +41,7 @@ function getNearestNeighbors(givenGrid) {
     var cellWithNeigbours = [];
     var seededGrid = getIniatialAliveCells(givenGrid);
     for (var i in seededGrid) {
-        var toFind = [
+        var findNeighbors = [
 
             { x: seededGrid[i].x + 1, y: seededGrid[i].y },
             { x: seededGrid[i].x - 1, y: seededGrid[i].y },
@@ -53,7 +54,7 @@ function getNearestNeighbors(givenGrid) {
         ];
 
         var realVals = []
-        for (var c of toFind) {
+        for (var c of findNeighbors) {
             realVals.push(seededGrid.find((e) => e.x === c.x && e.y === c.y))
         }
 
@@ -68,6 +69,7 @@ function getNearestNeighbors(givenGrid) {
 
 
 function getAllLivingNeighbors(givenGrid) {
+    console.log(givenGrid)
     var newGrid = getNearestNeighbors(givenGrid);
     var finalGrid = [];
     var onlyAlive = [];
@@ -103,4 +105,4 @@ function getAllLivingNeighbors(givenGrid) {
     return { grid: finalGrid, aliveCells: onlyAlive };
 }
 
-module.exports = { getAllLivingNeighbors }//getNearestNeighbors, getIniatialAliveCells, makeGrid }
+module.exports = { getAllLivingNeighbors,getNearestNeighbors, getIniatialAliveCells, makeGrid }
