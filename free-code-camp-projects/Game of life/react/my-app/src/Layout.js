@@ -7,12 +7,11 @@ export default class Layout extends React.Component {
         super(props);
         this.state = {
             grid: [],
-            aliveCells: [],
         }
     }
     componentDidMount() {
         this.setState({
-            grid: gol.makeGrid(), aliveCells: gol.getAllLivingNeighbors(),
+            grid: gol.makeGrid(),
         })
     }
 
