@@ -7,20 +7,23 @@ export default class Layout extends React.Component {
         super(props);
         this.state = {
             grid: [],
+            aliveCells: [],
         }
-    } 
-    componentDidMount(){
+    }
+    componentDidMount() {
         this.setState({
-         grid: gol. makeGrid(),
+            grid: gol.makeGrid(), aliveCells: gol.getAllLivingNeighbors(),
         })
     }
-    
+
+
+
     render() {
         return (
             <div>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button className="grid-containers" id={element.status}>{this.element}</button>
+                        return <button className="grid-containers"  id={element.status}>{this.element}</button>
                     })
                 }</div>
             </div>

@@ -1,8 +1,8 @@
 
 function makeGrid() {
     var grid = [];
-    for (var x = 0; x < 14; x++) {
-        for (var y = 0; y < 14; y++) {
+    for (var x = 0; x < 20; x++) {
+        for (var y = 0; y < 20; y++) {
             grid.push(
 
                 {
