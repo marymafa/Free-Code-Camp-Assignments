@@ -16,14 +16,28 @@ export default class Layout extends React.Component {
 
         })
     }
+    setUpTheBoard(element) {
+        var newGrid = this.state.aliveCells;
+        if (element.status === "Alive") {
+            element.status="dead"
+            newGrid.push(element);
+        } else if (element.status === "dead") {
+            element.status="Alive"
+            newGrid.push(element)
+        }
+        this.setState({
+            aliveCells: newGrid,
+        })
+        return newGrid
+    }
 
     render() {
-    console.log("state", this.state)
+        console.log("state", this.state)
         return (
             <div>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button className="grid-containers" id={element.status}>{this.element}</button>
+                        return <button className="grid-containers" onClick={()=>this.setUpTheBoard(element)}  id={element.status}>{this.element}</button>
                     })
                 }</div>
             </div>
