@@ -12,6 +12,7 @@
     "react-scripts": "^1.1.1"
   },
   "scripts": {
+    "homepage":"https://github.com/marymafa/marymafa.github.io/blob/master/tcg.html",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

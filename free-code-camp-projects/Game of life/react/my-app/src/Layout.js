@@ -8,6 +8,7 @@ export default class Layout extends React.Component {
         this.state = {
             grid: [],
             aliveCells: [],
+            play: "no"
         }
     }
     componentDidMount() {
@@ -19,10 +20,10 @@ export default class Layout extends React.Component {
     setUpTheBoard(element) {
         var newGrid = this.state.aliveCells;
         if (element.status === "Alive") {
-            element.status="dead"
+            element.status = "dead"
             newGrid.push(element);
         } else if (element.status === "dead") {
-            element.status="Alive"
+            element.status = "Alive"
             newGrid.push(element)
         }
         this.setState({
@@ -31,13 +32,29 @@ export default class Layout extends React.Component {
         return newGrid
     }
 
+    startGame() {
+        var generation = this.state.aliveCells;
+        var calculateGeneration = setInterval(function () {
+            if (generation !== undefined) {
+                generation: this.aliveCells
+            }
+            this.setState(
+                {
+                    aliveCells:generation
+                }
+            )
+        }, 1000)
+
+    }
+
     render() {
         console.log("state", this.state)
         return (
             <div>
+                <button className="button" onClick={this.startGame.bind(this)}>Start Game</button>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button className="grid-containers" onClick={()=>this.setUpTheBoard(element)}  id={element.status}>{this.element}</button>
+                        return <button className="grid-containers" onClick={() => this.setUpTheBoard(element)} id={element.status}>{this.element}</button>
                     })
                 }</div>
             </div>
