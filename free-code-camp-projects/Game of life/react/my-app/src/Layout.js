@@ -1,4 +1,3 @@
-
 import React from "react";
 import *as gol from "./gameoflife";
 
@@ -8,7 +7,6 @@ export default class Layout extends React.Component {
         this.state = {
             grid: [],
             aliveCells: [],
-            play: "no"
         }
     }
     componentDidMount() {
@@ -36,19 +34,22 @@ export default class Layout extends React.Component {
         var generation = this.state.aliveCells;
         var calculateGeneration = setInterval(function () {
             if (generation !== undefined) {
-                generation: this.aliveCells
+                generation: generation
             }
-            this.setState(
-                {
-                    aliveCells:generation
-                }
-            )
+
         }, 1000)
 
+        this.setState(
+            {
+                aliveCells: generation
+            }
+        )
+
+        console.log("it's really working?", generation)
     }
 
     render() {
-        console.log("state", this.state)
+
         return (
             <div>
                 <button className="button" onClick={this.startGame.bind(this)}>Start Game</button>
@@ -62,4 +63,3 @@ export default class Layout extends React.Component {
         )
     }
 }
-
