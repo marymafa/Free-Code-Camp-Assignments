@@ -61,9 +61,7 @@ export default class Layout extends React.Component {
         for (var i in initialiseCells) {
             for (var j in grid) {
                 if (initialiseCells[i].x === grid[j].x && initialiseCells[i].y === grid[j].y) {
-                    console.log('from alive cell', initialiseCells[i])
-                    console.log('from grid',grid[j])
-                    grid[j] = initialiseCells[i] 
+                    grid[j] = initialiseCells[i]
                 }
             }
         }
@@ -71,7 +69,6 @@ export default class Layout extends React.Component {
     }
     setUpTheBoardRandomly() {
         var aliveCells = [{ x: 0, y: 1, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" }, { x: 9, y: 0, status: "Alive" }, { x: 9, y: 1, status: "Alive" }, { x: 9, y: 2, status: "Alive" }]
-        //var RandomPicker = initialiseCells[Math.floor(Math.random() * initialiseCells.length)]
         this.setState({
             grid: this.changeGrid(aliveCells), aliveCells: aliveCells
         })
