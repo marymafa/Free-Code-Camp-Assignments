@@ -60,25 +60,42 @@ export default class Layout extends React.Component {
         var grid = gol.makeGrid();
         for (var i in initialiseCells) {
             for (var j in grid) {
+                console.log("initialiseCells", grid[j], initialiseCells[i])
                 if (initialiseCells[i].x === grid[j].x && initialiseCells[i].y === grid[j].y) {
-                    grid[j] = initialiseCells[i]
+                    grid[j] = { ...initialiseCells[i] }
                 }
             }
         }
         return grid
     }
+
+    getRandomVals() {
+        var board = [];
+        var aliveCells = this.state.aliveCells;
+        for (var i = 0; i < 18; i++) {
+            for (var j = 0; j < 18; j++) {
+                var randomCells = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20), status: "Alive" }
+
+                board.push(randomCells)
+
+            }
+
+        }
+        return board;
+    }
+
     setUpTheBoardRandomly() {
-        var aliveCells = [{ x: 0, y: 1, status: "Alive" }, { x: 0, y: 1, status: "Alive" }, { x: 0, y: 2, status: "Alive" }, { x: 4, y: 0, status: "Alive" }, { x: 4, y: 1, status: "Alive" }, { x: 4, y: 2, status: "Alive" }, { x: 9, y: 0, status: "Alive" }, { x: 9, y: 1, status: "Alive" }, { x: 9, y: 2, status: "Alive" }]
+        var random = this.getRandomVals();
+
         this.setState({
-            grid: this.changeGrid(aliveCells), aliveCells: aliveCells
+            grid: this.changeGrid(random), aliveCells: random
         })
     }
 
     render() {
-        console.log('alive', this.state.aliveCells);
-        console.log('grid', this.state.grid)
         return (
             <div>
+                <h1>Game Of Life</h1>
                 <button className="button" onClick={this.startGame.bind(this)}>Play</button>
                 <button className="button" onClick={this.clearTheBoard.bind(this)}>Clear</button>
                 <button className="button" onClick={this.setUpTheBoardRandomly.bind(this)}>Random</button>

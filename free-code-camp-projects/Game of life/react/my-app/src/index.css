@@ -9,20 +9,20 @@
 }
 
 #Alive {
-    background-color:  red;
+    background-color: rgb(188, 7, 243)
 }
 
 #dead {
-    background-color: black;
+    background-color: rgb(0, 0, 0);
 }
 
 .button {
-    background: rgb(6, 97, 21);
-    color: rgb(3, 3, 29);
+    background: rgb(2, 49, 11);
+    color: rgb(4, 4, 65);
     padding: 10px;
     border-radius: 5px;
     text-align: center;
     margin: 9px 10px 0px 0px;
-    width: 80px;
+    width: 100px;
     cursor: hand;
 }
