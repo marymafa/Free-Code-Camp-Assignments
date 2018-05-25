@@ -9,7 +9,7 @@
 }
 
 #Alive {
-    background-color: rgb(188, 7, 243)
+    background-color: white
 }
 
 #dead {
@@ -17,8 +17,8 @@
 }
 
 .button {
-    background: rgb(2, 49, 11);
-    color: rgb(4, 4, 65);
+    background: rgb(4, 4, 65);
+    color: rgb(49, 2, 2);
     padding: 10px;
     border-radius: 5px;
     text-align: center;

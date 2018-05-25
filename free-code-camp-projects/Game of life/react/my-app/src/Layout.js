@@ -12,8 +12,9 @@ export default class Layout extends React.Component {
         }
     }
     componentDidMount() {
+        var random = this.getRandomVals();
         this.setState({
-            grid: gol.makeGrid(),
+            grid: gol.makeGrid(), grid: this.changeGrid(random), aliveCells: random
 
         })
     }
@@ -60,7 +61,6 @@ export default class Layout extends React.Component {
         var grid = gol.makeGrid();
         for (var i in initialiseCells) {
             for (var j in grid) {
-                console.log("initialiseCells", grid[j], initialiseCells[i])
                 if (initialiseCells[i].x === grid[j].x && initialiseCells[i].y === grid[j].y) {
                     grid[j] = { ...initialiseCells[i] }
                 }
@@ -71,7 +71,7 @@ export default class Layout extends React.Component {
 
     getRandomVals() {
         var board = [];
-        var aliveCells = this.state.aliveCells;
+        //var aliveCells = this.state.aliveCells;
         for (var i = 0; i < 18; i++) {
             for (var j = 0; j < 18; j++) {
                 var randomCells = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20), status: "Alive" }
@@ -84,13 +84,13 @@ export default class Layout extends React.Component {
         return board;
     }
 
-    setUpTheBoardRandomly() {
-        var random = this.getRandomVals();
+    // randomCells() {
 
-        this.setState({
-            grid: this.changeGrid(random), aliveCells: random
-        })
-    }
+
+    //     this.setState({
+
+    //     })
+    // }
 
     render() {
         return (
@@ -98,7 +98,6 @@ export default class Layout extends React.Component {
                 <h1>Game Of Life</h1>
                 <button className="button" onClick={this.startGame.bind(this)}>Play</button>
                 <button className="button" onClick={this.clearTheBoard.bind(this)}>Clear</button>
-                <button className="button" onClick={this.setUpTheBoardRandomly.bind(this)}>Random</button>
                 <div className="grid">{
                     this.state.grid.map(element => {
                         return <button className="grid-containers" onClick={() => this.setUpCells(element)} id={element.status}>{this.element}</button>
