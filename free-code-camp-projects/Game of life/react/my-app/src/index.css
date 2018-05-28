@@ -4,8 +4,12 @@
     grid-template-rows: repeat(20, 50px);
 }
 
-#body {
+body {
     -ms-grid-align: center;
+    background-color: black
+}
+h1,h2{
+    color:white;
 }
 
 #Alive {

@@ -55,6 +55,9 @@ export default class Layout extends React.Component {
                 this.setState({
                     aliveCells: [], grid: gol.makeGrid()
                 });
+                this.setState({
+                    generation: 0
+                })
             } else if (this.state.shouldStop === "yes") {
                 clearInterval(generationCal)
             }
@@ -89,7 +92,7 @@ export default class Layout extends React.Component {
     }
     clearTheBoard() {
         this.setState({
-            aliveCells: [], grid: gol.makeGrid(), shouldClear: true
+            aliveCells: [], grid: gol.makeGrid(), shouldClear: true, generation: 0
         });
     }
     changeGrid(initialiseCells) {
@@ -174,7 +177,7 @@ export default class Layout extends React.Component {
                 <button className="button" onClick={this.startGame.bind(this)}>Play</button>
                 <button button className="button" onClick={this.stopGame.bind(this)}>Stop</button>
                 <button className="button" onClick={this.clearTheBoard.bind(this)}>Clear</button>
-                <h2>Count:{this.state.generation}</h2>
+                <h2>Generation:{this.state.generation}</h2>
                 <button className="button" onClick={this.highSpeed.bind(this)}>highSpeed</button>
                 <button className="button" onClick={this.medium.bind(this)}>medium</button>
                 <button className="button" onClick={this.lowSpeed.bind(this)}>lowSpeed</button>
