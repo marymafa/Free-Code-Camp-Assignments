@@ -8,7 +8,9 @@ export default class Layout extends React.Component {
             grid: [],
             aliveCells: [],
             shouldStop: "no",
-            shouldClear: false
+            shouldClear: false,
+            speed: 3000,
+            generation: 0,
         }
     }
     componentDidMount() {
@@ -33,7 +35,7 @@ export default class Layout extends React.Component {
         return newGrid
     }
     startGame() {
-        var i = 0;
+        var gene = this.state.generation
         this.setState({
             shouldStop: "no", shouldClear: false
         })
@@ -47,6 +49,7 @@ export default class Layout extends React.Component {
                 currentGrid = currentGen.grid;
             }
             this.setState({ grid: currentGrid, aliveCells: currentAlive })
+            this.setState({ generation: gene++ })
             if (currentAlive.length === 0 || this.state.shouldClear) {
                 clearInterval(generationCal);
                 this.setState({
@@ -55,7 +58,29 @@ export default class Layout extends React.Component {
             } else if (this.state.shouldStop === "yes") {
                 clearInterval(generationCal)
             }
-        }, 1000);
+        }, this.state.speed);
+
+    }
+    highSpeed() {
+        this.setState({
+            speed: this.state.speed - 600
+        })
+        this.startGame()
+        console.log("sp", this.state.speed)
+    }
+    lowSpeed() {
+        this.setState({
+            speed: this.state.speed + 600
+        })
+        this.startGame()
+        console.log("lw", this.state.speed)
+    }
+    medium() {
+        this.setState({
+            speed: this.state.speed + 600
+        })
+        this.startGame()
+        console.log("md", this.state.speed)
     }
     stopGame() {
         this.setState({
@@ -149,6 +174,11 @@ export default class Layout extends React.Component {
                 <button className="button" onClick={this.startGame.bind(this)}>Play</button>
                 <button button className="button" onClick={this.stopGame.bind(this)}>Stop</button>
                 <button className="button" onClick={this.clearTheBoard.bind(this)}>Clear</button>
+                <h2>Count:{this.state.generation}</h2>
+                <button className="button" onClick={this.highSpeed.bind(this)}>highSpeed</button>
+                <button className="button" onClick={this.medium.bind(this)}>medium</button>
+                <button className="button" onClick={this.lowSpeed.bind(this)}>lowSpeed</button>
+
                 <div className="grid">{
                     this.state.grid.map(element => {
                         return <button className="grid-containers" onClick={() => this.setUpCells(element)} id={element.status}>{this.element}</button>
