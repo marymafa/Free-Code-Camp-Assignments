@@ -7,18 +7,17 @@ export default class Layout extends React.Component {
         this.state = {
             grid: [],
             aliveCells: [],
-
-
+            shouldStop: "no",
+            shouldClear: false
         }
     }
     componentDidMount() {
         var random = this.getRandomVals();
         this.setState({
-            grid: gol.makeGrid(), grid: this.changeGrid(random), aliveCells: random
+            grid: gol.makeGrid(), grid: this.changeGrid(random), aliveCells: random,
 
         })
     }
-
     setUpCells(element) {
         var newGrid = this.state.aliveCells;
         if (element.status === "Alive") {
@@ -33,29 +32,40 @@ export default class Layout extends React.Component {
         })
         return newGrid
     }
-
     startGame() {
-        var generation = this.state.aliveCells;
-        var calculateGeneration = setInterval(function () {
-            if (generation !== undefined) {
-                generation: generation
+        var i = 0;
+        this.setState({
+            shouldStop: "no", shouldClear: false
+        })
+        var currentGrid = this.state.grid;
+        var currentAlive = this.state.aliveCells;
+        var currentGen = [];
+        var generationCal = setInterval(() => {
+            if (currentGen) {
+                currentGen = this.getAllLivingNeighbors(currentAlive);
+                currentAlive = currentGen.aliveCells;
+                currentGrid = currentGen.grid;
             }
-            clearInterval(this.calculateGenerations)
-        }, 1000)
-        console.log("gene", generation)
-        this.setState(
-            {
-                aliveCells: generation
+            this.setState({ grid: currentGrid, aliveCells: currentAlive })
+            if (currentAlive.length === 0 || this.state.shouldClear) {
+                clearInterval(generationCal);
+                this.setState({
+                    aliveCells: [], grid: gol.makeGrid()
+                });
+            } else if (this.state.shouldStop === "yes") {
+                clearInterval(generationCal)
             }
-        )
-        return calculateGeneration;
-
+        }, 1000);
+    }
+    stopGame() {
+        this.setState({
+            shouldStop: "yes"
+        })
     }
     clearTheBoard() {
         this.setState({
-            aliveCells: [], grid: gol.makeGrid(),
+            aliveCells: [], grid: gol.makeGrid(), shouldClear: true
         });
-
     }
     changeGrid(initialiseCells) {
         var grid = gol.makeGrid();
@@ -68,35 +78,76 @@ export default class Layout extends React.Component {
         }
         return grid
     }
-
     getRandomVals() {
         var board = [];
-        //var aliveCells = this.state.aliveCells;
-        for (var i = 0; i < 18; i++) {
-            for (var j = 0; j < 18; j++) {
+        for (var i = 0; i < 10; i++) {
+            for (var j = 0; j < 10; j++) {
                 var randomCells = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20), status: "Alive" }
-
                 board.push(randomCells)
-
             }
-
         }
         return board;
     }
-
-    // randomCells() {
-
-
-    //     this.setState({
-
-    //     })
-    // }
-
+    getNearestNeighbors(initialGrid) {
+        var cellWithNeigbours = [];
+        var seededGrid = this.changeGrid(initialGrid);
+        for (var i in seededGrid) {
+            var findNeighbors = [
+                { x: seededGrid[i].x + 1, y: seededGrid[i].y },
+                { x: seededGrid[i].x - 1, y: seededGrid[i].y },
+                { x: seededGrid[i].x, y: seededGrid[i].y + 1 },
+                { x: seededGrid[i].x, y: seededGrid[i].y - 1 },
+                { x: seededGrid[i].x + 1, y: seededGrid[i].y + 1 },
+                { x: seededGrid[i].x + 1, y: seededGrid[i].y - 1 },
+                { x: seededGrid[i].x - 1, y: seededGrid[i].y + 1 },
+                { x: seededGrid[i].x - 1, y: seededGrid[i].y - 1 }
+            ];
+            var realVals = []
+            for (var c of findNeighbors) {
+                realVals.push(seededGrid.find((e) => e.x === c.x && e.y === c.y))
+            }
+            var real = realVals.filter((coord) => coord !== undefined);
+            cellWithNeigbours.push({ coord: { x: seededGrid[i].x, y: seededGrid[i].y, status: seededGrid[i].status }, neighbours: real })
+        }
+        return cellWithNeigbours;
+    }
+    getAllLivingNeighbors(initialGrid) {
+        var newGrid = this.getNearestNeighbors(initialGrid);
+        var finalGrid = [];
+        var onlyAlive = [];
+        for (var i in newGrid) {
+            var cell = {};
+            var deadCells = [];
+            var liveCells = [];
+            for (var t in newGrid[i].neighbours) {
+                if (newGrid[i].neighbours[t].status === "Alive") {
+                    liveCells.push(newGrid[i].neighbours[t])
+                } else if (newGrid[i].neighbours[t].status === "dead") {
+                    deadCells.push(newGrid[i].neighbours[t])
+                }
+            }
+            if (newGrid[i].coord.status === "Alive" && liveCells.length === 3) {
+                cell = { x: newGrid[i].coord.x, y: newGrid[i].coord.y, status: "Alive" }
+            } else if (newGrid[i].coord.status === "dead" && liveCells.length === 3) {
+                cell = { x: newGrid[i].coord.x, y: newGrid[i].coord.y, status: "Alive" }
+            } else if (newGrid[i].coord.status === "Alive" && (liveCells.length < 2 || liveCells.length > 3)) {
+                cell = { x: newGrid[i].coord.x, y: newGrid[i].coord.y, status: "dead" }
+            } else {
+                cell = newGrid[i].coord
+            }
+            finalGrid.push(cell)
+        }
+        onlyAlive = finalGrid.filter(element => {
+            return element.status === "Alive";
+        });
+        return { grid: finalGrid, aliveCells: onlyAlive };
+    }
     render() {
         return (
             <div>
                 <h1>Game Of Life</h1>
                 <button className="button" onClick={this.startGame.bind(this)}>Play</button>
+                <button button className="button" onClick={this.stopGame.bind(this)}>Stop</button>
                 <button className="button" onClick={this.clearTheBoard.bind(this)}>Clear</button>
                 <div className="grid">{
                     this.state.grid.map(element => {
@@ -104,7 +155,6 @@ export default class Layout extends React.Component {
                     })
                 }</div>
             </div>
-
         )
     }
 }
