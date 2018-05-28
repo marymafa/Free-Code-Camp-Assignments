@@ -16,9 +16,10 @@ export default class Layout extends React.Component {
     componentDidMount() {
         var random = this.getRandomVals();
         this.setState({
-            grid: gol.makeGrid(), grid: this.changeGrid(random), aliveCells: random,
+            grid: this.changeGrid(random), aliveCells: random,
 
         })
+        this.startGame()
     }
     setUpCells(element) {
         var newGrid = this.state.aliveCells;
@@ -41,23 +42,23 @@ export default class Layout extends React.Component {
         })
         var currentGrid = this.state.grid;
         var currentAlive = this.state.aliveCells;
-        var currentGen = [];
+        console.log("grid", currentGrid)
         var generationCal = setInterval(() => {
-            if (currentGen) {
-                currentGen = this.getAllLivingNeighbors(currentAlive);
+            console.log("helooo")
+            
+               var currentGen = this.getAllLivingNeighbors(currentAlive);
                 currentAlive = currentGen.aliveCells;
                 currentGrid = currentGen.grid;
-            }
-            this.setState({ grid: currentGrid, aliveCells: currentAlive })
-            this.setState({ generation: gene++ })
+                console.log('jjjA',currentGrid)
+        
+            this.setState({ grid: currentGrid, aliveCells: currentAlive,generation: gene++ })
+
             if (currentAlive.length === 0 || this.state.shouldClear) {
                 clearInterval(generationCal);
                 this.setState({
-                    aliveCells: [], grid: gol.makeGrid()
+                    aliveCells: [], grid: gol.makeGrid(), generation: 0
                 });
-                this.setState({
-                    generation: 0
-                })
+               
             } else if (this.state.shouldStop === "yes") {
                 clearInterval(generationCal)
             }
@@ -73,14 +74,14 @@ export default class Layout extends React.Component {
     }
     lowSpeed() {
         this.setState({
-            speed: this.state.speed + 600
+            speed: this.state.speed + 400
         })
         this.startGame()
         console.log("lw", this.state.speed)
     }
     medium() {
         this.setState({
-            speed: this.state.speed + 600
+            speed: this.state.speed + 500
         })
         this.startGame()
         console.log("md", this.state.speed)
