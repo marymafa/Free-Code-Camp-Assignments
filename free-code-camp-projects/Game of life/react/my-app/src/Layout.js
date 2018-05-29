@@ -4,22 +4,18 @@ import *as gol from "./gameoflife";
 export default class Layout extends React.Component {
     constructor(props) {
         super(props);
+        var random = this.getRandomVals();
         this.state = {
-            grid: [],
-            aliveCells: [],
+            grid: this.changeGrid(random),
+            aliveCells: random,
             shouldStop: "no",
             shouldClear: false,
-            speed: 3000,
+            speed: 1000,
             generation: 0,
         }
     }
     componentDidMount() {
-        var random = this.getRandomVals();
-        this.setState({
-            grid: this.changeGrid(random), aliveCells: random,
-
-        })
-        this.startGame()
+        this.startGame();
     }
     setUpCells(element) {
         var newGrid = this.state.aliveCells;
@@ -37,33 +33,24 @@ export default class Layout extends React.Component {
     }
     startGame() {
         var gene = this.state.generation
-        this.setState({
-            shouldStop: "no", shouldClear: false
-        })
         var currentGrid = this.state.grid;
+        this.setState({
+            shouldStop: "no", shouldClear: false,
+        })
+        console.log("tesi", currentGrid)
         var currentAlive = this.state.aliveCells;
-        console.log("grid", currentGrid)
         var generationCal = setInterval(() => {
-            console.log("helooo")
-            
-               var currentGen = this.getAllLivingNeighbors(currentAlive);
-                currentAlive = currentGen.aliveCells;
-                currentGrid = currentGen.grid;
-                console.log('jjjA',currentGrid)
-        
-            this.setState({ grid: currentGrid, aliveCells: currentAlive,generation: gene++ })
-
+            var currentGen = this.getAllLivingNeighbors(currentAlive);
+            currentAlive = currentGen.aliveCells;
+            currentGrid = currentGen.grid;
+            this.setState({ grid: currentGrid, aliveCells: currentAlive, generation: gene++ })
             if (currentAlive.length === 0 || this.state.shouldClear) {
                 clearInterval(generationCal);
-                this.setState({
-                    aliveCells: [], grid: gol.makeGrid(), generation: 0
-                });
-               
+                this.setState({ aliveCells: [], grid: gol.makeGrid(), generation: 0 });
             } else if (this.state.shouldStop === "yes") {
                 clearInterval(generationCal)
             }
         }, this.state.speed);
-
     }
     highSpeed() {
         this.setState({
@@ -77,14 +64,12 @@ export default class Layout extends React.Component {
             speed: this.state.speed + 400
         })
         this.startGame()
-        console.log("lw", this.state.speed)
     }
     medium() {
         this.setState({
             speed: this.state.speed + 500
         })
         this.startGame()
-        console.log("md", this.state.speed)
     }
     stopGame() {
         this.setState({
