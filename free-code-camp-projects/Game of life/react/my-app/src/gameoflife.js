@@ -15,5 +15,4 @@ function makeGrid() {
     }
     return grid;
 }
-
 module.exports = { makeGrid }

@@ -1,13 +1,15 @@
-
 body {
   background-color: #292F36;
   color: #14cc60;
   text-align: center;
+}
+
+h1 {
   font-size: 50px;
 }
 
 textArea {
   height: 180px;
   width: 900px;
-  font-size: 50px;
+  font-size: 20px;
 }
