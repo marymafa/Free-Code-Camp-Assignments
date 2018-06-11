@@ -1,0 +1,12 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(10, 60px);
+    grid-template-rows: repeat(10, 60px);
+}
+
+#true {
+    background-color: mediumseagreen
+}
+#false {
+    background-color: black
+}

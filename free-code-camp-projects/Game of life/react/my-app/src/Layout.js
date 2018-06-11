@@ -14,7 +14,6 @@ export default class Layout extends React.Component {
             generation: 0,
             generationCal: "",
         }
-
     }
     componentDidMount() {
         this.setState({ grid: gol.makeGrid() })
@@ -33,22 +32,21 @@ export default class Layout extends React.Component {
         })
         return newGrid
     }
-
     startGame() {
         var gene = this.state.generation
         var currentGrid = this.state.grid;
         this.setState({
             shouldStop: "no", shouldClear: false,
         })
+        var newAliveCells = this.state.aliveCells;
         this.state.generationCal = setInterval(() => {
-            var currentAlive = this.continuousGrid();
-            // console.log('currentAlive', currentAlive);
-            var currentGen = this.getAllLivingNeighbors(currentAlive);
-            // console.log("currentGen", currentGen)
-            currentAlive = currentGen.aliveCells;
-            currentGrid = currentGen.grid;
-            this.setState({ grid: currentGrid, aliveCells: currentAlive, generation: gene++ })
-            if (currentAlive.length === 0 || this.state.shouldClear) {
+            if(newAliveCells === undefined){
+                newAliveCells=this.getNextGeneration(newAliveCells);
+            }else{
+                newAliveCells=this.getNextGeneration(newAliveCells)
+            }
+            this.setState({ grid: newAliveCells.grid, aliveCells: newAliveCells, generation: gene++ })
+            if (newAliveCells.length === 0 || this.state.shouldClear) {
                 clearInterval(this.state.generationCal);
                 this.setState({ aliveCells: [], grid: gol.makeGrid(), generation: 0 });
             } else if (this.state.shouldStop === "yes") {
@@ -70,7 +68,6 @@ export default class Layout extends React.Component {
         clearInterval(this.state.generationCal);
         this.startGame();
     }
-
     stopGame() {
         this.setState({
             shouldStop: "yes"
@@ -96,7 +93,7 @@ export default class Layout extends React.Component {
         var board = [];
         for (var i = 0; i < 100; i++) {
             var randomCells = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20), status: "Alive" };
-            if (board.indexOf(randomCells) == -1) {
+            if (board.indexOf(randomCells) === -1) {
                 board.push(randomCells)
             }
         }
@@ -107,7 +104,6 @@ export default class Layout extends React.Component {
         this.setState({ grid: this.changeGrid(random) })
         this.startGame();
     }
-
     getNearestNeighbors(initialGrid) {
         var cellWithNeigbours = [];
         var seededGrid = initialGrid;
@@ -124,18 +120,18 @@ export default class Layout extends React.Component {
             ];
             var realVals = []
             for (var c of findNeighbors) {
-                realVals.push(seededGrid.find((e) => e.x === c.x && e.y === c.y))
+                seededGrid.find((e) => e.x === c.x && e.y === c.y)
+                realVals.push(seededGrid)
             }
             var real = realVals.filter((coord) => coord !== undefined);
             cellWithNeigbours.push({ coord: { x: seededGrid[i].x, y: seededGrid[i].y, status: seededGrid[i].status }, neighbours: real })
         }
         return cellWithNeigbours;
     }
-    getAllLivingNeighbors(initialGrid) {
+    getNextGeneration(initialGrid) {
         var newGrid = this.getNearestNeighbors(initialGrid);
         var finalGrid = [];
         var cellAlive = [];
-        console.log(initialGrid.filter(e => e.status === "Alive"))
         for (var i in newGrid) {
             var cell = {};
             var deadCells = [];
@@ -164,31 +160,29 @@ export default class Layout extends React.Component {
         finalGrid = this.changeGrid(finalGrid)
         return { grid: finalGrid, aliveCells: onlyAlive };
     }
-
-    continuousGrid() {
-        var findingAliveCells = this.state.aliveCells;
-        var onlyX = [];
-        var onlyY = [];
-        for (var i = 0; i < findingAliveCells.length; i++) {
-            onlyX.push(findingAliveCells[i].x);
-            onlyY.push(findingAliveCells[i].y);
-        }
-        var lowestX = onlyX.sort(function (a, b) { return a - b })[0];
-        var lowestY = onlyY.sort(function (a, b) { return a - b })[0];
-        var highestX = onlyX.sort(function (a, b) { return b - a })[0];
-        var highestY = onlyY.sort(function (a, b) { return b - a })[0];
-        var gridToDisplay = [];
-        for (var i = lowestX - 1; i < highestX + 1; i++) {
-            for (var j = lowestY - 1; j < highestY + 1; j++) {
-                var cell = { x: i, y: j };
-                var foundCell = findingAliveCells.find(e => e.x === cell.x && e.y === cell.y);
-                cell = foundCell ? { ...foundCell } : { ...cell, status: "dead" }
-                gridToDisplay.push(cell);
-            }
-        }
-        return gridToDisplay;
-    }
-
+    // currentGridWithAllLivingAndDeadCells() {
+    //     var findingAliveCells = this.state.aliveCells;
+    //     var onlyX = [];
+    //     var onlyY = [];
+    //     for (var i = 0; i < findingAliveCells.length; i++) {
+    //         onlyX.push(findingAliveCells[i].x);
+    //         onlyY.push(findingAliveCells[i].y);
+    //     }
+    //     var lowestX = onlyX.sort(function (a, b) { return a - b })[0];
+    //     var lowestY = onlyY.sort(function (a, b) { return a - b })[0];
+    //     var highestX = onlyX.sort(function (a, b) { return b - a })[0];
+    //     var highestY = onlyY.sort(function (a, b) { return b - a })[0];
+    //     var gridToDisplay = [];
+    //     for (var i = lowestX - 1; i < highestX + 1; i++) {
+    //         for (var j = lowestY - 1; j < highestY + 1; j++) {
+    //             var cell = { x: i, y: j };
+    //             var foundCell = findingAliveCells.find(e => e.x === cell.x && e.y === cell.y);
+    //             cell = foundCell ? { ...foundCell } : { ...cell, status: "dead" }
+    //             gridToDisplay.push(cell);
+    //         }
+    //     }
+    //     return gridToDisplay;
+    // }
     render() {
         return (
             <div>
@@ -200,10 +194,9 @@ export default class Layout extends React.Component {
                 <h2>Generation:{this.state.generation}</h2>
                 <button className="button" onClick={this.highSpeed.bind(this)}>highSpeed</button>
                 <button className="button" onClick={this.lowSpeed.bind(this)}>lowSpeed</button>
-
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button className="grid-containers" onClick={() => this.setUpCells(element)} id={element.status}>{this.element}</button>
+                        return <button className="grid-containers" onClick={() => this.setUpCells(element)} id={element.status}>{element.x}:{element.y}</button>
                     })
                 }</div>
             </div>
