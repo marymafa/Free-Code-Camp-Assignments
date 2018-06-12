@@ -4,9 +4,18 @@
     grid-template-rows: repeat(10, 60px);
 }
 
+h1 {
+    color: forestgreen
+}
+
 #true {
     background-color: mediumseagreen
 }
+
 #false {
     background-color: black
+}
+
+P {
+    font-size: 25px
 }

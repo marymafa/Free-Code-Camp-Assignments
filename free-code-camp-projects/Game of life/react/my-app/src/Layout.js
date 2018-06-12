@@ -196,7 +196,7 @@ export default class Layout extends React.Component {
                 <button className="button" onClick={this.lowSpeed.bind(this)}>lowSpeed</button>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        return <button className="grid-containers" onClick={() => this.setUpCells(element)} id={element.status}>{element.x}:{element.y}</button>
+                        return <button className="grid-containers" onClick={() => this.setUpCells(element)} id={element.status}>{this.element}</button>
                     })
                 }</div>
             </div>
