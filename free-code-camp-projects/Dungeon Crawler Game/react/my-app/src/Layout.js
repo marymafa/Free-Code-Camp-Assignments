@@ -7,12 +7,12 @@ export default class Layout extends React.Component {
         this.state = {
             grid: dungeon.creatingPath(),
             enemies: [],
+            player: { x: 5, y: 0 }
         }
-        console.log("enemiese", this.state.enemies)
+        this.movePlayer = this.movePlayer.bind(this);
     }
     componentDidMount() {
-        this.myGamePiece()
-        this.randomValues()
+        document.onkeydown = this.movePlayer;
         this.setState({ grid: dungeon.creatingPath() });
     }
     GetRandomEnemies() {
@@ -30,26 +30,24 @@ export default class Layout extends React.Component {
         this.setState({
             grid: dungeon.creatingPath(random),
         })
+    }
 
-    }
-    myGamePiece() {
-        var player = <p className="icon">&#x26F9;</p>;
-    }
-    moveUp() {
-        this.myGamePiece.speedY = +1;
-        console.log("up", this.myGamePiece.speedY)
-    }
-    moveDown() {
-        this.myGamePiece.speedY = -1;
-        console.log("down", this.myGamePiece.speedY)
-    }
-    moveLeft() {
-        this.myGamePiece.speedX = -1;
-        console.log("left", this.myGamePiece.speedY)
-    }
-    moveRight() {
-        this.myGamePiece.speedX = +1;
-        console.log("right", this.myGamePiece.speedY)
+    movePlayer(event) {
+        var keys = this.state.player
+        if (event.key === "ArrowLeft") {
+            keys = { x: keys.x, y: keys.y - 1 }
+        } else if (event.key === "ArrowRight") {
+            keys = { x: keys.x, y: keys.y + 1 }
+        } else if (event.key === "ArrowUp") {
+            keys = { x: keys.x - 1, y: keys.y }
+        } else if (event.key === "ArrowDown") {
+            keys = { x: keys.x + 1, y: keys.y }
+        }
+        console.log("event", keys)
+        console.log("player", this.state.player)
+
+        this.setState({ player: keys })
+
     }
     render() {
         return (
@@ -57,7 +55,7 @@ export default class Layout extends React.Component {
                 <h1>Dungeon Crawler Game</h1>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        if (element.x === 5 && element.y === 0) {
+                        if (element.x === this.state.player.x && element.y === this.state.player.y) {
                             element.display = <p className="icon">&#x26F9;</p>;
                         } else if (element.x === 5 && element.y === 2) {
                             element.display = <p className="icon">  &#x2639;</p>
@@ -73,10 +71,6 @@ export default class Layout extends React.Component {
                         return <button className="grid" id={element.pathway} >{element.display}</button>
                     })
                 }</div>
-                <button onClick={this.moveUp.bind(this)}>UP</button>
-                <button onClick={this.moveDown.bind(this)}>DOWN</button>
-                <button onClick={this.moveLeft.bind(this)}>LEFT</button>
-                <button onClick={this.moveRight.bind(this)}>RIGHT</button>
             </div>
         )
     }
