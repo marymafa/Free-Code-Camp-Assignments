@@ -42,6 +42,9 @@ export default class Layout extends React.Component {
             keys = { x: keys.x - 1, y: keys.y }
         } else if (event.key === "ArrowDown") {
             keys = { x: keys.x + 1, y: keys.y }
+        } else if (this.state.player === "creatingpath") {
+            return undefined
+           
         }
         console.log("event", keys)
         console.log("player", this.state.player)

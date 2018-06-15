@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/marymafa/Free-Code-Camp-Assignments/tree/master/free-code-camp-projects/Markdown%20Previewer/react/my-app",
+  "homepage": "https://marymafa.github.io/markdown-preview",
   "dependencies": {
     "axios": "^0.18.0",
     "debug-log": "^1.0.1",
