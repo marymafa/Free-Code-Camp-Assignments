@@ -7,27 +7,60 @@ export default class Layout extends React.Component {
         this.state = {
             grid: dungeon.creatingPath(),
             enemies: [5],
-            weapon: [4],
-            health: [7],
+            weapon: [14],
+            health: [100],
             player: { x: 5, y: 0 }
         }
         this.movePlayer = this.movePlayer.bind(this);
 
     }
     componentDidMount() {
-        //his.CreatingWeapons();
+        this.playerMoveToTheNextCell();
         document.onkeydown = this.movePlayer;
-        this.setState({ grid: dungeon.creatingPath() });
+        var gridWithPaths = dungeon.creatingPath()
+        this.setState({ grid: this.CombiningRandoms(gridWithPaths) });
+
     }
-    GetRandomEnemies() {
+    GetRandomEnemies(grid) {
         var getEnenmies = this.state.enemies;
+        console.log("grid", grid)
         for (var i = 0; i < 8; i++) {
-            var randomEnemies = { x: Math.floor(Math.random() * 10), y: Math.floor(Math.random() * 10), enemies: <p> &#x26DF;</p> };
-            if (getEnenmies.indexOf(randomEnemies) === -1) {
-                getEnenmies.push(randomEnemies)
+            var index = Math.floor(Math.random() * grid.length)
+            if (grid[index].pathway === 'true' && grid[index].containing === null) {
+                grid[index].containing = <p>&#x2639;</p>;
+
             }
         }
-        return getEnenmies;
+        return grid;
+    }
+    RandomHealths(grid) {
+        var getEnenmies = this.state.enemies;
+        console.log("grid", grid)
+        for (var i = 0; i < 8; i++) {
+            var index = Math.floor(Math.random() * grid.length)
+            if (grid[index].pathway === 'true' && grid[index].containing === null) {
+                grid[index].containing = <p> &#x265E;</p>;
+            }
+        }
+        return grid;
+    }
+    randomWeapons(grid) {
+        var getEnenmies = this.state.enemies;
+        console.log("grid", grid)
+        for (var i = 0; i < 8; i++) {
+            var index = Math.floor(Math.random() * grid.length)
+            if (grid[index].pathway === 'true' && grid[index].containing === null) {
+                grid[index].containing = <p>&#x2692;</p>;
+            }
+        }
+        return grid;
+    }
+    CombiningRandoms(grid) {
+        var enemies = this.GetRandomEnemies(grid);
+        var weapons = this.randomWeapons(enemies);
+        var healths = this.RandomHealths(weapons);
+        var player = this.setingPlayer(healths);
+        return player;
     }
     randomValues() {
         var random = this.GetRandomEnemies();
@@ -35,50 +68,66 @@ export default class Layout extends React.Component {
             grid: dungeon.creatingPath(random),
         })
     }
-    movePlayer(event) {
-        var keys = this.state.player
-        if (event.key === "ArrowLeft") {
-            keys = { x: keys.x, y: keys.y - 1 }
-        } else if (event.key === "ArrowRight") {
-            keys = { x: keys.x, y: keys.y + 1 }
-        } else if (event.key === "ArrowUp") {
-            keys = { x: keys.x - 1, y: keys.y }
-        } else if (event.key === "ArrowDown") {
-            keys = { x: keys.x + 1, y: keys.y }
-        } else if (this.state.player === "creatingpath") {
-            return undefined
+    playerMoveToTheNextCell() {
+        var replaceEnemies = this.state.enemies;
 
+        var playerMove = this.state.player;
+        for (var i = 0; i < replaceEnemies.length; i++) {
+            for (var j = 0; j < playerMove.length; j++) {
+                if (replaceEnemies[i].x === playerMove[j].x && replaceEnemies[i].y === playerMove[j].y) {
+                    replaceEnemies[i] = playerMove[j]
+                }
+            }
         }
-        console.log("event", keys)
-        console.log("player", this.state.player)
+        this.setState({ player: playerMove, enemies: replaceEnemies })
+        console.log("replaceEnemies", replaceEnemies, playerMove)
+        return replaceEnemies;
+    }
+    setingPlayer(element) {
+        if (element.x === this.state.player.x && element.y === this.state.player.y) {
+            element.containing = <p className="icon">&#x26F9;</p>;
+        }
+        return element;
+    }
 
-        this.setState({ player: keys })
+    movePlayer(event) {
+        var playerPosition = this.state.player
+        var field = this.state.grid
+        if (event.key === "ArrowLeft") {
+            playerPosition = { x: playerPosition.x, y: playerPosition.y - 1 }
+        } else if (event.key === "ArrowRight") {
+            playerPosition = { x: playerPosition.x, y: playerPosition.y + 1 }
+        } else if (event.key === "ArrowUp") {
+            playerPosition = { x: playerPosition.x - 1, y: playerPosition.y }
+        } else if (event.key === "ArrowDown") {
+            playerPosition = { x: playerPosition.x + 1, y: playerPosition.y }
+        }
+        var newPlayerPosition = field.find(cell => cell.x === playerPosition.x && cell.y === playerPosition.y);
+        console.log("player", newPlayerPosition)
+        for (var i = 0; i < field.length; i++) {
+            if (field[i].x === newPlayerPosition.x && field[i].y === newPlayerPosition.y && field[i].containing === '&#x2639;') {
+                field[i].containing === null
+            }
+        }
 
+        this.setState({ player: playerPosition, grid: field })
     }
     render() {
         return (
             <div>
                 <h1>Dungeon Crawler Game</h1>
-                <h1 > &#x2692;Weapon:{this.state.weapon}</h1>
-                <h1 > &#x265E;Health:{this.state.health}</h1>
-                <h1 >&#x2639;Enemies:{this.state.enemies}</h1>
+                <h2 > &#x2692;Weapon:{this.state.weapon}</h2>
+                <h2 > &#x265E;Health:{this.state.health}</h2>
+                <h2 >&#x2639;Enemies:{this.state.enemies}</h2>
                 <div className="grid">{
                     this.state.grid.map(element => {
                         if (element.x === this.state.player.x && element.y === this.state.player.y) {
-                            element.display = <p className="icon">&#x26F9;</p>;
-                        } else if (element.x === 5 && element.y === 2) {
-                            element.display = <p className="icon">&#x2639;</p>
-                        } else if (element.x === 4 && element.y === 4) {
-                            element.display = <p className="icon"> &#x265E;</p>
-                        } else if (element.x === 5 && element.y === 4) {
-                            element.display = <p className="icon"> &#x2692;</p>
-                        } else {
-                            element.display = null;
+                            element.containing = <p className="icon">&#x26F9;</p>;
                         }
-                        return <button className="grid" id={element.pathway} >{element.display}</button>
-
+                        return <button className="grid" className={element.pathway} >{element.containing}</button>
                     })
-                }</div>
+
+                } </div>
             </div>
         )
     }

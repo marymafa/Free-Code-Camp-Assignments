@@ -4,15 +4,15 @@
     grid-template-rows: repeat(10, 60px);
 }
 
-h1 {
+h1, h2 {
     color: forestgreen
 }
 
-#true {
+.false {
     background-color: mediumseagreen
 }
 
-#false {
+.true {
     background-color: black
 }
 
