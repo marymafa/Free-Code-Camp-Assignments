@@ -6,12 +6,16 @@ export default class Layout extends React.Component {
         super(props);
         this.state = {
             grid: dungeon.creatingPath(),
-            enemies: [],
+            enemies: [5],
+            weapon: [4],
+            health: [7],
             player: { x: 5, y: 0 }
         }
         this.movePlayer = this.movePlayer.bind(this);
+
     }
     componentDidMount() {
+        //his.CreatingWeapons();
         document.onkeydown = this.movePlayer;
         this.setState({ grid: dungeon.creatingPath() });
     }
@@ -31,7 +35,6 @@ export default class Layout extends React.Component {
             grid: dungeon.creatingPath(random),
         })
     }
-
     movePlayer(event) {
         var keys = this.state.player
         if (event.key === "ArrowLeft") {
@@ -44,7 +47,7 @@ export default class Layout extends React.Component {
             keys = { x: keys.x + 1, y: keys.y }
         } else if (this.state.player === "creatingpath") {
             return undefined
-           
+
         }
         console.log("event", keys)
         console.log("player", this.state.player)
@@ -56,22 +59,24 @@ export default class Layout extends React.Component {
         return (
             <div>
                 <h1>Dungeon Crawler Game</h1>
+                <h1 > &#x2692;Weapon:{this.state.weapon}</h1>
+                <h1 > &#x265E;Health:{this.state.health}</h1>
+                <h1 >&#x2639;Enemies:{this.state.enemies}</h1>
                 <div className="grid">{
                     this.state.grid.map(element => {
                         if (element.x === this.state.player.x && element.y === this.state.player.y) {
                             element.display = <p className="icon">&#x26F9;</p>;
                         } else if (element.x === 5 && element.y === 2) {
-                            element.display = <p className="icon">  &#x2639;</p>
+                            element.display = <p className="icon">&#x2639;</p>
                         } else if (element.x === 4 && element.y === 4) {
                             element.display = <p className="icon"> &#x265E;</p>
                         } else if (element.x === 5 && element.y === 4) {
                             element.display = <p className="icon"> &#x2692;</p>
-                        } else if (element.x === 1 && element.y === 2) {
-                            element.display = <p className="icon"> &#x26DF;</p>
                         } else {
                             element.display = null;
                         }
                         return <button className="grid" id={element.pathway} >{element.display}</button>
+
                     })
                 }</div>
             </div>
