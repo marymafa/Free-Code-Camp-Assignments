@@ -6,8 +6,8 @@ export default class Layout extends React.Component {
         super(props);
         this.state = {
             grid: dungeon.creatingPath(),
-            enemies: [5],
-            weapon: [14],
+            Level: 0,
+            weapon: "stick",
             health: [100],
             player: { x: 1, y: 0 },
             oldLoction: { x: 1, y: 0 }
@@ -87,7 +87,7 @@ export default class Layout extends React.Component {
         //         field[i].containing === null
         //     }
         // }
-        this.setState({ player: playerPosition, oldLoction: oldLoction })//, grid: field 
+        this.setState({ player: playerPosition, oldLoction: oldLoction })//, grid: field  
     }
     render() {
         return (
@@ -95,7 +95,7 @@ export default class Layout extends React.Component {
                 <h1>Dungeon Crawler Game</h1>
                 <h2 > &#x2692;Weapon:{this.state.weapon}</h2>
                 <h2 > &#x265E;Health:{this.state.health}</h2>
-                <h2 >&#x2639;Enemies:{this.state.enemies}</h2>
+                <h2 >Level:{this.state.Level}</h2>
                 <div className="grid">{
                     this.state.grid.map(element => {
                         if (element.x === this.state.oldLoction.x && element.y === this.state.oldLoction.y) {
