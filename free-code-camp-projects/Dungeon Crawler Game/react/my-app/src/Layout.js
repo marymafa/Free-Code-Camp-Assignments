@@ -9,13 +9,13 @@ export default class Layout extends React.Component {
             enemies: [5],
             weapon: [14],
             health: [100],
-            player: { x: 5, y: 0 }
+            player: { x: 1, y: 0 },
+            oldLoction: { x: 1, y: 0 }
+
         }
         this.movePlayer = this.movePlayer.bind(this);
-
     }
     componentDidMount() {
-        this.playerMoveToTheNextCell();
         document.onkeydown = this.movePlayer;
         var gridWithPaths = dungeon.creatingPath()
         this.setState({ grid: this.CombiningRandoms(gridWithPaths) });
@@ -59,8 +59,7 @@ export default class Layout extends React.Component {
         var enemies = this.GetRandomEnemies(grid);
         var weapons = this.randomWeapons(enemies);
         var healths = this.RandomHealths(weapons);
-        var player = this.setingPlayer(healths);
-        return player;
+        return healths;
     }
     randomValues() {
         var random = this.GetRandomEnemies();
@@ -68,31 +67,9 @@ export default class Layout extends React.Component {
             grid: dungeon.creatingPath(random),
         })
     }
-    playerMoveToTheNextCell() {
-        var replaceEnemies = this.state.enemies;
-
-        var playerMove = this.state.player;
-        for (var i = 0; i < replaceEnemies.length; i++) {
-            for (var j = 0; j < playerMove.length; j++) {
-                if (replaceEnemies[i].x === playerMove[j].x && replaceEnemies[i].y === playerMove[j].y) {
-                    replaceEnemies[i] = playerMove[j]
-                }
-            }
-        }
-        this.setState({ player: playerMove, enemies: replaceEnemies })
-        console.log("replaceEnemies", replaceEnemies, playerMove)
-        return replaceEnemies;
-    }
-    setingPlayer(element) {
-        if (element.x === this.state.player.x && element.y === this.state.player.y) {
-            element.containing = <p className="icon">&#x26F9;</p>;
-        }
-        return element;
-    }
-
     movePlayer(event) {
-        var playerPosition = this.state.player
-        var field = this.state.grid
+        var playerPosition = this.state.player;
+        var oldLoction = this.state.player;
         if (event.key === "ArrowLeft") {
             playerPosition = { x: playerPosition.x, y: playerPosition.y - 1 }
         } else if (event.key === "ArrowRight") {
@@ -102,15 +79,15 @@ export default class Layout extends React.Component {
         } else if (event.key === "ArrowDown") {
             playerPosition = { x: playerPosition.x + 1, y: playerPosition.y }
         }
-        var newPlayerPosition = field.find(cell => cell.x === playerPosition.x && cell.y === playerPosition.y);
-        console.log("player", newPlayerPosition)
-        for (var i = 0; i < field.length; i++) {
-            if (field[i].x === newPlayerPosition.x && field[i].y === newPlayerPosition.y && field[i].containing === '&#x2639;') {
-                field[i].containing === null
-            }
-        }
-
-        this.setState({ player: playerPosition, grid: field })
+        // var field = this.state.grid
+        // var newPlayerPosition = field.find(cell => cell.x === playerPosition.x && cell.y === playerPosition.y);
+        // console.log("player", newPlayerPosition)
+        // for (var i = 0; i < field.length; i++) {
+        //     if (field[i].x === newPlayerPosition.x && field[i].y === newPlayerPosition.y && field[i].containing === '&#x2639;') {
+        //         field[i].containing === null
+        //     }
+        // }
+        this.setState({ player: playerPosition, oldLoction: oldLoction })//, grid: field 
     }
     render() {
         return (
@@ -121,12 +98,14 @@ export default class Layout extends React.Component {
                 <h2 >&#x2639;Enemies:{this.state.enemies}</h2>
                 <div className="grid">{
                     this.state.grid.map(element => {
+                        if (element.x === this.state.oldLoction.x && element.y === this.state.oldLoction.y) {
+                            element.containing = null;
+                        }
                         if (element.x === this.state.player.x && element.y === this.state.player.y) {
                             element.containing = <p className="icon">&#x26F9;</p>;
                         }
                         return <button className="grid" className={element.pathway} >{element.containing}</button>
                     })
-
                 } </div>
             </div>
         )
