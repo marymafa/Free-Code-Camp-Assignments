@@ -4,4 +4,9 @@ const createGrid = () => {
 const movePlayer = (moves) => {
     return { type: "MOVE_PLAYER", payload: moves }
 }
-module.exports = { createGrid, movePlayer }
+const returnRandomVals = () => {
+    return {
+        type: "RANDOM_VALUES"
+    }
+}
+module.exports = { createGrid, movePlayer, returnRandomVals }

@@ -94,7 +94,6 @@ export default class Layout extends React.Component {
                 player: this.state.health - 10
             })
         }
-   v mcbkc     console.log("player", this.state.health);
     }
 obsta
 

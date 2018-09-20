@@ -18,7 +18,9 @@ const reducers = (state = initialState, action) => {
             break;
         case "MOVE_PLAYER":
             newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: makingPathWays(action.payload.new) };
-            break
+            break;
+        case "RANDOM_VALUES":
+            newState = { ...newState, grid:action.payload }
     }
     return newState;
 }
