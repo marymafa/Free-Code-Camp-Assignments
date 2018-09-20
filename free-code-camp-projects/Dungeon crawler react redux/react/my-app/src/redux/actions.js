@@ -4,9 +4,9 @@ const createGrid = () => {
 const movePlayer = (moves) => {
     return { type: "MOVE_PLAYER", payload: moves }
 }
-const returnRandomVals = () => {
+const returnRandomVals = (displayRandomly) => {
     return {
-        type: "RANDOM_VALUES"
+        type: "RANDOM_VALUES", payload: displayRandomly
     }
 }
 module.exports = { createGrid, movePlayer, returnRandomVals }

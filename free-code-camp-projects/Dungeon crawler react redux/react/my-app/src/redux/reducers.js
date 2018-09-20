@@ -20,8 +20,14 @@ const reducers = (state = initialState, action) => {
             newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: makingPathWays(action.payload.new) };
             break;
         case "RANDOM_VALUES":
-            newState = { ...newState, grid:action.payload }
+            newState = { ...newState, health: action.payload }
     }
     return newState;
 }
+
+// const addingAnotherReducer = (state = initialState, action) => {
+//     var newState = state;
+//     switch (action.type) {
+// }
+
 export default reducers;

@@ -13,9 +13,7 @@ class App extends React.Component {
 
     componentDidMount() {
         document.onkeydown = this.movePlayer;
-        var gridWithPaths = this.props.grid
-        this.props.randomVals({ grid: this.CombiningRandoms(gridWithPaths) });
-
+        this.CombiningRandoms()
     }
     movePlayer(event) {
         var playerPosition = this.props.player;
@@ -39,7 +37,7 @@ class App extends React.Component {
         for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
-                grid[index].containing = <p> &#x26C7;</p>;
+                grid[index].containing = "enemies";
             }
         }
         return grid;
@@ -49,7 +47,7 @@ class App extends React.Component {
         for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
-                grid[index].containing = <p> &#x26D1;</p>;
+                grid[index].containing = "health";
             }
         }
         return grid;
@@ -59,7 +57,7 @@ class App extends React.Component {
         for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
-                grid[index].containing = <p>&#x2692;</p>;
+                grid[index].containing = "weapon";
             }
         }
         return grid;
@@ -69,6 +67,7 @@ class App extends React.Component {
         var enemies = this.GetRandomEnemies(grid);
         var weapons = this.randomWeapons(enemies);
         var healths = this.RandomHealths(weapons);
+        this.props.randomVals({ grid: this.RandomHealths(grid) })
         return healths;
     }
 
@@ -86,19 +85,27 @@ class App extends React.Component {
                         if (element.containing === "player") {
                             element.containing = "none"
                             element.icon = <p className="icon"><span>&#x26F9;</span></p>;
+                        } else if (element.containing === "enemies") {
+                            element.icon = <p className="icon"><span> &#9760;</span></p>;
+                        } else if (element.containing === "health") {
+                            element.icon = <p className="icon"><span>&#x26D1;</span></p>;
+                        } else if (element.containing === "weapon") {
+                            element.icon = <p className="icon"><span>&#x2692;</span></p>;
                         }
                         return <button className="grid" className={element.pathway} >{element.icon}</button>
                     })
                 } </div>
             </div >
         )
+       
 
     }
 }
 const mapStateToProps = (state, grid, player) => {
     return {
         grid: state.grid,
-        player: state.player
+        player: state.player,
+        health: state.health
     }
 }
 const mapDispatchToProps = (dispatch) => {
