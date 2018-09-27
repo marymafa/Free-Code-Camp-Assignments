@@ -1,13 +1,18 @@
 import makingPathWays from '../game-functions';
+import { combineReducers } from 'redux';
 const initialState = {
-    Xp: 0,
     enemy: "stick",
-    weapon: "knife",
-    health: [100],
+    health: 100,
+    xP: 60,
+    weapons: [
+        { name: 'Laser Pistol', damage: 15 },
+        { name: 'Laser Rifle', damage: 19 },
+        { name: 'Electric ChainSaw', damage: 31 },
+        { name: 'Dark Energy Cannon', damage: 40 },
+    ],
     Dungeon: 1,
     player: { x: 1, y: 0 },
     oldLoction: { x: 1, y: 0 },
-    count: 1000,
     grid: makingPathWays({ x: 1, y: 0 })
 }
 const reducers = (state = initialState, action) => {
@@ -18,16 +23,16 @@ const reducers = (state = initialState, action) => {
             break;
         case "MOVE_PLAYER":
             newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: makingPathWays(action.payload.new) };
+            if (newState.player) {
+                newState.xP += 20
+                newState.health += 15
+            }
+            return newState
             break;
         case "RANDOM_VALUES":
-            newState = { ...newState, health: action.payload }
+            newState = { ...newState, enemy: action.payload };
     }
     return newState;
 }
-
-// const addingAnotherReducer = (state = initialState, action) => {
-//     var newState = state;
-//     switch (action.type) {
-// }
 
 export default reducers;

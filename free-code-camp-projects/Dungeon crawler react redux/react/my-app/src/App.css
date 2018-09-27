@@ -5,7 +5,7 @@
     grid-template-rows: repeat(10, 60px);
 }
 
-h1, h2 {
+h1, h2,h3 {
     color: forestgreen
 }
 
@@ -14,7 +14,7 @@ h1, h2 {
 }
 
 .true {
-    background-color: white
+    background-color: whitesmoke
 }
 
 P {

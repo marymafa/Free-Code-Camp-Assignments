@@ -77,14 +77,8 @@ export default class Layout extends React.Component {
         } else if (event.key === "ArrowDown") {
             playerPosition = { x: playerPosition.x + 1, y: playerPosition.y }
         }
-        // var actions = [];
-        // if (playerPosition.weapon && playerPosition.weapon === 'enemy' && playerPosition.weapon !== 'boss') {
-        //     actions.push(playerPosition);
-        // }
-
         this.setState({ player: playerPosition, oldLoction: oldLoction })
         console.log("playerPositions", playerPosition)
-
     }
     attactingTheEnemy() {
         var player = this.state.player;
@@ -95,7 +89,6 @@ export default class Layout extends React.Component {
             })
         }
     }
-obsta
 
     render() {
         return (
