@@ -76,7 +76,7 @@ class App extends React.Component {
     }
 
     render() {
-        console.log("hey", this.props.weapons)
+        console.log("hey", this.props.player.weapon = this.props.grid.weapon)
         return (
             <div>
                 <h1>Roguelike Dungeon Crawler Game</h1>

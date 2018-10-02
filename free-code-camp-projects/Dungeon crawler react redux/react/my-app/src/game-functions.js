@@ -73,6 +73,8 @@ const makingPathWays = (player) => {
             return item.x === player.x && item.y === player.y;
         })
         initialGrid[initialGrid.indexOf(playerFound)].containing = "player";
+    } else {
+        initialGrid[initialGrid.indexOf(playerFound)].containing = "undefined";
     }
     return initialGrid;
 }

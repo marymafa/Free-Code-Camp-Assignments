@@ -3,12 +3,26 @@ import { combineReducers } from 'redux';
 const initialState = {
     enemy: "stick",
     health: 100,
-    xP: 60,
+    xP: 100,
     weapons: [
-        { name: 'Laser Pistol', damage: 15 },
-        { name: 'Laser Rifle', damage: 19 },
-        { name: 'Electric ChainSaw', damage: 31 },
-        { name: 'Dark Energy Cannon', damage: 40 },
+        {
+            entityName: 'brass knuckles',
+            entityType: 'weapon',
+            health: 0,
+            attack: 7
+        },
+        {
+            entityName: 'serrated dagger',
+            entityType: 'weapon',
+            health: 0,
+            attack: 12
+        },
+        {
+            entityName: 'katana',
+            entityType: 'weapon',
+            health: 0,
+            attack: 16
+        },
     ],
     Dungeon: 1,
     player: { x: 1, y: 0 },
@@ -24,15 +38,52 @@ const reducers = (state = initialState, action) => {
         case "MOVE_PLAYER":
             newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: makingPathWays(action.payload.new) };
             if (newState.player) {
-                newState.xP += 20
-                newState.health += 15
+                newState.xP += 20;
+                newState.health += 20;
+            } else {
+                newState.xP -= 10;
+                newState.health -= 10;
             }
-            return newState
+            return newState;
+            console.log("newstate", newState)
             break;
         case "RANDOM_VALUES":
             newState = { ...newState, enemy: action.payload };
+            break;
     }
     return newState;
 }
+//const playerFightOptionsSaga = (state = initialState, action) => {
+// switch(action.type){
+// case 'SWITCH_WEAPON':
+// return {
+//     ...state,
+//     entities: {
+//       ...state.entities,
+//       'player': {
+//         ...state.entities.player,
+//         weapon: action.weapon,
+//         attack: state.entities.player.attack + action.attack
+//       }
+//     }
+//   };
+// case 'GAIN_XP':
+// return {
+//   ...state,
+//   entities: {
+//     ...state.entities,
+//     'player': {
+//       ...state.entities.player,
+//       toNextLevel: state.entities.player.toNextLevel - action.xp
+//     }
+//   }
+// };
+// case 'health':
+//           heal('player', entity.health);
+//           removeEntity(entityName);
+//           move('player', vector);
+//           break;
+// }
 
+//}
 export default reducers;
