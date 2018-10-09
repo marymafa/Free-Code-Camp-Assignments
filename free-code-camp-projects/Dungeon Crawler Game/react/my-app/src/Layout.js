@@ -19,8 +19,6 @@ export default class Layout extends React.Component {
         this.movePlayer = this.movePlayer.bind(this);
     }
     componentDidMount() {
-        //this.xpPoints();
-        this.attactingTheEnemy();
         document.onkeydown = this.movePlayer;
         var gridWithPaths = dungeon.creatingPath()
         this.setState({ grid: this.CombiningRandoms(gridWithPaths) });

@@ -15,23 +15,59 @@ const initializingGrid = () => {
     }
     return grid;
 }
+export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons) => {
+    var newGrid = makingPathWays(playerLocation);
 
-const makingPathWays = (player) => {
+    var enemies = newEnemies.forEach(function (enemy) {
+        var findEnemiesLocation = newGrid.find((ele) => {
+            return ele.x === enemy.x && ele.y === enemy.y
+        })
+        newGrid[newGrid.indexOf(findEnemiesLocation)].containing = "enemies";
+
+    });
+    var healths = newHealths.forEach(function (health) {
+        var findHealthsLocation = newGrid.find((ele) => {
+            return ele.x === health.x && ele.y === health.y
+        })
+        newGrid[newGrid.indexOf(findHealthsLocation)].containing = "health";
+
+    });
+    var weapons = newWeapons.forEach(function (weapons) {
+        var findWeaponsLocation = newGrid.find((ele) => {
+            return ele.x === weapons.x && ele.y === weapons.y
+        })
+        newGrid[newGrid.indexOf(findWeaponsLocation)].containing = "weapon";
+
+    });
+    return newGrid;
+}
+
+export const makingPathWays = (player) => {
     const initialGrid = initializingGrid();
     const creatingpath = [
         { x: 0, y: 0, pathway: 'false', containing: null },
         { x: 0, y: 1, pathway: 'false', containing: null },
         { x: 0, y: 4, pathway: 'false', containing: null },
         { x: 0, y: 5, pathway: 'false', containing: null },
-        { x: 4, y: 3, pathway: 'false', containing: null },
+        { x: 4, y: 4, pathway: 'false', containing: null },
+        { x: 3, y: 5, pathway: 'false', containing: null },
         { x: 4, y: 6, pathway: 'false', containing: null },
+        { x: 3, y: 4, pathway: 'false', containing: null },
+        { x: 4, y: 9, pathway: 'false', containing: null },
+        { x: 5, y: 9, pathway: 'false', containing: null },
+        { x: 5, y: 9, pathway: 'false', containing: null },
+        { x: 6, y: 9, pathway: 'false', containing: null },
+        { x: 4, y: 1, pathway: 'false', containing: null },
+        { x: 4, y: 2, pathway: 'false', containing: null },
+        { x: 4, y: 1, pathway: 'false', containing: null },
+        { x: 4, y: 0, pathway: 'false', containing: null },
         { x: 4, y: 5, pathway: 'false', containing: null },
         { x: 2, y: 2, pathway: 'false', containing: null },
         { x: 5, y: 5, pathway: 'false', containing: null },
         { x: 2, y: 1, pathway: 'false', containing: null },
         { x: 2, y: 2, pathway: 'false', containing: null },
         { x: 3, y: 0, pathway: 'false', containing: null },
-        { x: 4, y: 6, pathway: 'false', containing: null },
+        { x: 4, y: 5, pathway: 'false', containing: null },
         { x: 4, y: 7, pathway: 'false', containing: null },
         { x: 3, y: 2, pathway: 'false', containing: null },
         { x: 4, y: 2, pathway: 'false', containing: null },
@@ -47,7 +83,9 @@ const makingPathWays = (player) => {
         { x: 7, y: 3, pathway: 'false', containing: null },
         { x: 8, y: 8, pathway: 'false', containing: null },
         { x: 8, y: 9, pathway: 'false', containing: null },
-        { x: 9, y: 8, pathway: 'false', containing: null },
+        { x: 8, y: 7, pathway: 'false', containing: null },
+        { x: 8, y: 6, pathway: 'false', containing: null },
+        { x: 9, y: 6, pathway: 'false', containing: null },
         { x: 2, y: 0, pathway: 'false', containing: null },
         { x: 1, y: 9, pathway: 'false', containing: null },
         { x: 1, y: 8, pathway: 'false', containing: null },
@@ -72,10 +110,28 @@ const makingPathWays = (player) => {
         var playerFound = initialGrid.find(item => {
             return item.x === player.x && item.y === player.y;
         })
+
         initialGrid[initialGrid.indexOf(playerFound)].containing = "player";
-    } else {
-        initialGrid[initialGrid.indexOf(playerFound)].containing = "undefined";
+
     }
     return initialGrid;
+    // var findItems= makingPathWays.find(element => element.x === findingNewUserLocation.x && element.y === findingNewUserLocation.y);
+
+    // if (findingAllTheItemsThatAppearInStagesAndNewLocation === undefined) {
+    //     board[board.indexOf(findingOldUserLocation)].occupied = "player";
+    //     board[board.indexOf(findingNewUserLocation)].occupied = "none";
+    //     theOldLocation = board[board.indexOf(findingOldUserLocation)];
+    //     theNewLocation = board[board.indexOf(findingOldUserLocation)];
+
+    // } else {
+    //     board[board.indexOf(findingOldUserLocation)].occupied = "none";
+    //     board[board.indexOf(findingOldUserLocation)].display = null;
+    //     board[board.indexOf(findingNewUserLocation)].occupied = "player";
+    //     theOldLocation = board[board.indexOf(findingOldUserLocation)];
+    //     theNewLocation = board[board.indexOf(findingNewUserLocation)];
+    // }
+    // return { newBoard: board, oldLocation: theOldLocation, currentLocation: theNewLocation };
+
+
+
 }
-module.exports = makingPathWays;

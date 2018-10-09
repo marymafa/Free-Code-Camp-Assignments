@@ -1,27 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
-import createGrid from "../redux/reducers";
 import * as action from "../redux/actions";
 import makingPathWays from '../game-functions';
+import { updateGrid } from '../game-functions';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             grid: this.props.grid,
-            random: this.combiningRandoms()
         }
         this.movePlayer = this.movePlayer.bind(this);
     }
     componentDidMount() {
         document.onkeydown = this.movePlayer;
+        this.randomValues();
+        this.props.buildGrid();
     }
-    componentWillReceiveProps() {
-        this.combiningRandoms()
-        this.setState({ grid: this.props.grid })
+    randomValues() {
+        var gridWithPaths = this.props.grid
+        this.setState({ grid: this.combiningRandoms(gridWithPaths) });
     }
     movePlayer(event) {
-        //
         var playerPosition = this.props.player;
         var oldLoction = this.props.player;
         if (event.key === "ArrowLeft") {
@@ -33,37 +33,54 @@ class App extends React.Component {
         } else if (event.key === "ArrowDown") {
             playerPosition = { x: playerPosition.x + 1, y: playerPosition.y }
         }
-        this.props.playerMove({ new: playerPosition, old: oldLoction })
+        var grid = this.state.grid;
+        console.log("heka", this.state.grid.find((ele) => { ele.x === grid.x && ele.y === grid.y }))
+
+        var newGrid = updateGrid(playerPosition, this.props.enemy, this.props.healths, this.props.weapons);
+        this.props.playerMove({ new: playerPosition, old: oldLoction, grid: newGrid });
+        this.props.buildGrid(newGrid);
+        this.setState({ grid: newGrid })
+
         return playerPosition;
     }
     GetRandomEnemies() {
         var grid = this.props.grid
+        var enemies = [];
         for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "enemies";
+                enemies.push(grid[index]);
             }
         }
+        this.props.updateEnemies(enemies);
         return grid;
     }
     RandomHealths() {
-        var grid = this.props.grid
+        var grid = this.props.grid;
+        var healths = [];
         for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "health";
+                healths.push(grid[index]);
             }
         }
+        this.props.updateHealths(healths);
         return grid;
     }
     randomWeapons() {
-        var grid = this.props.grid
+
+        var grid = this.props.grid;
+        var weapons = [];
         for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "weapon";
+                weapons.push(grid[index]);
             }
         }
+        this.props.updateWeapons(weapons)
         return grid;
     }
     combiningRandoms() {
@@ -71,22 +88,20 @@ class App extends React.Component {
         var enemies = this.GetRandomEnemies(grid);
         var weapons = this.randomWeapons(enemies);
         var healths = this.RandomHealths(weapons);
-        this.props.randomVals({ grid: this.RandomHealths(grid) })
         return healths;
     }
-
     render() {
-        console.log("hey", this.props.player.weapon = this.props.grid.weapon)
+        console.log("this.props", this.props);
+
         return (
             <div>
                 <h1>Roguelike Dungeon Crawler Game</h1>
                 <h2>Dungeon:{this.props.Dungeon}</h2>
                 <h2>Kill the boss in dungeon 3</h2>
-                <h3>xP:{this.props.xP}</h3>
+                <h3>experience  :{this.props.xP}</h3>
                 <h3>Health:{this.props.health}</h3>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        console.log("rimax", element.containing)
                         if (element.containing === this.props.oldLoction) {
                             element.containing = null;
                         } else if (element.containing === "player") {
@@ -104,24 +119,24 @@ class App extends React.Component {
                 } </div>
             </div >
         )
-
-
     }
 }
-const mapStateToProps = (state, grid, player, xp, Dungeon, health, weapons) => {
+const mapStateToProps = (state) => {
     return {
+        state: state,
         grid: state.grid,
         player: state.player,
         xP: state.xP,
+        enemy: state.enemies,
         Dungeon: state.Dungeon,
-        health: state.health,
+        healths: state.healths,
         weapons: state.weapons
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        buildGrid: initialGrid => {
-            dispatch(action.createGrid(initialGrid))
+        buildGrid: newGrid => {
+            dispatch(action.createGrid(newGrid))
         },
         playerMove: oldAndNewMoves => {
             dispatch(action.movePlayer(oldAndNewMoves))
@@ -131,10 +146,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         attackingTheEnemy: () => {
             dispatch(action.attackEnemy())
+        },
+        updateEnemies: (newEnemies) => {
+            dispatch(action.storeEnemies(newEnemies))
+        },
+        updateHealths: (newHealths) => {
+            dispatch(action.storeHealths(newHealths))
+        },
+        updateWeapons: (newWeapons) => {
+            dispatch(action.storeWeapons(newWeapons))
         }
     }
 }
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,28 +1,31 @@
-import makingPathWays from '../game-functions';
+
 import { combineReducers } from 'redux';
+import { makingPathWays } from "../game-functions";
+
 const initialState = {
-    enemy: "stick",
-    health: 100,
-    xP: 100,
+    enemies: [],
+    healths: [],
+    health: 60,
+    xP: 0,
     weapons: [
         {
-            entityName: 'brass knuckles',
-            entityType: 'weapon',
+            name: 'brass knuckles',
+            type: 'weapon',
             health: 0,
             attack: 7
         },
         {
-            entityName: 'serrated dagger',
-            entityType: 'weapon',
+            name: 'serrated dagger',
+            type: 'weapon',
             health: 0,
             attack: 12
         },
         {
-            entityName: 'katana',
-            entityType: 'weapon',
+            name: 'katana',
+            type: 'weapon',
             health: 0,
             attack: 16
-        },
+        }
     ],
     Dungeon: 1,
     player: { x: 1, y: 0 },
@@ -36,54 +39,25 @@ const reducers = (state = initialState, action) => {
             newState = { ...newState, grid: action.payload };
             break;
         case "MOVE_PLAYER":
-            newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: makingPathWays(action.payload.new) };
-            if (newState.player) {
-                newState.xP += 20;
-                newState.health += 20;
-            } else {
-                newState.xP -= 10;
-                newState.health -= 10;
+            newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: action.payload.grid };
+            if (state.player) {
+                newState.health += 2
+                newState.xP += 2
             }
-            return newState;
-            console.log("newstate", newState)
             break;
-        case "RANDOM_VALUES":
-            newState = { ...newState, enemy: action.payload };
+        // case "RANDOM_VALUES":
+        //     newState = { ...state };
+        //     break;
+        case "SET_ENEMIES":
+            newState = { ...state, enemies: action.payload };
+            break;
+        case "SET_HEALTHS":
+            newState = { ...state, healths: action.payload };
+            break;
+        case "SET_WEAPONS":
+            newState = { ...state, weapons: action.payload };
             break;
     }
     return newState;
 }
-//const playerFightOptionsSaga = (state = initialState, action) => {
-// switch(action.type){
-// case 'SWITCH_WEAPON':
-// return {
-//     ...state,
-//     entities: {
-//       ...state.entities,
-//       'player': {
-//         ...state.entities.player,
-//         weapon: action.weapon,
-//         attack: state.entities.player.attack + action.attack
-//       }
-//     }
-//   };
-// case 'GAIN_XP':
-// return {
-//   ...state,
-//   entities: {
-//     ...state.entities,
-//     'player': {
-//       ...state.entities.player,
-//       toNextLevel: state.entities.player.toNextLevel - action.xp
-//     }
-//   }
-// };
-// case 'health':
-//           heal('player', entity.health);
-//           removeEntity(entityName);
-//           move('player', vector);
-//           break;
-// }
-
-//}
 export default reducers;
