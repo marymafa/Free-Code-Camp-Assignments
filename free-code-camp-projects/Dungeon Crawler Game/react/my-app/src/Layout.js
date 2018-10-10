@@ -75,8 +75,8 @@ export default class Layout extends React.Component {
         } else if (event.key === "ArrowDown") {
             playerPosition = { x: playerPosition.x + 1, y: playerPosition.y }
         }
-        this.setState({ player: playerPosition, oldLoction: oldLoction })
-        console.log("playerPositions", playerPosition)
+        
+        console.log("playerPositions", nextLocation)
     }
     attactingTheEnemy() {
         var player = this.state.player;

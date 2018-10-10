@@ -28,9 +28,9 @@ const initialState = {
         }
     ],
     Dungeon: 1,
-    player: { x: 1, y: 0 },
-    oldLoction: { x: 1, y: 0 },
-    grid: makingPathWays({ x: 1, y: 0 })
+    player: { x: 1, y: 0, pathway: "true", containing: "player" },
+    oldLocation: { x: 1, y: 0, pathway: "true", containing: "player" },
+    grid: makingPathWays({ x: 1, y: 0, pathway: "true", containing: "player" })
 }
 const reducers = (state = initialState, action) => {
     var newState = state;
@@ -39,7 +39,7 @@ const reducers = (state = initialState, action) => {
             newState = { ...newState, grid: action.payload };
             break;
         case "MOVE_PLAYER":
-            newState = { ...newState, player: action.payload.new, oldLoction: action.payload.old, grid: action.payload.grid };
+            newState = { ...newState, player: action.payload.new, oldLocation: action.payload.old, grid: action.payload.grid };
             if (state.player) {
                 newState.health += 2
                 newState.xP += 2

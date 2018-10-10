@@ -17,31 +17,37 @@ class App extends React.Component {
         this.randomValues();
         this.props.buildGrid();
     }
+
     randomValues() {
         var gridWithPaths = this.props.grid
         this.setState({ grid: this.combiningRandoms(gridWithPaths) });
     }
     movePlayer(event) {
-        var playerPosition = this.props.player;
-        var oldLoction = this.props.player;
-        if (event.key === "ArrowLeft") {
-            playerPosition = { x: playerPosition.x, y: playerPosition.y - 1 }
-        } else if (event.key === "ArrowRight") {
-            playerPosition = { x: playerPosition.x, y: playerPosition.y + 1 }
-        } else if (event.key === "ArrowUp") {
-            playerPosition = { x: playerPosition.x - 1, y: playerPosition.y }
-        } else if (event.key === "ArrowDown") {
-            playerPosition = { x: playerPosition.x + 1, y: playerPosition.y }
-        }
-        var grid = this.state.grid;
-        console.log("heka", this.state.grid.find((ele) => { ele.x === grid.x && ele.y === grid.y }))
+        var newLocation = this.props.player;
+        console.log("nextLocationhhh", newLocation)
+        var oldLocation = newLocation;
 
-        var newGrid = updateGrid(playerPosition, this.props.enemy, this.props.healths, this.props.weapons);
-        this.props.playerMove({ new: playerPosition, old: oldLoction, grid: newGrid });
+        if (event.key === "ArrowLeft") {
+            newLocation = { x: newLocation.x, y: newLocation.y - 1 }
+        } else if (event.key === "ArrowRight") {
+            newLocation = { x: newLocation.x, y: newLocation.y + 1 }
+        } else if (event.key === "ArrowUp") {
+            newLocation = { x: newLocation.x - 1, y: newLocation.y }
+        } else if (event.key === "ArrowDown") {
+            newLocation = { x: newLocation.x + 1, y: newLocation.y }
+        }
+        var nextLocation = this.state.grid.find(element => {
+            return element.x === newLocation.x && element.y === newLocation.y
+        })
+        if (nextLocation.pathway === "false") {
+            newLocation = oldLocation
+        } 
+        console.log("oldLocationhhh", oldLocation)
+        var newGrid = updateGrid(newLocation, this.props.enemy, this.props.healths, this.props.weapons);
+        this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
         this.props.buildGrid(newGrid);
         this.setState({ grid: newGrid })
-
-        return playerPosition;
+        return newLocation;
     }
     GetRandomEnemies() {
         var grid = this.props.grid
@@ -91,8 +97,6 @@ class App extends React.Component {
         return healths;
     }
     render() {
-        console.log("this.props", this.props);
-
         return (
             <div>
                 <h1>Roguelike Dungeon Crawler Game</h1>
@@ -102,7 +106,7 @@ class App extends React.Component {
                 <h3>Health:{this.props.health}</h3>
                 <div className="grid">{
                     this.state.grid.map(element => {
-                        if (element.containing === this.props.oldLoction) {
+                        if (element.containing === this.props.oldLocation) {
                             element.containing = null;
                         } else if (element.containing === "player") {
                             element.containing = "none"
@@ -126,6 +130,7 @@ const mapStateToProps = (state) => {
         state: state,
         grid: state.grid,
         player: state.player,
+        oldLocation: state.oldLocation,
         xP: state.xP,
         enemy: state.enemies,
         Dungeon: state.Dungeon,

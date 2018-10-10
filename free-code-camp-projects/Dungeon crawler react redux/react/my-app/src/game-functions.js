@@ -115,23 +115,4 @@ export const makingPathWays = (player) => {
 
     }
     return initialGrid;
-    // var findItems= makingPathWays.find(element => element.x === findingNewUserLocation.x && element.y === findingNewUserLocation.y);
-
-    // if (findingAllTheItemsThatAppearInStagesAndNewLocation === undefined) {
-    //     board[board.indexOf(findingOldUserLocation)].occupied = "player";
-    //     board[board.indexOf(findingNewUserLocation)].occupied = "none";
-    //     theOldLocation = board[board.indexOf(findingOldUserLocation)];
-    //     theNewLocation = board[board.indexOf(findingOldUserLocation)];
-
-    // } else {
-    //     board[board.indexOf(findingOldUserLocation)].occupied = "none";
-    //     board[board.indexOf(findingOldUserLocation)].display = null;
-    //     board[board.indexOf(findingNewUserLocation)].occupied = "player";
-    //     theOldLocation = board[board.indexOf(findingOldUserLocation)];
-    //     theNewLocation = board[board.indexOf(findingNewUserLocation)];
-    // }
-    // return { newBoard: board, oldLocation: theOldLocation, currentLocation: theNewLocation };
-
-
-
 }
