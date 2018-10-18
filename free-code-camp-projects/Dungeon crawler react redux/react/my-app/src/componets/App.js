@@ -60,11 +60,16 @@ class App extends React.Component {
         if (nextLocation.pathway === "false") {
             newLocation = oldLocation
         }
-        var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors);
+
+        if (nextLocation.containing === "doors") {
+            console.log("marymary",nextLocation.containing);
+            this.props.updateNewGrid();
+
+        }
+        var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
         this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
         this.props.buildGrid(newGrid);
         this.setState({ grid: newGrid })
-        // this.setState({ oldLocation: oldLocation })
         return newLocation;
     }
     GetRandomEnemies() {
@@ -130,17 +135,14 @@ class App extends React.Component {
     }
 
     render() {
-        console.log("this is my enemy", this.props.enemies)
         return (
             <div>
                 <h1>Roguelike Dungeon Crawler Game</h1>
-                <h2>Dungeon:{this.props.Dungeon}</h2>
-                <h2>Kill the boss in dungeon 3</h2>
                 <h3>experience :{this.props.xP}</h3>
                 <h3>health :{this.props.health}</h3>
                 <h3>life:{this.props.life}</h3>
                 <h4>Enemy:&#9760;</h4>
-                <h4>stateWeapons:&#x2692;</h4>
+                <h4>Weapons:&#x2692;</h4>
                 <h4>health:&#x26D1;</h4>
                 <div className="grid">{
                     this.state.grid.map(element => {
@@ -168,6 +170,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
     return {
         state: state,
+        currentStage: state.currentStage,
         grid: state.grid,
         player: state.player,
         oldLocation: state.oldLocation,
@@ -176,7 +179,6 @@ const mapStateToProps = (state) => {
         doors: state.doors,
         createNewGrid: state.createNewGrid,
         enemies: state.enemies,
-        Dungeon: state.Dungeon,
         healths: state.healths,
         weapons: state.weapons,
         newBoard: state.newBoard,
@@ -210,11 +212,8 @@ const mapDispatchToProps = (dispatch) => {
         updateDoors: (newDoors) => {
             dispatch(action.storeDoors(newDoors))
         },
-        updateNewGrid: (addNewGrid) => {
-            dispatch(action.createNewGrid(addNewGrid))
-        },
-        updateNewBord: (addNewBoard) => {
-            dispatch(action.createNewBoard(addNewBoard))
+        updateNewGrid: () => {
+            dispatch(action.createNewGrid())
         },
         increasePlayerHealth: (playerHealth) => {
             dispatch(action.increaseHealth(playerHealth))

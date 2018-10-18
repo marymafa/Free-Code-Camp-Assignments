@@ -1,8 +1,8 @@
 
 import { combineReducers } from 'redux';
-import { makingPathWays } from "../game-functions";
-import { makingPathWaysForStage3 } from "../stage3";
-import { makingPathWaysForStage2 } from "../stage2";
+import { createGrid, stage1 } from "../game-functions";
+import { stage3 } from "../stage3";
+import { stage2 } from "../stage2";
 
 const initialState = {
     enemies: [],
@@ -34,10 +34,9 @@ const initialState = {
     Dungeon: 1,
     player: { x: 1, y: 0 },
     oldLocation: { x: 1, y: 0 },
-    grid: makingPathWays({ x: 1, y: 0 }),
-    createNewGrid: makingPathWaysForStage2(),
-    newBoard: makingPathWaysForStage3()
-
+    currentStage: stage1,
+    grid: createGrid({ x: 1, y: 0 }, stage1),
+    stages: [stage1, stage2, stage3],
 }
 const reducers = (state = initialState, action) => {
     var newState = state;
@@ -45,12 +44,12 @@ const reducers = (state = initialState, action) => {
         case "CREATE_GRID":
             newState = { ...newState, grid: action.payload };
             break;
-        case "CREATE_NEW_GRID":
-            newState = { ...state, createNewGrid: action.payload };
+        case "CREATE_NEXT_STAGE":
+            var currentStageIndex = newState.stages.indexOf(newState.currentStage)
+
+            newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1],grid:createGrid({ x: 1, y: 0 },newState.stages[currentStageIndex + 1]) };
             break;
-        case "CREATE_NEW_BOARD":
-            newState = { ...state, newBoard: action.payload };
-            break;
+
         case "MOVE_PLAYER":
             newState = { ...newState, player: action.payload.new, oldLocation: action.payload.old, grid: action.payload.grid };
             break;

@@ -1,12 +1,10 @@
 export const createGrid = (grid) => {
     return { type: "CREATE_GRID", payload: grid }
 };
-export const createNewGrid = (passNewGrid) => {
-    return { type: "CREATE_NEW_GRID", payload: passNewGrid }
+export const createNewGrid = () => {
+    return { type: "CREATE_NEXT_STAGE" }
 };
-export const createNewBoard = (newBoard) => {
-    return { type: "CREATE_NEW_BOARD", payload: newBoard }
-};
+
 export const movePlayer = (moves) => {
     return { type: "MOVE_PLAYER", payload: moves }
 };
