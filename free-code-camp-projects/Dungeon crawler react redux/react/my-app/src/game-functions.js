@@ -15,8 +15,8 @@ const initializingGrid = () => {
     }
     return grid;
 }
-export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, newDoors,walls) => {
-    var newGrid = createGrid(playerLocation,walls);
+export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, newDoors, walls) => {
+    var newGrid = createGrid(playerLocation, walls);
 
     var enemies = newEnemies.forEach(function (enemy) {
         var findEnemiesLocation = newGrid.find((ele) => {
@@ -105,7 +105,6 @@ export const stage1 = [
 
 export const createGrid = (player, walls) => {
     const initialGrid = initializingGrid();
-    console.log("initial grid",walls)
     const creatingpath = walls;
     for (var i = 0; i < initialGrid.length; i++) {
         for (var j = 0; j < creatingpath.length; j++) {
@@ -124,3 +123,5 @@ export const createGrid = (player, walls) => {
     }
     return initialGrid;
 }
+
+

@@ -10,15 +10,25 @@ class App extends React.Component {
         this.state = {
             grid: this.props.grid,
             oldLocation: {},
+            isHidden: true,
+            cellWithNeigbours: []
         }
         this.movePlayer = this.movePlayer.bind(this);
+        this.toggleHidden = this.toggleHidden.bind(this);
     }
     componentDidMount() {
         document.onkeydown = this.movePlayer;
         this.randomValues();
         this.props.buildGrid();
+
     }
 
+    toggleHidden() {
+        this.setState({
+            isHidden: !this.state.isHidden,
+            grid: this.state.grid
+        })
+    }
     randomValues() {
         var gridWithPaths = this.props.grid
         this.setState({ grid: this.combiningRandoms(gridWithPaths) });
@@ -62,10 +72,11 @@ class App extends React.Component {
         }
 
         if (nextLocation.containing === "doors") {
-            console.log("marymary",nextLocation.containing);
             this.props.updateNewGrid();
 
         }
+
+
         var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
         this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
         this.props.buildGrid(newGrid);
@@ -127,11 +138,38 @@ class App extends React.Component {
     }
     combiningRandoms() {
         var grid = this.state.grid
-        var doors = this.createRandomDoors(grid);
-        var enemies = this.GetRandomEnemies(doors);
+        var door = this.createRandomDoors(grid);
+        var enemies = this.GetRandomEnemies(door);
         var weapons = this.randomWeapons(enemies);
         var healths = this.RandomHealths(weapons);
         return healths;
+    }
+    smallGrid() {
+
+        var cellWithNeigbours = this.state.cellWithNeigbours;
+        var seededGrid = this.state.grid;
+        for (var i in seededGrid) {
+            var findNeighbors = [
+                { x: seededGrid[i].x + 1, y: seededGrid[i].y },
+                { x: seededGrid[i].x - 1, y: seededGrid[i].y },
+                { x: seededGrid[i].x, y: seededGrid[i].y + 1 },
+                { x: seededGrid[i].x, y: seededGrid[i].y - 1 },
+                { x: seededGrid[i].x + 1, y: seededGrid[i].y + 1 },
+                { x: seededGrid[i].x + 1, y: seededGrid[i].y - 1 },
+                { x: seededGrid[i].x - 1, y: seededGrid[i].y + 1 },
+                { x: seededGrid[i].x - 1, y: seededGrid[i].y - 1 }
+            ];
+            var realVals = []
+            for (var c of findNeighbors) {
+                var test = seededGrid.find((e) => e.x === c.x && e.y === c.y)
+                realVals.push(test)
+            }
+
+            var real = realVals.filter((coord) => coord !== undefined);
+            cellWithNeigbours.push({ coord: { x: seededGrid[i].x, y: seededGrid[i].y, containing: seededGrid[i].containing }, neighbours: real })
+        }
+        console.log("cell", cellWithNeigbours)
+        this.setState({ cellWithNeigbours: cellWithNeigbours })
     }
 
     render() {
@@ -144,7 +182,9 @@ class App extends React.Component {
                 <h4>Enemy:&#9760;</h4>
                 <h4>Weapons:&#x2692;</h4>
                 <h4>health:&#x26D1;</h4>
-                <div className="grid">{
+                <button className="button" onClick={this.toggleHidden}>Hide/Show Map</button>
+                {!this.state.isHidden ? this.state.cellWithNeigbours : ""}
+                <div className="grid" id="icon">{
                     this.state.grid.map(element => {
                         if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation) {
                             element.containing = null;
@@ -158,7 +198,8 @@ class App extends React.Component {
                         } else if (element.containing === "weapon") {
                             element.icon = <p className="icon"><span>&#x2692;</span></p>;
                         } else if (element.containing === "door") {
-                            element.containing = "door"
+                            element.containing = "door";
+
                         }
                         return <button className="grid" className={element.pathway} >{element.icon}{element.containing}</button>
                     })

@@ -3,24 +3,34 @@
     display: grid;
     grid-template-columns: repeat(10, 60px);
     grid-template-rows: repeat(10, 60px);
+    padding-inline-start: 50%
 }
 
-h1, h2,h3 {
-    color: forestgreen
+.button{
+    max-width: 300px;
+    background-color: maroon;
+    margin-left: 50%;
+    margin-right: 90%;
+}   
+
+h1, h2,h3,h4 {
+    color: rgb(107, 11, 11);
+    padding-inline-start:  50%;
 }
 
 .false {
-    background-color: mediumseagreen
+    background-color: black;
+ 
 }
 
 .true {
-    background-color:cadetblue
+    background-color: darkred;
+    font-size: 25px;
 }
 
 P {
-    font-size: 25px;
-}
-h4{
-    font-size: 20px;
-    color:green
+    font-size: 120%;
+    width: 60%;
+    height: 1000%;
+  padding-inline-start:  50%;
 }

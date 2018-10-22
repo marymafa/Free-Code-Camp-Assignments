@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { createGrid, stage1 } from "../game-functions";
 import { stage3 } from "../stage3";
 import { stage2 } from "../stage2";
+import {stage4} from "../stage4";
 
 const initialState = {
     enemies: [],
@@ -36,7 +37,7 @@ const initialState = {
     oldLocation: { x: 1, y: 0 },
     currentStage: stage1,
     grid: createGrid({ x: 1, y: 0 }, stage1),
-    stages: [stage1, stage2, stage3],
+    stages: [stage1, stage2, stage3, stage4],
 }
 const reducers = (state = initialState, action) => {
     var newState = state;
@@ -46,8 +47,7 @@ const reducers = (state = initialState, action) => {
             break;
         case "CREATE_NEXT_STAGE":
             var currentStageIndex = newState.stages.indexOf(newState.currentStage)
-
-            newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1],grid:createGrid({ x: 1, y: 0 },newState.stages[currentStageIndex + 1]) };
+            newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1], grid: createGrid({ x: 1, y: 0 }, newState.stages[currentStageIndex + 1]) };
             break;
 
         case "MOVE_PLAYER":
@@ -86,7 +86,6 @@ const reducers = (state = initialState, action) => {
             var weapon = state.weapons.find(item => item.x === action.payload.x && item.y === action.payload.y);
             var index = state.weapons.indexOf(weapon);
             newState = { ...state, weapons: [...state.weapons.slice(0, index), ...state.weapons.slice(index + 1)] }
-            console.log("happy")
             break;
         case "REMOVE_ENEMIES":
             var enemy = state.enemies.find(item => item.x === action.payload.x && item.y === action.payload.y);

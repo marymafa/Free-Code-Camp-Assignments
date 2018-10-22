@@ -4,7 +4,6 @@ export const createGrid = (grid) => {
 export const createNewGrid = () => {
     return { type: "CREATE_NEXT_STAGE" }
 };
-
 export const movePlayer = (moves) => {
     return { type: "MOVE_PLAYER", payload: moves }
 };
