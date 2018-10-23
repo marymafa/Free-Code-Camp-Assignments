@@ -14,7 +14,6 @@ class App extends React.Component {
             cellWithNeigbours: []
         }
         this.movePlayer = this.movePlayer.bind(this);
-        this.toggleHidden = this.toggleHidden.bind(this);
     }
     componentDidMount() {
         document.onkeydown = this.movePlayer;
@@ -25,8 +24,7 @@ class App extends React.Component {
 
     toggleHidden() {
         this.setState({
-            isHidden: !this.state.isHidden,
-            grid: this.state.grid
+            isHidden: !this.state.isHidden
         })
     }
     randomValues() {
@@ -144,48 +142,25 @@ class App extends React.Component {
         var healths = this.RandomHealths(weapons);
         return healths;
     }
-    smallGrid() {
-
-        var cellWithNeigbours = this.state.cellWithNeigbours;
-        var seededGrid = this.state.grid;
-        for (var i in seededGrid) {
-            var findNeighbors = [
-                { x: seededGrid[i].x + 1, y: seededGrid[i].y },
-                { x: seededGrid[i].x - 1, y: seededGrid[i].y },
-                { x: seededGrid[i].x, y: seededGrid[i].y + 1 },
-                { x: seededGrid[i].x, y: seededGrid[i].y - 1 },
-                { x: seededGrid[i].x + 1, y: seededGrid[i].y + 1 },
-                { x: seededGrid[i].x + 1, y: seededGrid[i].y - 1 },
-                { x: seededGrid[i].x - 1, y: seededGrid[i].y + 1 },
-                { x: seededGrid[i].x - 1, y: seededGrid[i].y - 1 }
-            ];
-            var realVals = []
-            for (var c of findNeighbors) {
-                var test = seededGrid.find((e) => e.x === c.x && e.y === c.y)
-                realVals.push(test)
-            }
-
-            var real = realVals.filter((coord) => coord !== undefined);
-            cellWithNeigbours.push({ coord: { x: seededGrid[i].x, y: seededGrid[i].y, containing: seededGrid[i].containing }, neighbours: real })
-        }
-        console.log("cell", cellWithNeigbours)
-        this.setState({ cellWithNeigbours: cellWithNeigbours })
-    }
-
     render() {
+
+
+        const { showing } = this.state;
         return (
-            <div>
-                <h1>Roguelike Dungeon Crawler Game</h1>
-                <h3>experience :{this.props.xP}</h3>
-                <h3>health :{this.props.health}</h3>
-                <h3>life:{this.props.life}</h3>
-                <h4>Enemy:&#9760;</h4>
-                <h4>Weapons:&#x2692;</h4>
-                <h4>health:&#x26D1;</h4>
-                <button className="button" onClick={this.toggleHidden}>Hide/Show Map</button>
-                {!this.state.isHidden ? this.state.cellWithNeigbours : ""}
+            <div className="container">
+                <h1 className="heading">Roguelike Dungeon Crawler Game</h1>
+                <h3 className="stxp">experience :{this.props.xP}</h3>
+                <h3 className="hlth">health :{this.props.health}</h3>
+                <h3 className="lf">life:{this.props.life}</h3>
+                <h4 className="enm">Enemy:&#9760;</h4>
+                <h4 className="wpn">Weapon:&#x2692;</h4>
+                <h4 className="hlth-icon">health:&#x26D1;</h4>
+                <h4 className="dor">door:&#xf008;</h4>
+                <button className="hideOrShow" onClick={this.toggleHidden.bind(this)} >Hide/Show Map</button>
                 <div className="grid" id="icon">{
                     this.state.grid.map(element => {
+                        console.log("ishidde", this.props.player.x, this.props.player.y, element.x);
+
                         if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation) {
                             element.containing = null;
                         } else if (element.x === this.props.player.x && element.y === this.props.player.y) {
@@ -197,13 +172,19 @@ class App extends React.Component {
                             element.icon = <p className="icon"><span>&#x26D1;</span></p>;
                         } else if (element.containing === "weapon") {
                             element.icon = <p className="icon"><span>&#x2692;</span></p>;
-                        } else if (element.containing === "door") {
-                            element.containing = "door";
-
+                        } else if (element.containing === "doors") {
+                            element.icon = <p className="icon"><span>&#xf008;</span></p>;
                         }
-                        return <button className="grid" className={element.pathway} >{element.icon}{element.containing}</button>
+                        const isHidden =
+                            this.state.isHidden && element.containing != "player" &&
+                            !(Math.abs(this.props.player.x - element.x) <= 1 &&
+                                Math.abs(this.props.player.y - element.y) <= 1
+                            );
+                        return <button id={isHidden ? "containing-hidden" : "o"} className="grid" className={element.pathway} >{element.icon}</button>
                     })
-                } </div>
+                }
+
+                </div>
             </div >
         )
     }

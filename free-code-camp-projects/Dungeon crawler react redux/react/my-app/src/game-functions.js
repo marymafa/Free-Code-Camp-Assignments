@@ -51,6 +51,9 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
 export const stage1 = [
     { x: 0, y: 0, pathway: 'false', containing: null },
     { x: 0, y: 1, pathway: 'false', containing: null },
+    { x: 1, y: 0, pathway: 'false', containing: null },
+    { x: 6, y: 0, pathway: 'false', containing: null },
+    { x: 5, y: 0, pathway: 'false', containing: null },
     { x: 0, y: 4, pathway: 'false', containing: null },
     { x: 0, y: 5, pathway: 'false', containing: null },
     { x: 4, y: 4, pathway: 'false', containing: null },
@@ -113,7 +116,7 @@ export const createGrid = (player, walls) => {
             }
         }
     }
-    if (player) {
+    if (player ) {
         var playerFound = initialGrid.find(item => {
             return item.x === player.x && item.y === player.y;
         })

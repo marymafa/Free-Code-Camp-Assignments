@@ -3,19 +3,34 @@
     display: grid;
     grid-template-columns: repeat(10, 60px);
     grid-template-rows: repeat(10, 60px);
-    padding-inline-start: 50%
+    padding-inline-start: 30%
 }
 
-.button{
-    max-width: 300px;
-    background-color: maroon;
-    margin-left: 50%;
-    margin-right: 90%;
-}   
+.hideOrShow{
+    background:    #c00;
+    background:    -webkit-linear-gradient(#c00, #600);
+    background:    linear-gradient(#c00, #600);
+    border-radius: 999px;
+    padding:       10px 40px;
+    font:          normal 700 24px/1 "Open Sans", sans-serif;
+    text-align:    center;
+    text-shadow:   1px 1px 0 #000;
+    margin-left: 80%;
+    margin-block-start: -900%;
 
-h1, h2,h3,h4 {
+}  
+.body{
+    background-color:teal;;
+} 
+
+h1 {
     color: rgb(107, 11, 11);
-    padding-inline-start:  50%;
+    font-size: 5em;
+    background-color:teal;
+    margin: 20px;
+    padding: 60px;
+
+    
 }
 
 .false {
@@ -29,8 +44,55 @@ h1, h2,h3,h4 {
 }
 
 P {
+    font-size: 120%;   
+}
+#containing-hidden{
+    opacity: 0;
+}
+.icon{
     font-size: 120%;
     width: 60%;
     height: 1000%;
   padding-inline-start:  50%;
+  color:rgb(red, green, blue)
+};
+
+
+.stxp{
+    padding-inline-start:  0%;
+    margin-block-start: -2%  ;  
+    text-shadow:teal;
+
 }
+.hlth{
+    padding-inline-start:  20%;
+    margin-block-start: -2%;
+    color:teal;
+}
+.lf{
+    padding-inline-start:  30%;
+    margin-block-start: -2%;
+    color:teal;
+}
+.enm{
+    padding-inline-start:  40%;
+    margin-block-start: -2%  ;
+    color:teal;
+}
+.wpn{
+    padding-inline-start:  50%;
+    margin-block-start: -2%  ;
+    color:teal;
+}
+.hlth-icon{
+    padding-inline-start:  60%;
+    margin-block-start: -2%  ;
+    color:teal;
+}
+.dor{
+    padding-inline-start:  70%;
+    margin-block-start: -2%  ;  
+    color:teal;
+}
+
+

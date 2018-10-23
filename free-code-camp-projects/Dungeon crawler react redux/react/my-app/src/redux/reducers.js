@@ -3,13 +3,14 @@ import { combineReducers } from 'redux';
 import { createGrid, stage1 } from "../game-functions";
 import { stage3 } from "../stage3";
 import { stage2 } from "../stage2";
-import {stage4} from "../stage4";
+import { stage4 } from "../stage4";
 
 const initialState = {
     enemies: [],
     healths: [],
     doors: [],
     health: 60,
+    enemyLife: 30,
     life: 20,
     xP: 0,
     weapons: [
@@ -33,10 +34,10 @@ const initialState = {
         }
     ],
     Dungeon: 1,
-    player: { x: 1, y: 0 },
-    oldLocation: { x: 1, y: 0 },
+    player: { x: 1, y: 1 },
+    oldLocation: { x: 1, y: 1 },
     currentStage: stage1,
-    grid: createGrid({ x: 1, y: 0 }, stage1),
+    grid: createGrid({ x: 1, y: 1 }, stage1),
     stages: [stage1, stage2, stage3, stage4],
 }
 const reducers = (state = initialState, action) => {
@@ -45,9 +46,12 @@ const reducers = (state = initialState, action) => {
         case "CREATE_GRID":
             newState = { ...newState, grid: action.payload };
             break;
+        case "ENEMY_LIFE":
+            newState = { ...newState, enemyLife: action.payload };
+            break;
         case "CREATE_NEXT_STAGE":
             var currentStageIndex = newState.stages.indexOf(newState.currentStage)
-            newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1], grid: createGrid({ x: 1, y: 0 }, newState.stages[currentStageIndex + 1]) };
+            newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1], grid: createGrid({ x: 1, y: 1 }, newState.stages[currentStageIndex + 1]) };
             break;
 
         case "MOVE_PLAYER":
