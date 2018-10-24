@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as action from "../redux/actions";
 import makingPathWays from '../game-functions';
 import { updateGrid } from '../game-functions';
-
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +10,10 @@ class App extends React.Component {
             grid: this.props.grid,
             oldLocation: {},
             isHidden: true,
-            cellWithNeigbours: []
+            cellWithNeigbours: [],
+            gameWon: false,
+            enemyLife: 16
+
         }
         this.movePlayer = this.movePlayer.bind(this);
     }
@@ -61,9 +63,16 @@ class App extends React.Component {
             this.props.removePlayerWeapon(nextLocation)
 
         }
+        console.log("thabiso");
         if (nextLocation.containing === "enemy") {
             this.props.increaseExperienceOfPlayer(30)
-            this.props.removeEnemy(nextLocation)
+            var currentEnemyLife = this.state.enemyLife;
+            this.setState({ enemyLife: currentEnemyLife - 4})
+            newLocation = oldLocation
+            if (this.state.enemyLife === 0) {
+                this.props.removeEnemy(nextLocation)
+                this.setState({ enemyLife: 16 })
+            }
         }
         if (nextLocation.pathway === "false") {
             newLocation = oldLocation
@@ -142,16 +151,14 @@ class App extends React.Component {
         var healths = this.RandomHealths(weapons);
         return healths;
     }
+
     render() {
-
-
         const { showing } = this.state;
         return (
             <div className="container">
                 <h1 className="heading">Roguelike Dungeon Crawler Game</h1>
                 <h3 className="stxp">experience :{this.props.xP}</h3>
                 <h3 className="hlth">health :{this.props.health}</h3>
-                <h3 className="lf">life:{this.props.life}</h3>
                 <h4 className="enm">Enemy:&#9760;</h4>
                 <h4 className="wpn">Weapon:&#x2692;</h4>
                 <h4 className="hlth-icon">health:&#x26D1;</h4>
@@ -159,8 +166,6 @@ class App extends React.Component {
                 <button className="hideOrShow" onClick={this.toggleHidden.bind(this)} >Hide/Show Map</button>
                 <div className="grid" id="icon">{
                     this.state.grid.map(element => {
-                        console.log("ishidde", this.props.player.x, this.props.player.y, element.x);
-
                         if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation) {
                             element.containing = null;
                         } else if (element.x === this.props.player.x && element.y === this.props.player.y) {
@@ -197,7 +202,6 @@ const mapStateToProps = (state) => {
         player: state.player,
         oldLocation: state.oldLocation,
         xP: state.xP,
-        life: state.life,
         doors: state.doors,
         createNewGrid: state.createNewGrid,
         enemies: state.enemies,
@@ -205,7 +209,7 @@ const mapStateToProps = (state) => {
         weapons: state.weapons,
         newBoard: state.newBoard,
         health: state.health,
-        stateWeapons: state.weapons.health
+        stateWeapons: state.weapons.health,
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -10,8 +10,6 @@ const initialState = {
     healths: [],
     doors: [],
     health: 60,
-    enemyLife: 30,
-    life: 20,
     xP: 0,
     weapons: [
         {
@@ -46,14 +44,10 @@ const reducers = (state = initialState, action) => {
         case "CREATE_GRID":
             newState = { ...newState, grid: action.payload };
             break;
-        case "ENEMY_LIFE":
-            newState = { ...newState, enemyLife: action.payload };
-            break;
         case "CREATE_NEXT_STAGE":
             var currentStageIndex = newState.stages.indexOf(newState.currentStage)
             newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1], grid: createGrid({ x: 1, y: 1 }, newState.stages[currentStageIndex + 1]) };
             break;
-
         case "MOVE_PLAYER":
             newState = { ...newState, player: action.payload.new, oldLocation: action.payload.old, grid: action.payload.grid };
             break;

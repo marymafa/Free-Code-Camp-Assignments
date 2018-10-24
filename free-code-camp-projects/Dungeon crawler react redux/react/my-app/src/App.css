@@ -10,14 +10,13 @@
     background:    #c00;
     background:    -webkit-linear-gradient(#c00, #600);
     background:    linear-gradient(#c00, #600);
-    border-radius: 999px;
-    padding:       10px 40px;
+    border-radius: 99px;
+    padding:       10px 50px;
     font:          normal 700 24px/1 "Open Sans", sans-serif;
     text-align:    center;
     text-shadow:   1px 1px 0 #000;
-    margin-left: 80%;
-    margin-block-start: -900%;
-
+    margin-left: 68%;
+    margin-block-start: -18%;
 }  
 .body{
     background-color:teal;;
@@ -69,28 +68,24 @@ P {
     margin-block-start: -2%;
     color:teal;
 }
-.lf{
-    padding-inline-start:  30%;
-    margin-block-start: -2%;
-    color:teal;
-}
+
 .enm{
-    padding-inline-start:  40%;
+    padding-inline-start:  30%;
     margin-block-start: -2%  ;
     color:teal;
 }
 .wpn{
-    padding-inline-start:  50%;
+    padding-inline-start:  40%;
     margin-block-start: -2%  ;
     color:teal;
 }
 .hlth-icon{
-    padding-inline-start:  60%;
+    padding-inline-start:  50%;
     margin-block-start: -2%  ;
     color:teal;
 }
 .dor{
-    padding-inline-start:  70%;
+    padding-inline-start:  60%;
     margin-block-start: -2%  ;  
     color:teal;
 }
