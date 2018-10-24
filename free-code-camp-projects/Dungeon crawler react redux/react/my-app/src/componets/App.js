@@ -12,7 +12,8 @@ class App extends React.Component {
             isHidden: true,
             cellWithNeigbours: [],
             gameWon: false,
-            enemyLife: 16
+            enemyLife: 16,
+            bossLife: 20,
 
         }
         this.movePlayer = this.movePlayer.bind(this);
@@ -21,7 +22,6 @@ class App extends React.Component {
         document.onkeydown = this.movePlayer;
         this.randomValues();
         this.props.buildGrid();
-
     }
 
     toggleHidden() {
@@ -63,17 +63,30 @@ class App extends React.Component {
             this.props.removePlayerWeapon(nextLocation)
 
         }
-        console.log("thabiso");
         if (nextLocation.containing === "enemy") {
             this.props.increaseExperienceOfPlayer(30)
             var currentEnemyLife = this.state.enemyLife;
-            this.setState({ enemyLife: currentEnemyLife - 4})
+            this.setState({ enemyLife: currentEnemyLife - 4 })
             newLocation = oldLocation
             if (this.state.enemyLife === 0) {
                 this.props.removeEnemy(nextLocation)
                 this.setState({ enemyLife: 16 })
             }
         }
+
+        if (nextLocation.containing === "boss") {
+            this.props.increaseExperienceOfPlayer(30)
+            var currentBossLife = this.state.bossLife;
+            this.setState({ bossLife: currentBossLife - 5 });
+            newLocation = oldLocation;
+            if (this.state.bossLife === 0) {
+                this.props.randomBoss(nextLocation);
+                this.setState({ bossLife: 20 })
+            }
+            alert("game over, you have won");
+            this.setState({ grid: this.state.grid })
+        }
+
         if (nextLocation.pathway === "false") {
             newLocation = oldLocation
         }
@@ -84,7 +97,7 @@ class App extends React.Component {
         }
 
 
-        var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
+        var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.boss, this.props.doors, this.props.currentStage);
         this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
         this.props.buildGrid(newGrid);
         this.setState({ grid: newGrid })
@@ -102,6 +115,21 @@ class App extends React.Component {
         }
         this.props.updateEnemies(enemies);
         return grid;
+    };
+    setRandomBoss(boss) {
+        var grid = this.props.grid;
+        var newBoss = [];
+        for (var i = 0; i < 1; i++) {
+            var index = Math.floor(Math.random() * grid.length)
+            if (grid[index].pathway === 'true' && grid[index].containing === null) {
+                grid[index].containing = "boss";
+                newBoss.push(grid[index]);
+            }
+            console.log('ne', newBoss);
+
+        }
+        this.props.randomBoss(newBoss)
+        return newBoss;
     }
     RandomHealths() {
         var grid = this.props.grid;
@@ -143,16 +171,17 @@ class App extends React.Component {
         this.props.updateDoors(doors)
         return grid
     }
-    combiningRandoms() {
+    combiningRandoms(grid) {
         var grid = this.state.grid
-        var door = this.createRandomDoors(grid);
-        var enemies = this.GetRandomEnemies(door);
+        var boss = this.setRandomBoss(grid)
+        var doors = this.createRandomDoors(boss);
+        var enemies = this.GetRandomEnemies(doors);
         var weapons = this.randomWeapons(enemies);
         var healths = this.RandomHealths(weapons);
         return healths;
     }
-
     render() {
+        console.log("grid", this.props.stage4);
         const { showing } = this.state;
         return (
             <div className="container">
@@ -163,6 +192,7 @@ class App extends React.Component {
                 <h4 className="wpn">Weapon:&#x2692;</h4>
                 <h4 className="hlth-icon">health:&#x26D1;</h4>
                 <h4 className="dor">door:&#xf008;</h4>
+                <h3 className="bos">boss:&#9824;</h3>
                 <button className="hideOrShow" onClick={this.toggleHidden.bind(this)} >Hide/Show Map</button>
                 <div className="grid" id="icon">{
                     this.state.grid.map(element => {
@@ -179,6 +209,8 @@ class App extends React.Component {
                             element.icon = <p className="icon"><span>&#x2692;</span></p>;
                         } else if (element.containing === "doors") {
                             element.icon = <p className="icon"><span>&#xf008;</span></p>;
+                        } else if (element.containing === "boss") {
+                            element.icon = <p className="boss"><span>&#9824;</span></p>
                         }
                         const isHidden =
                             this.state.isHidden && element.containing != "player" &&
@@ -199,6 +231,7 @@ const mapStateToProps = (state) => {
         state: state,
         currentStage: state.currentStage,
         grid: state.grid,
+        stages: state.stages,
         player: state.player,
         oldLocation: state.oldLocation,
         xP: state.xP,
@@ -209,13 +242,17 @@ const mapStateToProps = (state) => {
         weapons: state.weapons,
         newBoard: state.newBoard,
         health: state.health,
-        stateWeapons: state.weapons.health,
+        stateWeapons: state.stateWeapons,
+        boss: state.boss,
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
         buildGrid: newGrid => {
             dispatch(action.createGrid(newGrid))
+        },
+        randomBoss: (setboss) => {
+            dispatch(action.setRandomBoss(setboss))
         },
         playerMove: oldAndNewMoves => {
             dispatch(action.movePlayer(oldAndNewMoves))
