@@ -45,14 +45,15 @@ const reducers = (state = initialState, action) => {
         case "CREATE_GRID":
             newState = { ...newState, grid: action.payload };
             break;
-            // case "SET_STAGE":
-            // newState={...state, stage4}
         case "CREATE_NEXT_STAGE":
             var currentStageIndex = newState.stages.indexOf(newState.currentStage)
             newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1], grid: createGrid({ x: 1, y: 1 }, newState.stages[currentStageIndex + 1]) };
             break;
         case "SET_BOSS":
-            newState = { ...state, boss: action.payload };
+        // newState = { ...state, boss: action.payload };
+        // break;
+        case "CHANGE_USER_LOCATION":
+            newState = { ...state, player: { x: 2, y: 5 } };
             break;
         case "MOVE_PLAYER":
             newState = { ...newState, player: action.payload.new, oldLocation: action.payload.old, grid: action.payload.grid };

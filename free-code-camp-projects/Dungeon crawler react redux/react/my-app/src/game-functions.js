@@ -15,7 +15,7 @@ const initializingGrid = () => {
     }
     return grid;
 }
-export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, newDoors, newBoss, walls) => {
+export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, newDoors, walls) => {
     var newGrid = createGrid(playerLocation, walls);
 
     var enemies = newEnemies.forEach(function (enemy) {
@@ -45,13 +45,6 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
             return ele.x === doors.x && ele.y === doors.y
         })
         newGrid[newGrid.indexOf(findDoorsLocation)].containing = "doors";
-
-    });
-    var bosses = newBoss.forEach(function (boss) {
-        var findBossLocation = newGrid.find((ele) => {
-            return ele.x === boss.x && ele.y === boss.y
-        })
-        newGrid[newGrid.indexOf(findBossLocation)].containing = "boss";
 
     });
     return newGrid;

@@ -73,34 +73,35 @@ class App extends React.Component {
                 this.setState({ enemyLife: 16 })
             }
         }
-
-        if (nextLocation.containing === "boss") {
-            this.props.increaseExperienceOfPlayer(30)
-            var currentBossLife = this.state.bossLife;
-            this.setState({ bossLife: currentBossLife - 5 });
-            newLocation = oldLocation;
-            if (this.state.bossLife === 0) {
-                this.props.randomBoss(nextLocation);
-                this.setState({ bossLife: 20 })
-            }
-            alert("game over, you have won");
-            this.setState({ grid: this.state.grid })
-        }
+        // if (nextLocation.containing === "boss") {
+        //     this.props.increaseExperienceOfPlayer(30)
+        //     var currentBossLife = this.state.bossLife;
+        //     this.setState({ bossLife: currentBossLife - 5 });
+        //     newLocation = oldLocation;
+        //     if (this.state.bossLife === 0) {
+        //         this.props.randomBoss(nextLocation);
+        //         this.setState({ bossLife: 20 })
+        //     }
+        //     alert("game over, you have won");
+        //     this.setState({ grid: this.state.grid })
+        // }
 
         if (nextLocation.pathway === "false") {
             newLocation = oldLocation
         }
 
         if (nextLocation.containing === "doors") {
+            this.props.changeTheLocationOfThePlayer();
             this.props.updateNewGrid();
-
+            this.props.buildGrid();
+            var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
+            this.setState({ grid: newGrid })
+        }else{
+            var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
+            this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
+            this.setState({ grid: newGrid })
+            
         }
-
-
-        var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.boss, this.props.doors, this.props.currentStage);
-        this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
-        this.props.buildGrid(newGrid);
-        this.setState({ grid: newGrid })
         return newLocation;
     }
     GetRandomEnemies() {
@@ -116,21 +117,21 @@ class App extends React.Component {
         this.props.updateEnemies(enemies);
         return grid;
     };
-    setRandomBoss(boss) {
-        var grid = this.props.grid;
-        var newBoss = [];
-        for (var i = 0; i < 1; i++) {
-            var index = Math.floor(Math.random() * grid.length)
-            if (grid[index].pathway === 'true' && grid[index].containing === null) {
-                grid[index].containing = "boss";
-                newBoss.push(grid[index]);
-            }
-            console.log('ne', newBoss);
+    // setRandomBoss(boss) {
+    //     var grid = this.props.grid;
+    //     var newBoss = [];
+    //     for (var i = 0; i < 1; i++) {
+    //         var index = Math.floor(Math.random() * grid.length)
+    //         if (grid[index].pathway === 'true' && grid[index].containing === null) {
+    //             grid[index].containing = "boss";
+    //             newBoss.push(grid[index]);
+    //         }
+    //         console.log('ne', newBoss);
 
-        }
-        this.props.randomBoss(newBoss)
-        return newBoss;
-    }
+    //     }
+    //     this.props.randomBoss(newBoss)
+    //     return newBoss;
+    // }
     RandomHealths() {
         var grid = this.props.grid;
         var healths = [];
@@ -161,10 +162,10 @@ class App extends React.Component {
     createRandomDoors() {
         var grid = this.props.grid;
         var doors = [];
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
-                grid[index].containing = "door";
+                grid[index].containing = "doors";
                 doors.push(grid[index]);
             }
         }
@@ -173,15 +174,14 @@ class App extends React.Component {
     }
     combiningRandoms(grid) {
         var grid = this.state.grid
-        var boss = this.setRandomBoss(grid)
-        var doors = this.createRandomDoors(boss);
+        var doors = this.createRandomDoors(grid);
         var enemies = this.GetRandomEnemies(doors);
         var weapons = this.randomWeapons(enemies);
         var healths = this.RandomHealths(weapons);
         return healths;
     }
     render() {
-        console.log("grid", this.props.stage4);
+        console.log("grid", this.props.doors);
         const { showing } = this.state;
         return (
             <div className="container">
@@ -209,8 +209,6 @@ class App extends React.Component {
                             element.icon = <p className="icon"><span>&#x2692;</span></p>;
                         } else if (element.containing === "doors") {
                             element.icon = <p className="icon"><span>&#xf008;</span></p>;
-                        } else if (element.containing === "boss") {
-                            element.icon = <p className="boss"><span>&#9824;</span></p>
                         }
                         const isHidden =
                             this.state.isHidden && element.containing != "player" &&
@@ -243,7 +241,7 @@ const mapStateToProps = (state) => {
         newBoard: state.newBoard,
         health: state.health,
         stateWeapons: state.stateWeapons,
-        boss: state.boss,
+        //boss: state.boss,
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -251,9 +249,9 @@ const mapDispatchToProps = (dispatch) => {
         buildGrid: newGrid => {
             dispatch(action.createGrid(newGrid))
         },
-        randomBoss: (setboss) => {
-            dispatch(action.setRandomBoss(setboss))
-        },
+        // randomBoss: (setboss) => {
+        //     dispatch(action.setRandomBoss(setboss))
+        // },
         playerMove: oldAndNewMoves => {
             dispatch(action.movePlayer(oldAndNewMoves))
         },
@@ -299,6 +297,9 @@ const mapDispatchToProps = (dispatch) => {
         removeEnemy: (enemy) => {
             dispatch(action.removeEnemies(enemy))
         },
+        changeTheLocationOfThePlayer: () => {
+            dispatch(action.changePlayerLocation())
+        }
     }
 }
 export default connect(

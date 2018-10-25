@@ -62,10 +62,11 @@ P {
     opacity: 0;
 }
 .icon{
-    font-size: 120%;
-    width: 60%;
+    font-size: 130%;
+    width: 80%;
     height: 1000%;
-  padding-inline-start:  50%;
+  padding-inline-start:  20%;
+  margin-top: 100;
   color:rgb(red, green, blue)
 };
 
