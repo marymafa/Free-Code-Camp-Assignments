@@ -4,9 +4,9 @@ export const createGrid = (grid) => {
 export const createNewGrid = () => {
     return { type: "CREATE_NEXT_STAGE" }
 };
-// export const setRandomBoss = (setboss) => {
-//     return { type: "SET_BOSS", payload: setboss }
-// 
+export const setRandomBoss = (setboss) => {
+    return { type: "SET_BOSS", payload: setboss }
+};
 export const changePlayerLocation = () => {
     return { type: "CHANGE_USER_LOCATION" };
 }

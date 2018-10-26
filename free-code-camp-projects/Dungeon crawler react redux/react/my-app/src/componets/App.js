@@ -23,7 +23,6 @@ class App extends React.Component {
         this.randomValues();
         this.props.buildGrid();
     }
-
     toggleHidden() {
         this.setState({
             isHidden: !this.state.isHidden
@@ -36,7 +35,6 @@ class App extends React.Component {
     movePlayer(event) {
         var newLocation = this.props.player;
         var oldLocation = newLocation;
-
         if (event.key === "ArrowLeft") {
             newLocation = { x: newLocation.x, y: newLocation.y - 1 }
         } else if (event.key === "ArrowRight") {
@@ -85,22 +83,24 @@ class App extends React.Component {
         //     alert("game over, you have won");
         //     this.setState({ grid: this.state.grid })
         // }
-
+        var testStage = this.props.stages[3];
+        if (testStage) {
+            console.log("thabiso");
+        }
         if (nextLocation.pathway === "false") {
             newLocation = oldLocation
         }
-
         if (nextLocation.containing === "doors") {
             this.props.changeTheLocationOfThePlayer();
             this.props.updateNewGrid();
             this.props.buildGrid();
             var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
             this.setState({ grid: newGrid })
-        }else{
+        } else {
             var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
             this.props.playerMove({ new: newLocation, old: oldLocation, grid: newGrid });
             this.setState({ grid: newGrid })
-            
+
         }
         return newLocation;
     }
@@ -113,25 +113,25 @@ class App extends React.Component {
                 grid[index].containing = "enemy";
                 enemies.push(grid[index]);
             }
+            console.log("enemy", grid);
+
         }
         this.props.updateEnemies(enemies);
         return grid;
     };
-    // setRandomBoss(boss) {
-    //     var grid = this.props.grid;
-    //     var newBoss = [];
-    //     for (var i = 0; i < 1; i++) {
-    //         var index = Math.floor(Math.random() * grid.length)
-    //         if (grid[index].pathway === 'true' && grid[index].containing === null) {
-    //             grid[index].containing = "boss";
-    //             newBoss.push(grid[index]);
-    //         }
-    //         console.log('ne', newBoss);
-
-    //     }
-    //     this.props.randomBoss(newBoss)
-    //     return newBoss;
-    // }
+    setRandomBoss() {
+        var forthStage = this.props.grid
+        var setBoss = [];
+        for (var i = 0; i < 2; i++) {
+            var index = Math.floor(Math.random() * forthStage.length);
+            if (forthStage[index].pathway === 'true' && forthStage[index].containing === null) {
+                forthStage[index].containing = 'boss';
+                setBoss.push(forthStage[index]);
+            }
+            console.log("boss", setBoss);
+        }
+        return setBoss;
+    }
     RandomHealths() {
         var grid = this.props.grid;
         var healths = [];
@@ -177,11 +177,11 @@ class App extends React.Component {
         var doors = this.createRandomDoors(grid);
         var enemies = this.GetRandomEnemies(doors);
         var weapons = this.randomWeapons(enemies);
-        var healths = this.RandomHealths(weapons);
+        var randomboss = this.setRandomBoss(weapons)
+        var healths = this.RandomHealths(randomboss);
         return healths;
     }
     render() {
-        console.log("grid", this.props.doors);
         const { showing } = this.state;
         return (
             <div className="container">
@@ -196,19 +196,22 @@ class App extends React.Component {
                 <button className="hideOrShow" onClick={this.toggleHidden.bind(this)} >Hide/Show Map</button>
                 <div className="grid" id="icon">{
                     this.state.grid.map(element => {
+
                         if (element.x === this.state.oldLocation.x && element.y === this.state.oldLocation) {
                             element.containing = null;
                         } else if (element.x === this.props.player.x && element.y === this.props.player.y) {
                             element.containing = "player"
-                            element.icon = <p className="icon"><span>&#x26F9;</span></p>;
+                            element.icon = <span className="icon"><span>&#x26F9;</span></span>;
                         } else if (element.containing === "enemy") {
-                            element.icon = <p className="icon"><span> &#9760;</span></p>;
+                            element.icon = <span className="icon"><span> &#9760;</span></span>;
                         } else if (element.containing === "health") {
-                            element.icon = <p className="icon"><span>&#x26D1;</span></p>;
+                            element.icon = <span className="icon"><span>&#x26D1;</span></span>;
                         } else if (element.containing === "weapon") {
-                            element.icon = <p className="icon"><span>&#x2692;</span></p>;
+                            element.icon = <span className="icon"><span>&#x2692;</span></span>;
                         } else if (element.containing === "doors") {
-                            element.icon = <p className="icon"><span>&#xf008;</span></p>;
+                            element.icon = <span className="icon"><span>&#xf008;</span></span>;
+                        } else if (element.containing === "boss") {
+                            element.icon = <span className="boss"><span>&#9824;</span></span>
                         }
                         const isHidden =
                             this.state.isHidden && element.containing != "player" &&
@@ -218,7 +221,6 @@ class App extends React.Component {
                         return <button id={isHidden ? "containing-hidden" : "o"} className="grid" className={element.pathway} >{element.icon}</button>
                     })
                 }
-
                 </div>
             </div >
         )

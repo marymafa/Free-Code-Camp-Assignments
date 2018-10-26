@@ -47,6 +47,8 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
         newGrid[newGrid.indexOf(findDoorsLocation)].containing = "doors";
 
     });
+
+   
     return newGrid;
 }
 export const stage1 = [

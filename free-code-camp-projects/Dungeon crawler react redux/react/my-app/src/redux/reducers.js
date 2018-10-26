@@ -32,7 +32,6 @@ const initialState = {
             attack: 16
         }
     ],
-    Dungeon: 1,
     player: { x: 1, y: 1 },
     oldLocation: { x: 1, y: 1 },
     currentStage: stage1,
@@ -50,8 +49,8 @@ const reducers = (state = initialState, action) => {
             newState = { ...newState, currentStage: newState.stages[currentStageIndex + 1], grid: createGrid({ x: 1, y: 1 }, newState.stages[currentStageIndex + 1]) };
             break;
         case "SET_BOSS":
-        // newState = { ...state, boss: action.payload };
-        // break;
+            newState = { ...state, boss: action.payload };
+            break;
         case "CHANGE_USER_LOCATION":
             newState = { ...state, player: { x: 2, y: 5 } };
             break;

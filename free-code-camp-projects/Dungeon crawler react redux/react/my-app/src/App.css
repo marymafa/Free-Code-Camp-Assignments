@@ -31,19 +31,6 @@ h1 {
 
     
 }
-.boss{
-   font-size:48px;
-   color:purple;
-   font-size: 120%;
-   width: 90%;
-   height: 1000%;
- 
-}
-.bos{
-    padding-inline-start:  70%;
-    margin-block-start: -2%  ;  
-    color:teal;
-}
 
 .false {
     background-color: black;
@@ -55,9 +42,6 @@ h1 {
     font-size: 25px;
 }
 
-P {
-    font-size: 120%;   
-}
 #containing-hidden{
     opacity: 0;
 }
@@ -69,39 +53,5 @@ P {
   margin-top: 100;
   color:rgb(red, green, blue)
 };
-
-
-.stxp{
-    padding-inline-start:  0%;
-    margin-block-start: -2%  ;  
-    text-shadow:teal;
-
-}
-.hlth{
-    padding-inline-start:  20%;
-    margin-block-start: -2%;
-    color:teal;
-}
-
-.enm{
-    padding-inline-start:  30%;
-    margin-block-start: -2%  ;
-    color:teal;
-}
-.wpn{
-    padding-inline-start:  40%;
-    margin-block-start: -2%  ;
-    color:teal;
-}
-.hlth-icon{
-    padding-inline-start:  50%;
-    margin-block-start: -2%  ;
-    color:teal;
-}
-.dor{
-    padding-inline-start:  60%;
-    margin-block-start: -2%  ;  
-    color:teal;
-}
 
 
