@@ -14,7 +14,6 @@ class App extends React.Component {
             gameWon: false,
             enemyLife: 16,
             bossLife: 20,
-
         }
         this.movePlayer = this.movePlayer.bind(this);
     }
@@ -53,40 +52,33 @@ class App extends React.Component {
         this.setState({ oldLocation: previosLocation })
 
         if (nextLocation.containing === "health") {
-            this.props.increasePlayerHealth(10);
+            this.props.increasePlayerHealth(30);
             this.props.removePlayerHealth(nextLocation);
         }
         if (nextLocation.containing === "weapon") {
             this.props.increasePlayerLife(50)
+            this.props.increasePlayerWeapon(30)
             this.props.removePlayerWeapon(nextLocation)
 
         }
+        if (this.props.weapon === 0 && this.props.health === 0) {
+            alert("game over ,try again");
+            this.reset();
+        }
+
         if (nextLocation.containing === "enemy") {
-            this.props.increaseExperienceOfPlayer(30)
             var currentEnemyLife = this.state.enemyLife;
             this.setState({ enemyLife: currentEnemyLife - 4 })
             newLocation = oldLocation
             if (this.state.enemyLife === 0) {
                 this.props.removeEnemy(nextLocation)
                 this.setState({ enemyLife: 16 })
+                this.props.increaseExperienceOfPlayer(30)
+                this.props.decreasePlayerWeapon(30)
+                this.props.decreasePlayerHealth(30)
             }
         }
-        // if (nextLocation.containing === "boss") {
-        //     this.props.increaseExperienceOfPlayer(30)
-        //     var currentBossLife = this.state.bossLife;
-        //     this.setState({ bossLife: currentBossLife - 5 });
-        //     newLocation = oldLocation;
-        //     if (this.state.bossLife === 0) {
-        //         this.props.randomBoss(nextLocation);
-        //         this.setState({ bossLife: 20 })
-        //     }
-        //     alert("game over, you have won");
-        //     this.setState({ grid: this.state.grid })
-        // }
-        var testStage = this.props.stages[3];
-        if (testStage) {
-            console.log("thabiso");
-        }
+
         if (nextLocation.pathway === "false") {
             newLocation = oldLocation
         }
@@ -104,6 +96,10 @@ class App extends React.Component {
         }
         return newLocation;
     }
+    reset() {
+        window.location.reload(true);
+    };
+
     GetRandomEnemies() {
         var grid = this.props.grid
         var enemies = [];
@@ -182,14 +178,16 @@ class App extends React.Component {
         return healths;
     }
     render() {
+        console.log("currentState", this.state.grid);
+
         const { showing } = this.state;
         return (
             <div className="container">
                 <h1 className="heading">Roguelike Dungeon Crawler Game</h1>
                 <h3 className="stxp">experience :{this.props.xP}</h3>
                 <h3 className="hlth">health :{this.props.health}</h3>
+                <h4 className="wpn">Weapon:&#x2692;{this.props.weapon}</h4>
                 <h4 className="enm">Enemy:&#9760;</h4>
-                <h4 className="wpn">Weapon:&#x2692;</h4>
                 <h4 className="hlth-icon">health:&#x26D1;</h4>
                 <h4 className="dor">door:&#xf008;</h4>
                 <h3 className="bos">boss:&#9824;</h3>
@@ -240,10 +238,10 @@ const mapStateToProps = (state) => {
         enemies: state.enemies,
         healths: state.healths,
         weapons: state.weapons,
+        weapon: state.weapon,
         newBoard: state.newBoard,
         health: state.health,
         stateWeapons: state.stateWeapons,
-        //boss: state.boss,
     }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -251,9 +249,6 @@ const mapDispatchToProps = (dispatch) => {
         buildGrid: newGrid => {
             dispatch(action.createGrid(newGrid))
         },
-        // randomBoss: (setboss) => {
-        //     dispatch(action.setRandomBoss(setboss))
-        // },
         playerMove: oldAndNewMoves => {
             dispatch(action.movePlayer(oldAndNewMoves))
         },
@@ -269,6 +264,7 @@ const mapDispatchToProps = (dispatch) => {
         updateHealths: (newHealths) => {
             dispatch(action.storeHealths(newHealths))
         },
+
         updateWeapons: (newWeapons) => {
             dispatch(action.storeWeapons(newWeapons))
         },
@@ -281,8 +277,14 @@ const mapDispatchToProps = (dispatch) => {
         increasePlayerHealth: (playerHealth) => {
             dispatch(action.increaseHealth(playerHealth))
         },
-        inceasePlayerWeapon: (wpns) => {
+        decreasePlayerHealth: (decreasehealth) => {
+            dispatch(action.decreaseHealth(decreasehealth))
+        },
+        increasePlayerWeapon: (wpns) => {
             dispatch(action.increaseWeapon(wpns))
+        },
+        decreasePlayerWeapon: (decreaseweapon) => {
+            dispatch(action.decreaseWeapon(decreaseweapon))
         },
         increaseExperienceOfPlayer: (playerExperience) => {
             dispatch(action.increseExperience(playerExperience))

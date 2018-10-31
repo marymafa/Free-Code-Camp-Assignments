@@ -10,6 +10,7 @@ const initialState = {
     healths: [],
     doors: [],
     health: 60,
+    weapon: 60,
     boss: [],
     xP: 0,
     weapons: [
@@ -70,10 +71,17 @@ const reducers = (state = initialState, action) => {
             newState = { ...state, doors: action.payload };
             break;
         case "INCREASE_HEALTH":
-            newState = { ...state, };
+            newState = { ...state, health: state.health + action.payload };
+            break;
+        case "DECREASE_HEALTH":
+            newState = { ...state, health: state.health - action.payload };
+            console.log("decreasing health", newState);
+            break;
+        case "DECREASE_WEAPON":
+            newState = { ...state, weapon: state.weapon - action.payload };
             break;
         case "INCREASE_WEAPON":
-            newState = { ...state, weapons: state.weapons + action.payload };
+            newState = { ...state, weapon: state.weapon + action.payload };
             break;
         case "INCREASE_EXPERIENCE":
             newState = { ...state, xP: state.xP + action.payload };

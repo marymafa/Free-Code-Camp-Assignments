@@ -43,6 +43,12 @@ export const increaseLifeOfPlayer = (playerLife) => {
 export const increaseWeapon = (wpns) => {
     return { type: "INCREASE_WEAPON", payload: wpns }
 };
+export const decreaseWeapon = (decreaseweapon) => {
+    return { type: "DECREASE_WEAPON", payload: decreaseweapon }
+};
+export const decreaseHealth = (decreasehealth) => {
+    return { type: "DECREASE_HEALTH", payload: decreasehealth }
+};
 export const removeHealth = (hlths) => {
     return { type: "REMOVE_HEALTH", payload: hlths }
 };
