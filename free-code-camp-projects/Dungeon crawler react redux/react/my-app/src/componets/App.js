@@ -21,17 +21,21 @@ class App extends React.Component {
         document.onkeydown = this.movePlayer;
         this.randomValues();
         this.props.buildGrid();
-    }
+    };
+
     toggleHidden() {
         this.setState({
             isHidden: !this.state.isHidden
         })
-    }
+    };
+
     randomValues() {
         var gridWithPaths = this.props.grid
         this.setState({ grid: this.combiningRandoms(gridWithPaths) });
-    }
+    };
+
     movePlayer(event) {
+        var grid = this.state.grid
         var newLocation = this.props.player;
         var oldLocation = newLocation;
         if (event.key === "ArrowLeft") {
@@ -51,6 +55,7 @@ class App extends React.Component {
         })
         this.setState({ oldLocation: previosLocation })
 
+
         if (nextLocation.containing === "health") {
             this.props.increasePlayerHealth(30);
             this.props.removePlayerHealth(nextLocation);
@@ -61,6 +66,7 @@ class App extends React.Component {
             this.props.removePlayerWeapon(nextLocation)
 
         }
+
         if (this.props.weapon === 0 && this.props.health === 0) {
             alert("game over ,try again");
             this.reset();
@@ -86,7 +92,10 @@ class App extends React.Component {
             this.props.changeTheLocationOfThePlayer();
             this.props.updateNewGrid();
             this.props.buildGrid();
+
             var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
+            console.log('what is newGrid', newGrid);
+
             this.setState({ grid: newGrid })
         } else {
             var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
@@ -96,11 +105,12 @@ class App extends React.Component {
         }
         return newLocation;
     }
+
     reset() {
         window.location.reload(true);
     };
 
-    GetRandomEnemies() {
+    GetRandomEnemies(enemies) {
         var grid = this.props.grid
         var enemies = [];
         for (var i = 0; i < 8; i++) {
@@ -109,13 +119,12 @@ class App extends React.Component {
                 grid[index].containing = "enemy";
                 enemies.push(grid[index]);
             }
-            console.log("enemy", grid);
 
         }
         this.props.updateEnemies(enemies);
         return grid;
     };
-    setRandomBoss() {
+    setRandomBoss(boss) {
         var forthStage = this.props.grid
         var setBoss = [];
         for (var i = 0; i < 2; i++) {
@@ -124,11 +133,11 @@ class App extends React.Component {
                 forthStage[index].containing = 'boss';
                 setBoss.push(forthStage[index]);
             }
-            console.log("boss", setBoss);
+
         }
         return setBoss;
-    }
-    RandomHealths() {
+    };
+    RandomHealths(health) {
         var grid = this.props.grid;
         var healths = [];
         for (var i = 0; i < 8; i++) {
@@ -140,8 +149,8 @@ class App extends React.Component {
         }
         this.props.updateHealths(healths);
         return grid;
-    }
-    randomWeapons() {
+    };
+    randomWeapons(weapons) {
 
         var grid = this.props.grid;
         var weapons = [];
@@ -154,32 +163,31 @@ class App extends React.Component {
         }
         this.props.updateWeapons(weapons)
         return grid;
-    }
-    createRandomDoors() {
+    };
+    createRandomDoors(doors) {
         var grid = this.props.grid;
         var doors = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 3; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "doors";
                 doors.push(grid[index]);
             }
         }
+
         this.props.updateDoors(doors)
         return grid
-    }
+    };
     combiningRandoms(grid) {
         var grid = this.state.grid
-        var doors = this.createRandomDoors(grid);
-        var enemies = this.GetRandomEnemies(doors);
-        var weapons = this.randomWeapons(enemies);
-        var randomboss = this.setRandomBoss(weapons)
-        var healths = this.RandomHealths(randomboss);
-        return healths;
-    }
+        var doors = this.createRandomDoors(this.props.currentStage);
+        var enemies = this.GetRandomEnemies(this.props.currentStage);
+        var weapons = this.randomWeapons(this.props.currentStage);
+        var randomboss = this.setRandomBoss(this.props.currentStage);
+        var healths = this.RandomHealths(this.props.currentStage);
+        return grid;
+    };
     render() {
-        console.log("currentState", this.state.grid);
-
         const { showing } = this.state;
         return (
             <div className="container">
