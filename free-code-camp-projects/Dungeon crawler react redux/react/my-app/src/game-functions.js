@@ -48,7 +48,7 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
 
     });
 
-   
+
     return newGrid;
 }
 export const stage1 = [
@@ -106,7 +106,17 @@ export const stage1 = [
     { x: 9, y: 4, pathway: 'false', containing: null },
     { x: 7, y: 0, pathway: 'false', containing: null },
     { x: 8, y: 0, pathway: 'false', containing: null },
-    { x: 9, y: 0, pathway: 'false', containing: null }
+    { x: 9, y: 0, pathway: 'false', containing: null },
+    { x: 0, y: 2, pathway: 'false', containing: null },
+    { x: 0, y: 5, pathway: 'false', containing: null },
+    { x: 0, y: 8, pathway: 'false', containing: null },
+    { x: 0, y: 9, pathway: 'false', containing: null },
+    { x: 0, y: 6, pathway: 'false', containing: null },
+    { x: 0, y: 7, pathway: 'false', containing: null },
+    { x: 0, y: 3, pathway: 'false', containing: null },
+    { x: 9, y: 5, pathway: 'false', containing: null },
+    { x: 3, y: 9, pathway: 'false', containing: null },
+    { x: 7, y: 9, pathway: 'false', containing: null },
 ];
 
 export const createGrid = (player, walls) => {
