@@ -107,9 +107,7 @@ const reducers = (state = initialState, action) => {
             newState = { ...state, enemies: [...state.enemies.slice(0, index), ...state.enemies.slice(index + 1)] }
             break;
         case "REMOVE_BOSS":
-            var boss = state.boss.find(item => item.x === action.payload.x && item.y === action.payload.y);
-            var index = state.boss.indexOf(boss);
-            newState = { ...state, boss: [...state.boss.slice(0, index), ...state.boss.slice(index + 1)] }
+            delete state.boss
             break;
     }
     return newState;

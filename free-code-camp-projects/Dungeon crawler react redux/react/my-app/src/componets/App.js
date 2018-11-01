@@ -11,7 +11,7 @@ class App extends React.Component {
             oldLocation: {},
             isHidden: true,
             enemyLife: 16,
-            bossLife: 24,
+            bossLife: 16,
         }
         this.movePlayer = this.movePlayer.bind(this);
     }
@@ -89,11 +89,11 @@ class App extends React.Component {
             newLocation = oldLocation
             if (this.state.bossLife === 0) {
                 this.props.removeBoss(nextLocation)
-                this.setState({ bossLife: 24 })
+                this.setState({ bossLife: 16 })
                 this.props.increaseExperienceOfPlayer(30)
                 this.props.decreasePlayerWeapon(30)
                 this.props.decreasePlayerHealth(30)
-                alert("well done, you won the game");
+                alert(" you won the game");
                 this.reset();
             }
         }
@@ -104,7 +104,7 @@ class App extends React.Component {
         if (nextLocation.containing === "doors") {
             this.props.changeTheLocationOfThePlayer();
             this.props.updateNewGrid();
-            var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage,  this.props.boss);
+            var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage, this.props.boss);
             this.props.buildGrid(newGrid);
 
             if (this.props.currentStage === this.props.stages[3]) {
@@ -200,7 +200,7 @@ class App extends React.Component {
         var enemies = this.GetRandomEnemies(this.props.currentStage);
         var weapons = this.randomWeapons(this.props.currentStage);
         var healths = this.RandomHealths(this.props.currentStage);
-        var door=this.createRandomDoors()
+        var door = this.createRandomDoors()
         return grid;
     };
     render() {
