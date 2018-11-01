@@ -15,7 +15,7 @@ const initializingGrid = () => {
     }
     return grid;
 }
-export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, newDoors, walls) => {
+export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, newDoors, walls, newBoss) => {
     var newGrid = createGrid(playerLocation, walls);
 
     var enemies = newEnemies.forEach(function (enemy) {
@@ -40,13 +40,20 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
 
     });
 
-    var doors = newDoors.forEach(function (doors) {
-        var findDoorsLocation = newGrid.find((ele) => {
-            return ele.x === doors.x && ele.y === doors.y
-        })
-        newGrid[newGrid.indexOf(findDoorsLocation)].containing = "doors";
 
-    });
+    var findBossLocation = newGrid.find((ele) => {
+        return ele.x === newBoss.x && ele.y === newBoss.y
+    })
+    if (findBossLocation) {
+        newGrid[newGrid.indexOf(findBossLocation)].containing = "boss";
+    }
+
+
+    var findDoorsLocation = newGrid.find((ele) => {
+        return ele.x === newDoors.x && ele.y === newDoors.y
+    })
+    newGrid[newGrid.indexOf(findDoorsLocation)].containing = "doors";
+
 
 
     return newGrid;
@@ -73,16 +80,13 @@ export const stage1 = [
     { x: 4, y: 0, pathway: 'false', containing: null },
     { x: 4, y: 5, pathway: 'false', containing: null },
     { x: 2, y: 2, pathway: 'false', containing: null },
-    { x: 5, y: 5, pathway: 'false', containing: null },
     { x: 2, y: 1, pathway: 'false', containing: null },
     { x: 2, y: 2, pathway: 'false', containing: null },
     { x: 3, y: 0, pathway: 'false', containing: null },
     { x: 4, y: 5, pathway: 'false', containing: null },
     { x: 4, y: 7, pathway: 'false', containing: null },
-    { x: 3, y: 2, pathway: 'false', containing: null },
     { x: 4, y: 2, pathway: 'false', containing: null },
     { x: 7, y: 1, pathway: 'false', containing: null },
-    { x: 7, y: 2, pathway: 'false', containing: null },
     { x: 6, y: 5, pathway: 'false', containing: null },
     { x: 5, y: 7, pathway: 'false', containing: null },
     { x: 5, y: 7, pathway: 'false', containing: null },
@@ -91,7 +95,6 @@ export const stage1 = [
     { x: 8, y: 3, pathway: 'false', containing: null },
     { x: 8, y: 4, pathway: 'false', containing: null },
     { x: 7, y: 3, pathway: 'false', containing: null },
-    { x: 8, y: 8, pathway: 'false', containing: null },
     { x: 8, y: 9, pathway: 'false', containing: null },
     { x: 8, y: 7, pathway: 'false', containing: null },
     { x: 8, y: 6, pathway: 'false', containing: null },

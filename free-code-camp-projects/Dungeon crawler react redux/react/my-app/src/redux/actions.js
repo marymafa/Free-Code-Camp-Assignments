@@ -4,7 +4,7 @@ export const createGrid = (grid) => {
 export const createNewGrid = () => {
     return { type: "CREATE_NEXT_STAGE" }
 };
-export const setRandomBoss = (setboss) => {
+export const boss = (setboss) => {
     return { type: "SET_BOSS", payload: setboss }
 };
 export const changePlayerLocation = () => {
@@ -12,9 +12,6 @@ export const changePlayerLocation = () => {
 }
 export const movePlayer = (moves) => {
     return { type: "MOVE_PLAYER", payload: moves };
-};
-export const returnRandomVals = (displayRandomly) => {
-    return { type: "RANDOM_VALUES", payload: displayRandomly }
 };
 export const attackEnemy = (hitEnemy) => {
     return { type: "ENEMY", payload: hitEnemy }
@@ -58,3 +55,6 @@ export const removeWeapons = (wpn) => {
 export const removeEnemies = (enemy) => {
     return { type: "REMOVE_ENEMIES", payload: enemy }
 };
+export const removeBoss = (boss) => {
+    return { type: "REMOVE_BOSS", payload: boss }
+}

@@ -15,10 +15,6 @@ export const stage2 = [
     { x: 6, y: 4, pathway: 'false', containing: null },
     { x: 7, y: 5, pathway: 'false', containing: null },
     { x: 6, y: 4, pathway: 'false', containing: null },
-    { x: 3, y: 7, pathway: 'false', containing: null },
-    { x: 2, y: 8, pathway: 'false', containing: null },
-    { x: 2, y: 7, pathway: 'false', containing: null },
-    { x: 3, y: 8, pathway: 'false', containing: null },
     { x: 5, y: 1, pathway: 'false', containing: null },
     { x: 4, y: 1, pathway: 'false', containing: null },
     { x: 5, y: 2, pathway: 'false', containing: null },
@@ -38,10 +34,6 @@ export const stage2 = [
     { x: 1, y: 2, pathway: 'false', containing: null },
     { x: 2, y: 2, pathway: 'false', containing: null },
     { x: 2, y: 0, pathway: 'false', containing: null },
-    { x: 4, y: 8, pathway: 'false', containing: null },
-    { x: 4, y: 7, pathway: 'false', containing: null },
-    { x: 5, y: 8, pathway: 'false', containing: null },
-    { x: 5, y: 7, pathway: 'false', containing: null },
     { x: 2, y: 9, pathway: 'false', containing: null },
     { x: 0, y: 4, pathway: 'false', containing: null },
     { x: 0, y: 5, pathway: 'false', containing: null },
@@ -67,6 +59,8 @@ export const stage2 = [
     { x: 9, y: 7, pathway: 'false', containing: null },
     { x: 6, y: 9, pathway: 'false', containing: null },
     { x: 7, y: 9, pathway: 'false', containing: null },
+    { x: 3, y: 9, pathway: 'false', containing: null },
+    { x: 4, y: 9, pathway: 'false', containing: null },
 ]
 
 

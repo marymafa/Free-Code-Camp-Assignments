@@ -9,9 +9,9 @@ const initialState = {
     enemies: [],
     healths: [],
     doors: [],
+    boss: [],
     health: 60,
     weapon: 60,
-    boss: [],
     xP: 0,
     weapons: [
         {
@@ -53,6 +53,7 @@ const reducers = (state = initialState, action) => {
             break;
         case "SET_BOSS":
             newState = { ...state, boss: action.payload };
+            console.log("decreasing health", newState);
             break;
         case "CHANGE_USER_LOCATION":
             newState = { ...state, player: { x: 2, y: 5 } };
@@ -77,7 +78,6 @@ const reducers = (state = initialState, action) => {
             break;
         case "DECREASE_HEALTH":
             newState = { ...state, health: state.health - action.payload };
-            console.log("decreasing health", newState);
             break;
         case "DECREASE_WEAPON":
             newState = { ...state, weapon: state.weapon - action.payload };
@@ -105,6 +105,11 @@ const reducers = (state = initialState, action) => {
             var enemy = state.enemies.find(item => item.x === action.payload.x && item.y === action.payload.y);
             var index = state.enemies.indexOf(enemy);
             newState = { ...state, enemies: [...state.enemies.slice(0, index), ...state.enemies.slice(index + 1)] }
+            break;
+        case "REMOVE_BOSS":
+            var boss = state.boss.find(item => item.x === action.payload.x && item.y === action.payload.y);
+            var index = state.boss.indexOf(boss);
+            newState = { ...state, boss: [...state.boss.slice(0, index), ...state.boss.slice(index + 1)] }
             break;
     }
     return newState;
