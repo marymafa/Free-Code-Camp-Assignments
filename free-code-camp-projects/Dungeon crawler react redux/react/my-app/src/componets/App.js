@@ -91,10 +91,13 @@ class App extends React.Component {
         if (nextLocation.containing === "doors") {
             this.props.changeTheLocationOfThePlayer();
             this.props.updateNewGrid();
-            this.props.buildGrid();
-
             var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage);
-            console.log('what is newGrid', newGrid);
+            this.props.buildGrid(newGrid);
+
+            if (this.props.currentStage === this.props.stages[3]) {
+                this.setRandomBoss();
+                console.log('what is newGrid', this.props.state);
+            }
 
             this.setState({ grid: newGrid })
         } else {
@@ -124,16 +127,15 @@ class App extends React.Component {
         this.props.updateEnemies(enemies);
         return grid;
     };
-    setRandomBoss(boss) {
-        var forthStage = this.props.grid
-        var setBoss = [];
-        for (var i = 0; i < 2; i++) {
-            var index = Math.floor(Math.random() * forthStage.length);
-            if (forthStage[index].pathway === 'true' && forthStage[index].containing === null) {
-                forthStage[index].containing = 'boss';
-                setBoss.push(forthStage[index]);
-            }
-
+    setRandomBoss() {
+        var forthStage = this.props.grid;
+        var setBoss = {};
+        var index = Math.floor(Math.random() * forthStage.length);
+        if (forthStage[index].pathway === 'true' && forthStage[index].containing === null) {
+            forthStage[index].containing = 'boss';
+            setBoss = { ...forthStage[index] };
+        } else {
+            setBoss = this.setRandomBoss();
         }
         return setBoss;
     };
@@ -183,7 +185,7 @@ class App extends React.Component {
         var doors = this.createRandomDoors(this.props.currentStage);
         var enemies = this.GetRandomEnemies(this.props.currentStage);
         var weapons = this.randomWeapons(this.props.currentStage);
-        var randomboss = this.setRandomBoss(this.props.currentStage);
+        //var randomboss = this.setRandomBoss(this.props.currentStage);
         var healths = this.RandomHealths(this.props.currentStage);
         return grid;
     };
@@ -198,7 +200,7 @@ class App extends React.Component {
                 <h4 className="enm">Enemy:&#9760;</h4>
                 <h4 className="hlth-icon">health:&#x26D1;</h4>
                 <h4 className="dor">door:&#xf008;</h4>
-                <h3 className="bos">boss:&#9824;</h3>
+                <h3 className="bos">boss:&#9763;</h3>
                 <button className="hideOrShow" onClick={this.toggleHidden.bind(this)} >Hide/Show Map</button>
                 <div className="grid" id="icon">{
                     this.state.grid.map(element => {
@@ -217,7 +219,7 @@ class App extends React.Component {
                         } else if (element.containing === "doors") {
                             element.icon = <span className="icon"><span>&#xf008;</span></span>;
                         } else if (element.containing === "boss") {
-                            element.icon = <span className="boss"><span>&#9824;</span></span>
+                            element.icon = <span className="boss"><span>&#9763;</span></span>
                         }
                         const isHidden =
                             this.state.isHidden && element.containing != "player" &&

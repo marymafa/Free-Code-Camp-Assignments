@@ -43,6 +43,8 @@ const reducers = (state = initialState, action) => {
     var newState = state;
     switch (action.type) {
         case "CREATE_GRID":
+            console.log("grid", action.payload);
+
             newState = { ...newState, grid: action.payload };
             break;
         case "CREATE_NEXT_STAGE":
