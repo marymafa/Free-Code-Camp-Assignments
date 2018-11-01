@@ -128,7 +128,7 @@ class App extends React.Component {
     GetRandomEnemies(enemies) {
         var grid = this.props.grid
         var enemies = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 10; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "enemy";
@@ -156,7 +156,7 @@ class App extends React.Component {
     RandomHealths(health) {
         var grid = this.props.grid;
         var healths = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 10; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "health";
@@ -170,7 +170,7 @@ class App extends React.Component {
 
         var grid = this.props.grid;
         var weapons = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 10; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "weapon";
