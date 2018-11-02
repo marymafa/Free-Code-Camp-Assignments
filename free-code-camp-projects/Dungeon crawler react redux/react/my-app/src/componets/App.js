@@ -125,7 +125,7 @@ class App extends React.Component {
         window.location.reload(true);
     };
 
-    GetRandomEnemies(enemies) {
+    GetRandomEnemies() {
         var grid = this.props.grid
         var enemies = [];
         for (var i = 0; i < 10; i++) {
@@ -153,7 +153,7 @@ class App extends React.Component {
         return setBoss;
 
     };
-    RandomHealths(health) {
+    RandomHealths() {
         var grid = this.props.grid;
         var healths = [];
         for (var i = 0; i < 10; i++) {
@@ -164,9 +164,9 @@ class App extends React.Component {
             }
         }
         this.props.updateHealths(healths);
-        return grid;
+        return healths;
     };
-    randomWeapons(weapons) {
+    randomWeapons() {
 
         var grid = this.props.grid;
         var weapons = [];
@@ -197,9 +197,9 @@ class App extends React.Component {
 
     combiningRandoms(grid) {
         var grid = this.state.grid
-        var enemies = this.GetRandomEnemies(this.props.currentStage);
-        var weapons = this.randomWeapons(this.props.currentStage);
-        var healths = this.RandomHealths(this.props.currentStage);
+        var enemies = this.GetRandomEnemies();
+        var weapons = this.randomWeapons();
+        var healths = this.RandomHealths();
         var door = this.createRandomDoors()
         return grid;
     };
