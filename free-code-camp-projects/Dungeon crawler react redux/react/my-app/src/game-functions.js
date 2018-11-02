@@ -120,6 +120,12 @@ export const stage1 = [
     { x: 9, y: 5, pathway: 'false', containing: null },
     { x: 3, y: 9, pathway: 'false', containing: null },
     { x: 7, y: 9, pathway: 'false', containing: null },
+    { x: 9, y: 1, pathway: 'false', containing: null },
+    { x: 9, y: 2, pathway: 'false', containing: null },
+    { x: 9, y: 3, pathway: 'false', containing: null },
+    { x: 9, y: 7, pathway: 'false', containing: null },
+    { x: 9, y: 8, pathway: 'false', containing: null },
+    { x: 9, y: 9, pathway: 'false', containing: null },
 ];
 
 export const createGrid = (player, walls) => {
