@@ -43,8 +43,6 @@ const reducers = (state = initialState, action) => {
     var newState = state;
     switch (action.type) {
         case "CREATE_GRID":
-            console.log("grid", action.payload);
-
             newState = { ...newState, grid: action.payload };
             break;
         case "CREATE_NEXT_STAGE":
@@ -53,7 +51,6 @@ const reducers = (state = initialState, action) => {
             break;
         case "SET_BOSS":
             newState = { ...state, boss: action.payload };
-            console.log("decreasing health", newState);
             break;
         case "CHANGE_USER_LOCATION":
             newState = { ...state, player: { x: 2, y: 5 } };

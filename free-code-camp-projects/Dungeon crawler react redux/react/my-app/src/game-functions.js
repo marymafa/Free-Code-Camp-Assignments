@@ -30,7 +30,6 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
             return ele.x === health.x && ele.y === health.y
         })
         newGrid[newGrid.indexOf(findHealthsLocation)].containing = "health";
-
     });
     var weapons = newWeapons.forEach(function (weapons) {
         var findWeaponsLocation = newGrid.find((ele) => {
@@ -53,7 +52,6 @@ export const updateGrid = (playerLocation, newEnemies, newHealths, newWeapons, n
         return ele.x === newDoors.x && ele.y === newDoors.y
     })
     newGrid[newGrid.indexOf(findDoorsLocation)].containing = "doors";
-
 
 
     return newGrid;

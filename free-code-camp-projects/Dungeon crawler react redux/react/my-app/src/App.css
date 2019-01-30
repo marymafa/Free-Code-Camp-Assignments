@@ -46,12 +46,11 @@ h1 {
     opacity: 0;
 }
 .icon{
-    font-size: 130%;
+    font-size: 150%;
     width: 80%;
     height: 1000%;
   padding-inline-start:  20%;
   margin-top: 100;
   color:rgb(red, green, blue)
 };
-
 

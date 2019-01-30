@@ -16,8 +16,8 @@ class App extends React.Component {
         this.movePlayer = this.movePlayer.bind(this);
     }
     componentDidMount() {
+        this.setState({ grid: this.combiningRandoms() });
         document.onkeydown = this.movePlayer;
-        this.randomValues();
         this.props.buildGrid();
     };
 
@@ -25,11 +25,6 @@ class App extends React.Component {
         this.setState({
             isHidden: !this.state.isHidden
         })
-    };
-
-    randomValues() {
-        var gridWithPaths = this.props.grid
-        this.setState({ grid: this.combiningRandoms(gridWithPaths) });
     };
 
     movePlayer(event) {
@@ -58,6 +53,7 @@ class App extends React.Component {
             this.props.increasePlayerHealth(30);
             this.props.removePlayerHealth(nextLocation);
         }
+
         if (nextLocation.containing === "weapon") {
             this.props.increasePlayerLife(50)
             this.props.increasePlayerWeapon(30)
@@ -106,6 +102,7 @@ class App extends React.Component {
             this.props.updateNewGrid();
             var newGrid = updateGrid(newLocation, this.props.enemies, this.props.healths, this.props.weapons, this.props.doors, this.props.currentStage, this.props.boss);
             this.props.buildGrid(newGrid);
+
 
             if (this.props.currentStage === this.props.stages[3]) {
                 this.boss();
@@ -156,7 +153,7 @@ class App extends React.Component {
     RandomHealths() {
         var grid = this.props.grid;
         var healths = [];
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "health";
@@ -170,7 +167,7 @@ class App extends React.Component {
 
         var grid = this.props.grid;
         var weapons = [];
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 8; i++) {
             var index = Math.floor(Math.random() * grid.length)
             if (grid[index].pathway === 'true' && grid[index].containing === null) {
                 grid[index].containing = "weapon";
@@ -194,9 +191,8 @@ class App extends React.Component {
         return doors;
 
     };
-
-    combiningRandoms(grid) {
-        var grid = this.state.grid
+    combiningRandoms() {
+        var grid = this.props.grid
         var enemies = this.GetRandomEnemies();
         var weapons = this.randomWeapons();
         var healths = this.RandomHealths();
@@ -232,14 +228,14 @@ class App extends React.Component {
                         } else if (element.containing === "doors") {
                             element.icon = <span className="icon"><span>&#xf008;</span></span>;
                         } else if (element.containing === "boss") {
-                            element.icon = <span className="boss"><span>&#9763;</span></span>
+                            element.icon = <span className="icon"><span>&#9763;</span></span>
                         }
                         const isHidden =
                             this.state.isHidden && element.containing != "player" &&
                             !(Math.abs(this.props.player.x - element.x) <= 1 &&
                                 Math.abs(this.props.player.y - element.y) <= 1
                             );
-                        return <button id={isHidden ? "containing-hidden" : "o"} className="grid" className={element.pathway} >{element.icon}</button>
+                        return <button id={isHidden ? "containing-hidden" : "o"}  className={element.pathway} >{element.icon}</button>
                     })
                 }
                 </div>
